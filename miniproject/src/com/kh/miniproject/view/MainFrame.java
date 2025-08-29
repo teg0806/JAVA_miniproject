@@ -10,7 +10,7 @@ public class MainFrame extends JFrame {
 
 	//프레임 세팅 메서드
 	public MainFrame() {
-		setTitle("패널 전환 예제");
+		setTitle("패널 전환 예제"); // 프레임 제목
 		setSize(1080, 720); //창 크기 (가로, 세로)
 		setResizable(false); //창 크기 고정
 		setLocationRelativeTo(null); //창이 화면 가운데에서 시작 
