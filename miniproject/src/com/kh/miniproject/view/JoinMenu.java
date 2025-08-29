@@ -2,122 +2,163 @@ package com.kh.miniproject.view;
 
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Box;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import com.kh.miniproject.tamplate.Tamplate;
 import com.kh.miniproject.vo.Member;
 
-public class JoinMenu extends JPanel{
-	private static final long serialVersionUID = 1L;
-	private int width = Tamplate.FRAMEW; // 화면 크기
-	private int height = Tamplate.FRAMEH; // 화면 크기
-	
-	private Member m;
-	
-	public JoinMenu(MainFrame frame) {
-		setLayout(null);
-		
-		joinMemberPanel(frame);
-		
-		
-		mainMenuBackBtn(frame);
+public class JoinMenu extends JPanel {
+    private static final long serialVersionUID = 1L;
+	private int width = Tamplate.FRAMEW;
+	private int height = Tamplate.FRAMEH;
 
-	}
-	
-	public void joinMemberPanel(MainFrame frame) {
-//		JPanel joinpanel = new JPanel(new GridLayout(6, 2));
-		
-		JLabel idLabel = new JLabel("아이디: "); //이름 문자를 화면 출력
-		JTextField idField = new JTextField(); //text상자를 필드에 생성
-		
-        JLabel passwordLabel = new JLabel("비밀번호: ");
-        JPasswordField passwordField = new JPasswordField(); 
-        //비밀번호 전용 text상자를 필드에 생성(*로 가려짐)
-		
-		JLabel nameLabel = new JLabel("이름: "); //이름 문자를 화면 출력
-		JTextField nameField = new JTextField(); //text상자를 필드에 생성
-		
-		JLabel genderLabel = new JLabel("성별: "); //성별 문자를 화면 출력
-		JTextField genderField = new JTextField(); //text상자를 필드에 생성
-        
-        JLabel nickNameLabel = new JLabel("닉네임: "); //닉네임 문자를 화면 출력
-		JTextField nickNameField = new JTextField(); //text상자를 필드에 생성
-        
-		JLabel emailLabel = new JLabel("이메일: "); //이메일 문자를 화면 출력
-		JTextField emailField = new JTextField(); //text상자를 필드에 생성
-		
-		JButton registerButton = new JButton("가입하기");
-		registerButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//따로 메서드로 구현.
-				Member m = new Member(idField.getText(), 
-						new String(passwordField.getPassword()), 
-						nameField.getText(), 
-						genderField.getText(), 
-						nickNameField.getText(), 
-						emailField.getText());
-//				mc.insertMember(m);
-				JOptionPane.showMessageDialog(frame, "가입 완료!");
-				frame.changePanel(new MainMenu(frame));
-			}
-		});
-		/*
-		//id를 패널에 추가
-		joinpanel.add(idLabel); 
-		joinpanel.add(idField);
-		
-		//password를 패널에 추가
-		joinpanel.add(passwordLabel);
-		joinpanel.add(passwordField);
-		
-		//name을 패널에 추가
-		joinpanel.add(nameLabel);
-		joinpanel.add(nameField);
-		
-		//gender를 패널에 추가
-		joinpanel.add(genderLabel);
-		joinpanel.add(genderField);
-		
-		//nickname을 패널에 추가
-		joinpanel.add(nickNameLabel);
-		joinpanel.add(nickNameField);
-		
-		//email을 패널에 추가
-		joinpanel.add(emailLabel);
-		joinpanel.add(emailField);
-		
-		joinpanel.add(new JLabel());
-		joinpanel.add(registerButton);
-		
-		frame.add(joinpanel, BorderLayout.CENTER);
-		frame.setVisible(true);
-		frame.changePanel(joinpanel);
-		*/
-	}
+    public JoinMenu(MainFrame frame) {
+        // 전체적인 레이아웃은 BorderLayout으로 설정
+        setLayout(new BorderLayout());
 
-	
-	public void mainMenuBackBtn(MainFrame frame) {
-		JButton startMenuBackBtn = new JButton("이전으로");
-		startMenuBackBtn.setBounds(width/2-60, height/2+200, 120, 30); //버튼 panel에 추가
-		add(startMenuBackBtn);
-		
-		startMenuBackBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.changePanel(new MainMenu(frame));
-			}
-		});
-	}
+        // 1. 우리가 만든 회원가입 폼 패널을 일단 생성해.
+        JPanel joinFormPanel = createJoinFormPanel(frame);
+
+        // 2. --- 여기가 핵심! ---
+        //    폼 패널을 중앙에 예쁘게 배치하기 위한 '포장지' 패널을 하나 더 만들어.
+        //    GridBagLayout은 컴포넌트를 중앙에 배치하는 데 아주 좋아.
+        JPanel wrapperPanel = new JPanel(new GridBagLayout());
+        
+        // 3. 포장지 패널 안에 폼 패널을 넣어.
+        //    이렇게 하면 폼 패널은 자기가 필요한 만큼만 공간을 차지하게 돼.
+        wrapperPanel.add(joinFormPanel);
+
+        // 4. 최종적으로 '포장지' 패널을 프레임의 중앙에 추가하는 거야.
+        //    이제 포장지가 남는 공간을 다 차지하고, 그 안의 폼은 가운데에 머물게 돼.
+        add(wrapperPanel, BorderLayout.CENTER);
+        
+        // 하단에는 '이전으로' 버튼 패널을 추가
+        add(createBackButtonPanel(frame), BorderLayout.SOUTH);
+    }
+
+    /**
+     * GridBagLayout을 사용한 메인 회원가입 폼 패널을 생성하는 메소드
+     */
+    private JPanel createJoinFormPanel(MainFrame frame) {
+        JPanel joinPanel = new JPanel(new GridBagLayout());
+        
+        // 1. "회원가입"이라는 제목이 있는 테두리를 생성
+        // 2. 안쪽에 여백(padding)을 주기 위해 빈 테두리와 조합 (CompoundBorder)
+        joinPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createTitledBorder("회원가입"), //회원가입 글자 추가
+                BorderFactory.createEmptyBorder(10, 10, 10, 10) //안쪽 여백을 추가해하여 테두리 추가
+        ));
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        
+        // 모든 컴포넌트에 공통적으로 적용될 기본 여백
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        // 필드(JTextField, JPasswordField)들을 담을 배열
+        JComponent[] fields = {
+            new JTextField(15),
+            new JPasswordField(15),
+            new JTextField(15),
+            new JTextField(15),
+            new JTextField(15),
+            new JTextField(15)
+        };
+        
+        // 라벨 텍스트들을 담을 배열
+        String[] labels = {"아이디: ", "비밀번호: ", "이름: ", "성별: ", "닉네임: ", "이메일: "};
+
+        // 반복문을 사용해서 라벨과 필드를 한 줄씩 추가
+        for (int i = 0; i < labels.length; i++) {
+            addFormRow(joinPanel, gbc, labels[i], fields[i], i);
+        }
+
+        // 가입하기 버튼 추가
+        JButton registerButton = new JButton("가입하기");
+        gbc.gridx = 1;
+        gbc.gridy = labels.length; // 마지막 줄 다음에 추가
+        gbc.anchor = GridBagConstraints.EAST; // 오른쪽 끝에 붙이기
+        joinPanel.add(registerButton, gbc);
+
+        // 가입하기 버튼 이벤트 처리
+        registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Member m = new Member(
+                        ((JTextField) fields[0]).getText(),
+                        new String(((JPasswordField) fields[1]).getPassword()),
+                        ((JTextField) fields[2]).getText(),
+                        ((JTextField) fields[3]).getText(),
+                        ((JTextField) fields[4]).getText(),
+                        ((JTextField) fields[5]).getText()
+                );
+                // mc.insertMember(m); // DB 컨트롤러 연결 부분
+                JOptionPane.showMessageDialog(frame, "가입 완료!");
+                // frame.changePanel(new MainMenu(frame, "USER")); // 역할(role) 전달 필요
+            }
+        });
+
+        return joinPanel;
+    }
+
+    /**
+     * 반복되는 라벨과 필드 추가 작업을 처리하는 헬퍼(helper) 메소드
+     * @param panel 추가될 부모 패널
+     * @param gbc GridBagConstraints 객체
+     * @param labelText 라벨에 표시될 텍스트
+     * @param component 라벨 옆에 추가될 컴포넌트 (JTextField, JPasswordField 등)
+     * @param gridy 컴포넌트가 위치할 y 좌표 (몇 번째 줄인지)
+     */
+    private void addFormRow(JPanel panel, GridBagConstraints gbc, String labelText, JComponent component, int gridy) {
+        // 라벨 생성 및 설정
+        JLabel label = new JLabel(labelText);
+        label.setHorizontalAlignment(SwingConstants.RIGHT);
+        Font currentFont = label.getFont();
+        label.setFont(new Font(currentFont.getName(), currentFont.getStyle(), 15));
+        
+        // 라벨 위치 설정 및 추가
+        gbc.gridx = 0;
+        gbc.gridy = gridy;
+        gbc.anchor = GridBagConstraints.EAST;
+        panel.add(label, gbc);
+
+        // 텍스트 필드 위치 설정 및 추가
+        gbc.gridx = 1;
+        gbc.gridy = gridy;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(component, gbc);
+    }
+
+    /**
+     * '이전으로' 버튼이 들어가는 패널을 생성하는 메소드
+     */
+    private JPanel createBackButtonPanel(MainFrame frame) {
+        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton startMenuBackBtn = new JButton("이전으로");
+        backButtonPanel.add(startMenuBackBtn);
+
+        startMenuBackBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.changePanel(new MainMenu(frame));
+            }
+        });
+
+        return backButtonPanel;
+    }
 }
