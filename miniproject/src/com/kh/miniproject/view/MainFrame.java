@@ -8,7 +8,6 @@ public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	
 	//프레임 세팅 메서드
 	public MainFrame() {
 		setTitle("패널 전환 예제");
