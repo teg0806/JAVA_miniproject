@@ -87,7 +87,7 @@ public class LoginMenu extends JPanel {
                         new String(((JPasswordField) fields[1]).getPassword()));
             	mc.loginMember(m);
                 JOptionPane.showMessageDialog(frame, "로그인 완료!");
-                // frame.changePanel(new MainMenu(frame, "USER")); // 역할(role) 전달 필요
+                frame.changePanel(new MainMenu(frame)); // 역할(role) 전달 필요
             }
         });
 
