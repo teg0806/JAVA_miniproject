@@ -3,10 +3,11 @@ package com.kh.miniproject.view;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import com.kh.miniproject.view.MainFrame;
 
 public class StartMenu extends JPanel {
     private static final long serialVersionUID = 1L;
