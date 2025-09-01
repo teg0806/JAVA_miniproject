@@ -1,8 +1,6 @@
 package com.kh.miniproject.view;
 
 import com.kh.miniproject.controller.MemberController;
-import com.kh.miniproject.service.MemberService;
-import com.kh.miniproject.tamplate.Tamplate;
 import com.kh.miniproject.vo.Member;
 
 import java.awt.BorderLayout;
@@ -13,13 +11,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -33,7 +29,7 @@ public class LoginMenu extends JPanel {
 		this.mc = new MemberController();
 		setLayout(new BorderLayout());
 		
-		JPanel loginFormPanel = LoginFormPanel(frame);
+		JPanel loginFormPanel = loginFormPanel(frame);
 
         // 2. --- 여기가 핵심! ---
         //    폼 패널을 중앙에 예쁘게 배치하기 위한 '포장지' 패널을 하나 더 만들어.
@@ -48,10 +44,10 @@ public class LoginMenu extends JPanel {
         //    이제 포장지가 남는 공간을 다 차지하고, 그 안의 폼은 가운데에 머물게 돼.
         add(wrapperPanel, BorderLayout.CENTER);
 		
-        add(createBackButtonPanel(frame), BorderLayout.SOUTH);
+        add(BackButtonPanel(frame), BorderLayout.SOUTH);
 	}
 	
-	private JPanel LoginFormPanel(MainFrame frame) {
+	private JPanel loginFormPanel(MainFrame frame) {
 		JPanel joinPanel = new JPanel(new GridBagLayout());
 		
         joinPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -63,31 +59,30 @@ public class LoginMenu extends JPanel {
         gbc.insets = new Insets(5, 5, 5, 5);
         
         JComponent[] fields = {
-            new JTextField(15),
-            new JPasswordField(15)
+            new JTextField(15), //id 필드
+            new JPasswordField(15) //passoword 필드
         };
         
         String[] labels = {"아이디: ", "비밀번호: "};
         
         for (int i = 0; i < labels.length; i++) {
-            addFormRow(joinPanel, gbc, labels[i], fields[i], i);
+            addFormRow(joinPanel, gbc, labels[i], fields[i], i); //필드 구조 생성
         }
         
-        JButton loginButton = new JButton("가입하기");
+        JButton loginButton = new JButton("가입하기"); //가입하기 버튼
         gbc.gridx = 1;
         gbc.gridy = labels.length; // 마지막 줄 다음에 추가
         gbc.anchor = GridBagConstraints.EAST; // 오른쪽 끝에 붙이기
-        joinPanel.add(loginButton, gbc);
+        joinPanel.add(loginButton, gbc); //필드와 버튼 생성
         
-        loginButton.addActionListener(new ActionListener() {
+        loginButton.addActionListener(new ActionListener() { //버튼 이벤트 리스너
             @Override
             public void actionPerformed(ActionEvent e) {
             	Member m = new Member(
                         ((JTextField) fields[0]).getText(), //아이디
-                        new String(((JPasswordField) fields[1]).getPassword()));
-            	mc.loginMember(m);
-                JOptionPane.showMessageDialog(frame, "로그인 완료!");
-                frame.changePanel(new MainMenu(frame)); // 역할(role) 전달 필요
+                        new String(((JPasswordField) fields[1]).getPassword())); //아이디 받아아 m에 저장
+            	mc.loginMember(frame, m); //로그인 정보 넘기기
+                frame.changePanel(new ChatMenu(frame, m)); 
             }
         });
 
@@ -114,12 +109,13 @@ public class LoginMenu extends JPanel {
         panel.add(component, gbc);
     }
 	
-   private JPanel createBackButtonPanel(MainFrame frame) {
+   private JPanel BackButtonPanel(MainFrame frame) {
        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-       JButton startMenuBackBtn = new JButton("이전으로");
-       backButtonPanel.add(startMenuBackBtn);
+       JButton mainMenuBackBtn = new JButton("메인 메뉴로 이동");
+       mainMenuBackBtn.setPreferredSize(new java.awt.Dimension(120, 30));
+       backButtonPanel.add(mainMenuBackBtn);
 
-       startMenuBackBtn.addActionListener(new ActionListener() {
+       mainMenuBackBtn.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                frame.changePanel(new MainMenu(frame));

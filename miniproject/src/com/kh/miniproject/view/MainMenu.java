@@ -3,6 +3,7 @@ package com.kh.miniproject.view;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -11,28 +12,26 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainMenu extends JPanel {
+public class MainMenu extends JPanel{
     private static final long serialVersionUID = 1L;
 
-    // --- 수정된 부분 ---
-    // 생성자에서 userRole 인자를 받지 않습니다.
     public MainMenu(MainFrame frame) {
         setLayout(new BorderLayout());
 
         add(createTitlePanel(), BorderLayout.NORTH);
-        add(createCenterButtonPanel(frame), BorderLayout.CENTER);
-        add(createBackButtonPanel(frame), BorderLayout.SOUTH);
+        add(CenterButtonPanel(frame), BorderLayout.CENTER);
+        add(BackButtonPanel(frame), BorderLayout.SOUTH);
     }
     
     private JPanel createTitlePanel() {
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel mainLabel = new JLabel("메인 메뉴");
-        mainLabel.setFont(new Font("맑은 고딕", Font.BOLD, 30));
+        JLabel mainLabel = new JLabel("채팅");
+        mainLabel.setFont(new Font("맑은 고딕", Font.BOLD, 40));
         titlePanel.add(mainLabel);
         return titlePanel;
     }
 
-    private JPanel createCenterButtonPanel(MainFrame frame) {
+    private JPanel CenterButtonPanel(MainFrame frame) {
         JPanel verticalButtonPanel = new JPanel(new GridLayout(2, 1, 0, 15));
         JButton loginBtn = new JButton("로그인");
         JButton joinBtn = new JButton("회원가입");
@@ -65,17 +64,16 @@ public class MainMenu extends JPanel {
         return wrapperPanel;
     }
 
-    private JPanel createBackButtonPanel(MainFrame frame) {
+    private JPanel BackButtonPanel(MainFrame frame) {
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JButton backBtn = new JButton("이전으로");
-        backBtn.setPreferredSize(new java.awt.Dimension(120, 30));
-        backButtonPanel.add(backBtn);
+        JButton endBtn = new JButton("종료");
+        endBtn.setPreferredSize(new java.awt.Dimension(120, 30));
+        backButtonPanel.add(endBtn);
 
-        backBtn.addActionListener(new ActionListener() {
+        endBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // StartMenu로 이동
-                frame.changePanel(new StartMenu(frame));
+                System.exit(0);
             }
         });
 

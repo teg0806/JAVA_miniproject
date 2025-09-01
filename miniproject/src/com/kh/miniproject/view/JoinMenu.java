@@ -91,7 +91,7 @@ public class JoinMenu extends JPanel {
         };
         
         // 라벨 텍스트들을 담을 배열
-        String[] labels = {"아이디: ", "비밀번호: ", "이름: ", "성별: ", "닉네임: ", "이메일: "};
+        String[] labels = {"아이디: ", "비밀번호: ", "이름: ", "성별(F|M): ", "닉네임: ", "이메일: "};
 
         // 반복문을 사용해서 라벨과 필드를 한 줄씩 추가
         for (int i = 0; i < labels.length; i++) {
@@ -109,16 +109,14 @@ public class JoinMenu extends JPanel {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Member m = new Member(
+                mc.insertMember(frame, new Member(
                         ((JTextField) fields[0]).getText(), //아이디
                         new String(((JPasswordField) fields[1]).getPassword()), //비밀번호
                         ((JTextField) fields[2]).getText(), //이름
                         ((JTextField) fields[3]).getText(), //성별
                         ((JTextField) fields[4]).getText(), //닉네임
                         ((JTextField) fields[5]).getText() //이메일
-                );
-                //mc.insertMember(m); // DB 컨트롤러 연결 부분
-                JOptionPane.showMessageDialog(frame, "가입 완료!");
+                )); // DB 컨트롤러 연결 부분
                 frame.changePanel(new MainMenu(frame)); // 역할(role) 전달 필요
             }
         });

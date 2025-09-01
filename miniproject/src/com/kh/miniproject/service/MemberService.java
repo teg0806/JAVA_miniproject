@@ -67,9 +67,9 @@ public class MemberService {
 		return result;
 	}
 	
-	public ArrayList<Member> memberSearchByName(Member m){
+	public ArrayList<Member> memberIdSearch(Member m){
 		Connection conn = Tamplate.getConnection();
-		ArrayList<Member> list = new MemberDao().memberSearchByName(m, conn);
+		ArrayList<Member> list = new MemberDao().memberIdSearch(m, conn);
 		Tamplate.close(conn);
 		return list;
 	}

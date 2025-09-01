@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import com.kh.miniproject.vo.Member;
 import com.kh.miniproject.tamplate.Tamplate;
@@ -24,7 +25,7 @@ public class MemberDao {
 		}
 	}
 
-	public int insertMember(Member m, Connection conn) {
+	public int insertMember(Member m, Connection conn) { //성공
 		//insertMember -> insert -> 처리된 행 수(int)
 		
 		//필요한 변수 세팅
@@ -33,12 +34,17 @@ public class MemberDao {
 		
 		//실행할 sql(sql뒤에 ;없어야함!!!)
 		String sql = prop.getProperty("insertMember");
-		
+//		Member m = new Member(userId, userPwd, userName, gender, userNickName, email);
 		try {		
 			//아직 미완성 sql문으로 ?의 값을 전부 채워야함
 			pstmt = conn.prepareStatement(sql);
-			
+			//user_no는 sequance로 생성
 			pstmt.setString(1, m.getUserId());
+			pstmt.setString(2, m.getUserPwd());
+			pstmt.setString(3, m.getUserName());
+			pstmt.setString(4, m.getGender());
+			pstmt.setString(5, m.getUserNickName());
+			pstmt.setString(6, m.getEmail());
 
 			
 			result = pstmt.executeUpdate();
@@ -151,14 +157,14 @@ public class MemberDao {
 		return result;
 	}
 	
-	public ArrayList<Member> memberSearchByName(Member m, Connection conn){
+	public ArrayList<Member> memberIdSearch(Member m, Connection conn){
 		//select -> ResultSet -> ArrayList
-		
+
 		ArrayList<Member> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("memberSearchByName");
+		String sql = prop.getProperty("memberIdSearch");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -169,14 +175,9 @@ public class MemberDao {
 			
 			while(rset.next()) {
 				m = new Member();
-				m.setUserNo(rset.getInt("USER_NO"));
-				m.setUserId(rset.getString("USER_ID"));
-				m.setUserPwd(rset.getString("USER_PWD"));
-				m.setUserName(rset.getString("USER_NAME"));
-				m.setGender(rset.getString("GENDER"));
-				m.setGender(rset.getString("GENDER"));
-				m.setEmail(rset.getString("EMAIL"));
 
+				m.setUserId(rset.getString("USER_ID"));
+				m.setUserPwd(rset.getString("USER_PW"));
 				
 				list.add(m);
 			}
