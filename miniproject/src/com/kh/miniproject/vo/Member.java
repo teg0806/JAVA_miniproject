@@ -20,6 +20,14 @@ public class Member {
 		this.userPwd = userPwd;
 	}
 	
+	//수정을 위한 생성자
+	public Member(String userId, String userNickName, String email) {
+		super();
+		this.userId = userId;
+		this.userNickName = userNickName;
+		this.email = email;
+	}
+	
 	//모든 매개변수 생성자
 	public Member(int userNo, String userId, String userPwd, String userName, String gender, String userNickName,
 			String email) {

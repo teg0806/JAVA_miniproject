@@ -60,6 +60,7 @@ public class MainMenu extends JPanel{
                 frame.changePanel(new JoinMenu(frame));
             }
         });
+        
 
         return wrapperPanel;
     }

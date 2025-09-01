@@ -114,9 +114,9 @@ public class MemberDao {
 			//아직 미완성 sql문으로 ?의 값을 전부 채워야함
 			pstmt = conn.prepareStatement(sql);
 			
-			
 			pstmt.setString(1, m.getUserNickName());
 			pstmt.setString(2, m.getEmail());
+			pstmt.setString(3, m.getUserId());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -157,14 +157,13 @@ public class MemberDao {
 		return result;
 	}
 	
-	public ArrayList<Member> memberIdSearch(Member m, Connection conn){
+	public Member loginMember(Member m, Connection conn){
 		//select -> ResultSet -> ArrayList
-
-		ArrayList<Member> list = new ArrayList<>();
+		Member member = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("memberIdSearch");
+		String sql = prop.getProperty("loginMember");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -173,13 +172,17 @@ public class MemberDao {
 			
 			rset = pstmt.executeQuery();
 			
-			while(rset.next()) {
-				m = new Member();
-
-				m.setUserId(rset.getString("USER_ID"));
-				m.setUserPwd(rset.getString("USER_PW"));
-				
-				list.add(m);
+			if(rset.next()) {
+				// [수정] 이게 핵심이야! 조회된 결과를 loginUser 변수에 넣어야지!
+				// 그리고 컬럼명도 DB랑 똑바로 맞추고! USER_NICK_NAME 처럼 말이야.
+				member = new Member(
+						rset.getString("USER_ID"),
+						rset.getString("USER_PW"),
+						rset.getString("USER_NAME"),
+						rset.getString("USER_GENDER"),
+						rset.getString("USER_NICKNAME"),
+						rset.getString("USER_EMAIL")
+				);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -188,6 +191,6 @@ public class MemberDao {
 			Tamplate.close(pstmt);
 		}
 		
-		return list;
+		return member;
 	}
 }

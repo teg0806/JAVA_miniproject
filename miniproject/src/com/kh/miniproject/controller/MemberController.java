@@ -52,18 +52,13 @@ public class MemberController {
 	
 	//userId, email, phone, address, hobby를 전달받아
 	//Member를 수정하는 메서드
-	public void updateMember(String userId, String email, String phone, String address, String hobby) {
-		Member m = new Member();
-		m.setUserId(userId);
-		m.setEmail(email);
-
-		
+	public void updateMember(MainFrame frame, Member m) {
 		int result = ms.updateMember(m);
 		
 		if(result > 0) {
-			
+			JOptionPane.showMessageDialog(frame, "회원 정보가 수정하는데 성공하였습니다.");
 		} else {
-			
+			JOptionPane.showMessageDialog(frame, "회정 정보를 수정하는데 실패하였습니다.");
 		}
 	}
 	
@@ -81,14 +76,9 @@ public class MemberController {
 	}
 	
 	//회원이름으로 키워드 검색
-	public void loginMember(MainFrame frame, Member m) {
-		ArrayList<Member> list = ms.memberIdSearch(m);
-//		System.out.println(list);
-		if(list.isEmpty()) {
-			JOptionPane.showMessageDialog(frame, "로그인 실패!");
-		}else {
-            JOptionPane.showMessageDialog(frame, "로그인 완료!");
-		}
+	public Member loginMember(MainFrame frame, Member m) {
+		Member member = ms.memberIdSearch(m);
+		return member;
 	}
 
 }

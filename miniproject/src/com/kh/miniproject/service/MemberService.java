@@ -67,10 +67,10 @@ public class MemberService {
 		return result;
 	}
 	
-	public ArrayList<Member> memberIdSearch(Member m){
+	public Member memberIdSearch(Member m){
 		Connection conn = Tamplate.getConnection();
-		ArrayList<Member> list = new MemberDao().memberIdSearch(m, conn);
+		Member member = new MemberDao().loginMember(m, conn);
 		Tamplate.close(conn);
-		return list;
+		return member;
 	}
 }

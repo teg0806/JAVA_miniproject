@@ -11,11 +11,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -69,7 +71,7 @@ public class LoginMenu extends JPanel {
             addFormRow(joinPanel, gbc, labels[i], fields[i], i); //필드 구조 생성
         }
         
-        JButton loginButton = new JButton("가입하기"); //가입하기 버튼
+        JButton loginButton = new JButton("로그인"); //로그인 버튼
         gbc.gridx = 1;
         gbc.gridy = labels.length; // 마지막 줄 다음에 추가
         gbc.anchor = GridBagConstraints.EAST; // 오른쪽 끝에 붙이기
@@ -81,8 +83,15 @@ public class LoginMenu extends JPanel {
             	Member m = new Member(
                         ((JTextField) fields[0]).getText(), //아이디
                         new String(((JPasswordField) fields[1]).getPassword())); //아이디 받아아 m에 저장
-            	mc.loginMember(frame, m); //로그인 정보 넘기기
-                frame.changePanel(new ChatMenu(frame, m)); 
+            	Member member = mc.loginMember(frame, m); //로그인 정보 넘기기
+            	// [수정] 반환된 Member 객체가 null이 아닌지 확인
+            	if(member != null) { // 로그인 성공
+            		JOptionPane.showMessageDialog(frame, member.getUserNickName() + "님, 환영합니다.");
+            		// 모든 정보가 담긴 loginUser 객체를 다음 화면으로 전달
+            		frame.changePanel(new ChatMenu(frame, member));
+            	} else { // 로그인 실패
+            		JOptionPane.showMessageDialog(frame, "아이디 또는 비밀번호가 일치하지 않습니다.");
+            	}
             }
         });
 
@@ -111,7 +120,7 @@ public class LoginMenu extends JPanel {
 	
    private JPanel BackButtonPanel(MainFrame frame) {
        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-       JButton mainMenuBackBtn = new JButton("메인 메뉴로 이동");
+       JButton mainMenuBackBtn = new JButton("메인 메뉴");
        mainMenuBackBtn.setPreferredSize(new java.awt.Dimension(120, 30));
        backButtonPanel.add(mainMenuBackBtn);
 
