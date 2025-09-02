@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.kh.miniproject.sokect.client.ClientManager;
+
 
 public class ClientMainMenu extends JPanel{
     private static final long serialVersionUID = 1L;
@@ -21,6 +23,11 @@ public class ClientMainMenu extends JPanel{
     private JButton endBtn;
     
     public ClientMainMenu(ClientMainFrame frame) {
+
+        // 네트워크 관리자(NetworkManager)가 서버에 접속을 시도
+        ClientManager networkManager = new ClientManager();
+        networkManager.connectToServer();
+    	
         setLayout(new BorderLayout());
 
         add(createTitlePanel(), BorderLayout.NORTH);
@@ -37,6 +44,7 @@ public class ClientMainMenu extends JPanel{
     }
 
     private JPanel CenterButtonPanel(ClientMainFrame frame) {
+    	
         JPanel verticalButtonPanel = new JPanel(new GridLayout(2, 1, 0, 15));
         loginBtn = new JButton("로그인");
         joinBtn = new JButton("회원가입");
@@ -59,24 +67,22 @@ public class ClientMainMenu extends JPanel{
         	
             // LoginMenu로 이동
             frame.changePanel(new ClientLoginMenu(frame));
-        }
-    });
-
-    joinBtn.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-        	joinBtn.setVisible(false);
-            endBtn.setVisible(false);
-            loginBtn.setEnabled(false);
-        	
-            // JoinMenu로 이동
-            frame.changePanel(new ClientJoinMenu(frame));
-        }
-    });
-    
-
-    return wrapperPanel;
-}
+	        }
+	    });
+	
+		joinBtn.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		    	joinBtn.setVisible(false);
+		        endBtn.setVisible(false);
+		        loginBtn.setEnabled(false);
+		    	
+		        // JoinMenu로 이동
+		        frame.changePanel(new ClientJoinMenu(frame));
+		    }
+		});
+	    return wrapperPanel;
+	}
 
 	private JPanel BackButtonPanel(ClientMainFrame frame) {
 	    JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

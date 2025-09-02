@@ -18,17 +18,16 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.kh.miniproject.controller.MemberController;
-import com.kh.miniproject.view.server.MainFrame;
-import com.kh.miniproject.view.server.MainMenu;
+import com.kh.miniproject.controller.ClientMemberController;
+import com.kh.miniproject.sokect.client.ClientManager;
 import com.kh.miniproject.vo.Member;
 
 public class ClientLoginMenu extends JPanel{
 	private static final long serialVersionUID = 1L;
-	private MemberController mc;
+	private ClientMemberController cmc;
 	
 	public ClientLoginMenu(ClientMainFrame frame) {
-		this.mc = new MemberController();
+		this.cmc = new ClientMemberController(frame);
 		setLayout(new BorderLayout());
 		
 		JPanel loginFormPanel = loginFormPanel(frame);
@@ -46,7 +45,7 @@ public class ClientLoginMenu extends JPanel{
         //    이제 포장지가 남는 공간을 다 차지하고, 그 안의 폼은 가운데에 머물게 돼.
         add(wrapperPanel, BorderLayout.CENTER);
 		
-        add(BackButtonPanel(frame), BorderLayout.SOUTH);
+        add(BackButtonPanel(frame, manager), BorderLayout.SOUTH);
 	}
 	
 	private JPanel loginFormPanel(ClientMainFrame frame) {
@@ -83,7 +82,7 @@ public class ClientLoginMenu extends JPanel{
             	Member m = new Member(
                         ((JTextField) fields[0]).getText(), //아이디
                         new String(((JPasswordField) fields[1]).getPassword())); //아이디 받아아 m에 저장
-            	mc.ClientLoginMember(frame, m); //로그인 정보 넘기기
+            	cmc.ClientLogin(m); //로그인 정보 넘기기
 
             }
         });
@@ -111,7 +110,7 @@ public class ClientLoginMenu extends JPanel{
         panel.add(component, gbc);
     }
 	
-   private JPanel BackButtonPanel(ClientMainFrame frame) {
+   private JPanel BackButtonPanel(ClientMainFrame frame, ClientManager manager) {
        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
        JButton mainMenuBackBtn = new JButton("메인 메뉴");
        mainMenuBackBtn.setPreferredSize(new java.awt.Dimension(120, 30));

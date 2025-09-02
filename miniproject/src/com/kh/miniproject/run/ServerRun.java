@@ -4,9 +4,11 @@ import com.kh.miniproject.view.server.MainFrame;
 
 public class ServerRun {
     public static void main(String[] args) {
+        
+        // 서버 관리자용 GUI 실행
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame();  // 프로그램 시작
+                new MainFrame();
             }
         });
     }

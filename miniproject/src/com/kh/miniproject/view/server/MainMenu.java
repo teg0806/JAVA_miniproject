@@ -4,6 +4,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.kh.miniproject.sokect.server.ServerManager;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -20,6 +22,11 @@ public class MainMenu extends JPanel{
     private JButton endBtn;
     
     public MainMenu(MainFrame frame) {
+    	
+        // 서버 기능(ServerManager)을 시작
+        ServerManager serverManager = new ServerManager();
+        serverManager.startServer();
+    	
         setLayout(new BorderLayout());
 
         add(createTitlePanel(), BorderLayout.NORTH);

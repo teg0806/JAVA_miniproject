@@ -18,19 +18,16 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.kh.miniproject.controller.MemberController;
-import com.kh.miniproject.view.server.MainFrame;
-import com.kh.miniproject.view.server.MainMenu;
+import com.kh.miniproject.controller.ClientMemberController;
+import com.kh.miniproject.sokect.client.ClientManager;
 import com.kh.miniproject.vo.Member;
 
 public class ClientJoinMenu extends JPanel{
 	private static final long serialVersionUID = 1L;
-	private MemberController mc;
-
+	private ClientMemberController cmc;
 
     public ClientJoinMenu(ClientMainFrame frame) {
-    	this.mc = new MemberController();
-    	
+    	this.cmc = new ClientMemberController(frame);
         // 전체적인 레이아웃은 BorderLayout으로 설정
         setLayout(new BorderLayout());
 
@@ -101,7 +98,7 @@ public class ClientJoinMenu extends JPanel{
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mc.clientInsertMember(frame, new Member(
+            	cmc.clientJoin(new Member(
                         ((JTextField) fields[0]).getText(), //아이디
                         new String(((JPasswordField) fields[1]).getPassword()), //비밀번호
                         ((JTextField) fields[2]).getText(), //이름
