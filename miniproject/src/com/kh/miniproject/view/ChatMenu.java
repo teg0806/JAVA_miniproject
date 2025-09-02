@@ -37,7 +37,7 @@ public class ChatMenu extends JPanel {
         JButton startServerButton = new JButton("서버 시작");
         JButton stopServerButton = new JButton("서버 종료");
         JButton createClientButton = new JButton("클라이언트 생성"); // 새 클라이언트 창을 띄울 버튼
-        JButton backMenuButton = new JButton("뒤로가기");
+        JButton backMenuButton = new JButton("뒤로가기"); //MemberMenu로 돌아가는 버튼
 
         serverControlPanel.add(startServerButton);
         serverControlPanel.add(stopServerButton);
@@ -58,7 +58,7 @@ public class ChatMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 새 클라이언트 창(ClientFrame)을 생성
-            	new ClientFrame(m); 
+            	new ClientFrame(m);
             }
         });
         
@@ -74,15 +74,13 @@ public class ChatMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 서버 종료
-            	frame.changePanel(new MainMenu(frame)); 
+            	
             }
         });
-        
+        //뒤로 가기
         backMenuButton.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				frame.changePanel(new MemberMenu(frame, m));
 			}
 		});

@@ -83,15 +83,8 @@ public class LoginMenu extends JPanel {
             	Member m = new Member(
                         ((JTextField) fields[0]).getText(), //아이디
                         new String(((JPasswordField) fields[1]).getPassword())); //아이디 받아아 m에 저장
-            	Member member = mc.loginMember(frame, m); //로그인 정보 넘기기
-            	// [수정] 반환된 Member 객체가 null이 아닌지 확인
-            	if(member != null) { // 로그인 성공
-            		JOptionPane.showMessageDialog(frame, member.getUserNickName() + "님, 환영합니다.");
-            		// 모든 정보가 담긴 loginUser 객체를 다음 화면으로 전달
-            		frame.changePanel(new MemberMenu(frame, member));
-            	} else { // 로그인 실패
-            		JOptionPane.showMessageDialog(frame, "아이디 또는 비밀번호가 일치하지 않습니다.");
-            	}
+            	mc.loginMember(frame, m); //로그인 정보 넘기기
+
             }
         });
 

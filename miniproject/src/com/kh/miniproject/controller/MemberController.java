@@ -1,17 +1,24 @@
 package com.kh.miniproject.controller;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 import com.kh.miniproject.service.MemberService;
 import com.kh.miniproject.view.MainFrame;
+import com.kh.miniproject.view.MemberMenu;
 import com.kh.miniproject.vo.Member;
 
 public class MemberController {
 	private MemberService ms = new MemberService();
+	private Properties prop = new Properties();
 	
 	public MemberController() {
 		super();
@@ -55,9 +62,21 @@ public class MemberController {
                 sb.append("닉네임: ").append(member.getUserNickName()).append("\n");
                 sb.append("이메일: ").append(member.getEmail()).append("\n");
                 sb.append("---------------------------------\n");
+                
             }
+            
             resultArea.setText(sb.toString());
             resultArea.setCaretPosition(0); // 스크롤 맨 위로!
+            
+            //PrintWriter를 사용해서 
+            try (PrintWriter writer = new PrintWriter("resources/MemberList.txt")) {
+                writer.print(sb.toString()); // 그냥 문자열 그대로 파일에 쓴다.
+                JOptionPane.showMessageDialog(frame, "MemberList.txt 파일에 저장이 완료되었습니다.");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(frame, "파일 저장 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+            }
+
         }
     }
 	
@@ -84,9 +103,16 @@ public class MemberController {
 	}
 	
 	//회원이름으로 키워드 검색
-	public Member loginMember(MainFrame frame, Member m) {
+	public void loginMember(MainFrame frame, Member m) {
 		Member member = ms.memberIdSearch(m);
-		return member;
+    	// [수정] 반환된 Member 객체가 null이 아닌지 확인
+    	if(member != null) { // 로그인 성공
+    		JOptionPane.showMessageDialog(frame, member.getUserNickName() + "님, 환영합니다.");
+    		// 모든 정보가 담긴 loginUser 객체를 다음 화면으로 전달
+    		frame.changePanel(new MemberMenu(frame, member));
+    	} else { // 로그인 실패
+    		JOptionPane.showMessageDialog(frame, "아이디 또는 비밀번호가 일치하지 않습니다.");
+    	}
 	}
 
 }
