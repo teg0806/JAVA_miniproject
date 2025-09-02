@@ -29,10 +29,10 @@ public class MemberService {
 		return result;
 	}
 	
-	public List<Member> selectMemberList(){
+	public List<Member> selectMember(){
 		Connection conn = Tamplate.getConnection();
 		
-		List<Member> list = new MemberDao().selectMemberList(conn);
+		List<Member> list = new MemberDao().selectMember(conn);
 		Tamplate.close(conn);
 		
 		return list;

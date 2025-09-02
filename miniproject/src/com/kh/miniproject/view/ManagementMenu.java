@@ -29,8 +29,11 @@ public class ManagementMenu extends JPanel{
 
 	public ManagementMenu(MainFrame frame, Member m) {
 		this.mc = new MemberController();
-		setLayout(new BorderLayout(20, 20));
-		JPanel menuPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+		 // [수정] 패널의 레이아웃을 GridBagLayout으로 변경
+        setLayout(new GridBagLayout());
+
+        // 버튼들을 담을 패널 (이 패널 자체는 GridLayout을 사용)
+        JPanel menuPanel = new JPanel(new GridLayout(4, 1, 10, 10));
         
         JButton updateButton = new JButton("회원 정보 수정");
         JButton deleteButton = new JButton("회원 탈퇴");
@@ -41,12 +44,9 @@ public class ManagementMenu extends JPanel{
         menuPanel.add(deleteButton);
         menuPanel.add(searchButton);
         menuPanel.add(logoutButton);
-
-        // 버튼 패널을 가운데 정렬하기 위한 래퍼 패널
-        JPanel centerPanel = new JPanel();
-        centerPanel.add(menuPanel);
-        add(centerPanel, BorderLayout.SOUTH);
         
+        add(menuPanel);
+
 		// 정보 수정 버튼
 	    updateButton.addActionListener(new ActionListener() {
 	        @Override
@@ -71,11 +71,11 @@ public class ManagementMenu extends JPanel{
 	        }
 	    });
     
-
+	    // 처음 메뉴로 돌아가기
 		logoutButton.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        frame.changePanel(new MemberMenu(frame, m)); // 처음 메뉴로 돌아가기
+		        frame.changePanel(new MemberMenu(frame, m)); 
 		    }
 		});
 	}

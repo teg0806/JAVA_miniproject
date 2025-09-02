@@ -59,7 +59,7 @@ public class MemberDao {
 	}
 	
 	//회원목록을 반환하는 메서드
-	public ArrayList<Member> selectMemberList(Connection conn){
+	public ArrayList<Member> selectMember(Connection conn){
 		//select문(여러개) -> ResultSet -> ArrayList담기
 		
 		ResultSet rset = null;
@@ -144,7 +144,6 @@ public class MemberDao {
 			pstmt = conn.prepareStatement(sql);
 		
 			pstmt.setString(1, m.getUserId());
-			pstmt.setString(2, m.getUserPwd());
 			
 			result = pstmt.executeUpdate();
 			

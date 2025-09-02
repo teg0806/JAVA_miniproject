@@ -17,10 +17,6 @@ public class MemberController {
 
 	}
 
-	/*
-	 * 사용자의 추가요청을 처리하는 메서드
-	 *  userId ~ hobby : 사용자가 입력한 정보를 매개변수로 받음
-	 */
 	public void insertMember(MainFrame frame, Member m) {
 		
 		//view로부터 전달받은 값을 바로 dao에 전달x
@@ -39,14 +35,16 @@ public class MemberController {
 	}
 	
 	//회원을 모두 조회
-	public void selectMemberAll() {
-		List<Member> list = ms.selectMemberList();
+	public void selectMember(MainFrame frame, Member m) {
+		List<Member> list = ms.selectMember();
 		
 		//조회된 결과에 따라서 사용자가 보게될 화면
 		if(list.isEmpty()) {
-
+			JOptionPane.showMessageDialog(frame, "회원 정보가 존재하지 않습니다.");
 		}else {
-
+			for(Object o : list) {
+				JOptionPane.showMessageDialog(frame, list);
+			}
 		}
 	}
 	
@@ -62,16 +60,13 @@ public class MemberController {
 		}
 	}
 	
-	public void deleteMember(String userId, String userPwd) {
-		Member m = new Member();
-		m.setUserId(userId);
-		m.setUserPwd(userPwd);
+	public void deleteMember(MainFrame frame, Member m) {
 		
 		int result = ms.deleteMember(m);
 		if(result > 0) {
-			
+			JOptionPane.showMessageDialog(frame, "회원 정보가 수정하는데 성공하였습니다.");
 		} else {
-			
+			JOptionPane.showMessageDialog(frame, "회정 정보를 수정하는데 실패하였습니다.");
 		}
 	}
 	
