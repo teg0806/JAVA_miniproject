@@ -11,13 +11,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import com.kh.miniproject.vo.Member;
 
-public class ClientFrame extends JFrame {
+public class ServerClientGenerate extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JTextArea messageArea;
     private JTextField textField;
 
-    public ClientFrame(Member m) {
+    public ServerClientGenerate(Member m) {
         setTitle("채팅 클라이언트 - " + m.getUserNickName());
         setSize(500, 400);
         // 이 창을 닫아도 전체 프로그램이 종료되지 않도록 설정

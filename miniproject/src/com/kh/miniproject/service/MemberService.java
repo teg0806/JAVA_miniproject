@@ -1,7 +1,6 @@
 package com.kh.miniproject.service;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.kh.miniproject.dao.MemberDao;
