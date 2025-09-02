@@ -4,6 +4,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.kh.miniproject.vo.Member;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -14,7 +16,11 @@ import java.awt.event.ActionListener;
 
 public class MainMenu extends JPanel{
     private static final long serialVersionUID = 1L;
-
+    
+    private JButton loginBtn;
+    private JButton joinBtn;
+    private JButton endBtn;
+    
     public MainMenu(MainFrame frame) {
         setLayout(new BorderLayout());
 
@@ -33,8 +39,8 @@ public class MainMenu extends JPanel{
 
     private JPanel CenterButtonPanel(MainFrame frame) {
         JPanel verticalButtonPanel = new JPanel(new GridLayout(2, 1, 0, 15));
-        JButton loginBtn = new JButton("로그인");
-        JButton joinBtn = new JButton("회원가입");
+        loginBtn = new JButton("로그인");
+        joinBtn = new JButton("회원가입");
         
         loginBtn.setPreferredSize(new java.awt.Dimension(120, 30));
         joinBtn.setPreferredSize(new java.awt.Dimension(120, 30));
@@ -48,6 +54,10 @@ public class MainMenu extends JPanel{
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	joinBtn.setVisible(false);
+                endBtn.setVisible(false);
+                loginBtn.setEnabled(false); // 로그인 버튼도 중복 클릭 방지
+            	
                 // LoginMenu로 이동
                 frame.changePanel(new LoginMenu(frame));
             }
@@ -56,6 +66,10 @@ public class MainMenu extends JPanel{
         joinBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	joinBtn.setVisible(false);
+                endBtn.setVisible(false);
+                loginBtn.setEnabled(false);
+            	
                 // JoinMenu로 이동
                 frame.changePanel(new JoinMenu(frame));
             }
@@ -67,7 +81,7 @@ public class MainMenu extends JPanel{
 
     private JPanel BackButtonPanel(MainFrame frame) {
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JButton endBtn = new JButton("종료");
+        endBtn = new JButton("종료");
         endBtn.setPreferredSize(new java.awt.Dimension(120, 30));
         backButtonPanel.add(endBtn);
 

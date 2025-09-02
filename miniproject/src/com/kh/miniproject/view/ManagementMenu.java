@@ -29,7 +29,7 @@ public class ManagementMenu extends JPanel{
 
 	public ManagementMenu(MainFrame frame, Member m) {
 		this.mc = new MemberController();
-		
+		setLayout(new BorderLayout(20, 20));
 		JPanel menuPanel = new JPanel(new GridLayout(5, 1, 10, 10));
         
         JButton updateButton = new JButton("회원 정보 수정");
@@ -45,8 +45,8 @@ public class ManagementMenu extends JPanel{
         // 버튼 패널을 가운데 정렬하기 위한 래퍼 패널
         JPanel centerPanel = new JPanel();
         centerPanel.add(menuPanel);
-        add(centerPanel, BorderLayout.CENTER);
-
+        add(centerPanel, BorderLayout.SOUTH);
+        
 		// 정보 수정 버튼
 	    updateButton.addActionListener(new ActionListener() {
 	        @Override
@@ -59,7 +59,7 @@ public class ManagementMenu extends JPanel{
 	    deleteButton.addActionListener(new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
-	            frame.changePanel(new DeleteMenu(frame, member));
+	            frame.changePanel(new DeleteMenu(frame, m));
 	        }
 	    });
 	
@@ -67,16 +67,17 @@ public class ManagementMenu extends JPanel{
 	    searchButton.addActionListener(new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
-	            frame.changePanel(new SearchMenu(frame, member));
+	            frame.changePanel(new SearchMenu(frame, m));
 	        }
 	    });
     
-		// 로그아웃 버튼
+
 		logoutButton.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        frame.changePanel(new MainMenu(frame)); // 처음 메뉴로 돌아가기
+		        frame.changePanel(new MemberMenu(frame, m)); // 처음 메뉴로 돌아가기
 		    }
 		});
 	}
+
 }

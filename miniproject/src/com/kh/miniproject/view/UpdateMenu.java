@@ -1,6 +1,7 @@
 package com.kh.miniproject.view;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -32,7 +33,10 @@ public class UpdateMenu extends JPanel{
 
 	public JPanel updateMember(MainFrame frame, Member m) {
 		JPanel joinPanel = new JPanel(new GridBagLayout());
-
+		setLayout(new BorderLayout());
+		add(BackButtonPanel(frame, m), BorderLayout.SOUTH);
+		
+		
         joinPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createTitledBorder("수정할 회원"), //수정할 회원 글자 추가
                 BorderFactory.createEmptyBorder(10, 10, 10, 10) //안쪽 여백을 추가해하여 테두리 추가
@@ -99,5 +103,21 @@ public class UpdateMenu extends JPanel{
         gbc.gridy = gridy;
         gbc.anchor = GridBagConstraints.WEST; //왼쪽으로 밀착
         panel.add(component, gbc);
+    }
+    
+    private JPanel BackButtonPanel(MainFrame frame, Member m) {
+        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton mainMenuBackBtn = new JButton("뒤로가기");
+        mainMenuBackBtn.setPreferredSize(new java.awt.Dimension(120, 30));
+        backButtonPanel.add(mainMenuBackBtn);
+
+        mainMenuBackBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.changePanel(new ManagementMenu(frame, m));
+            }
+        });
+
+        return backButtonPanel;
     }
 }
