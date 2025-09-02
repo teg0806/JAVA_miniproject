@@ -1,4 +1,4 @@
-package com.kh.miniproject.view;
+package com.kh.miniproject.view.server;
 
 import java.awt.BorderLayout;
 import java.awt.Font;

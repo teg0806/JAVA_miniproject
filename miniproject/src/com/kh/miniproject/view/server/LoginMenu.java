@@ -1,4 +1,4 @@
-package com.kh.miniproject.view;
+package com.kh.miniproject.view.server;
 
 import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;

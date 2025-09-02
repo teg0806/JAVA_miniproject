@@ -1,8 +1,8 @@
 package com.kh.miniproject.run;
 
-import com.kh.miniproject.view.MainFrame;
+import com.kh.miniproject.view.server.MainFrame;
 
-public class Run {
+public class ServerRun {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {

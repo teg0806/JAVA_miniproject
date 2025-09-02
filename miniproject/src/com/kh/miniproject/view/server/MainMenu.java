@@ -1,10 +1,8 @@
-package com.kh.miniproject.view;
+package com.kh.miniproject.view.server;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import com.kh.miniproject.vo.Member;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

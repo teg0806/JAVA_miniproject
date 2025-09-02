@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 import com.kh.miniproject.service.MemberService;
-import com.kh.miniproject.view.MainFrame;
-import com.kh.miniproject.view.MemberMenu;
+import com.kh.miniproject.view.server.MainFrame;
+import com.kh.miniproject.view.server.MemberMenu;
 import com.kh.miniproject.vo.Member;
 
 public class MemberController {

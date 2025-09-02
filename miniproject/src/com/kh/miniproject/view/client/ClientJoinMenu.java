@@ -1,5 +1,4 @@
-package com.kh.miniproject.view;
-
+package com.kh.miniproject.view.client;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -14,29 +13,22 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.kh.miniproject.controller.MemberController;
-import com.kh.miniproject.service.MemberService;
-import com.kh.miniproject.tamplate.Tamplate;
+import com.kh.miniproject.view.server.MainFrame;
+import com.kh.miniproject.view.server.MainMenu;
 import com.kh.miniproject.vo.Member;
 
-/*
- * 전체 틀을 BorderLayout
- * 중간에는(CENTER) 그안에 GridBagLayout를 생성
- * 아래에는(SOUTH) 그안에 FlowLayout를 생성
- * */
-
-public class JoinMenu extends JPanel {
-    private static final long serialVersionUID = 1L;
+public class ClientJoinMenu extends JPanel{
+	private static final long serialVersionUID = 1L;
 	private MemberController mc;
 
 
-    public JoinMenu(MainFrame frame) {
+    public ClientJoinMenu(ClientMainFrame frame) {
     	this.mc = new MemberController();
     	
         // 전체적인 레이아웃은 BorderLayout으로 설정
@@ -65,7 +57,7 @@ public class JoinMenu extends JPanel {
     /**
      * GridBagLayout을 사용한 메인 회원가입 폼 패널을 생성하는 메소드
      */
-    private JPanel createJoinFormPanel(MainFrame frame) {
+    private JPanel createJoinFormPanel(ClientMainFrame frame) {
         JPanel joinPanel = new JPanel(new GridBagLayout());
         
         // 1. "회원가입"이라는 제목이 있는 테두리를 생성
@@ -109,7 +101,7 @@ public class JoinMenu extends JPanel {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mc.insertMember(frame, new Member(
+                mc.clientInsertMember(frame, new Member(
                         ((JTextField) fields[0]).getText(), //아이디
                         new String(((JPasswordField) fields[1]).getPassword()), //비밀번호
                         ((JTextField) fields[2]).getText(), //이름
@@ -117,7 +109,7 @@ public class JoinMenu extends JPanel {
                         ((JTextField) fields[4]).getText(), //닉네임
                         ((JTextField) fields[5]).getText() //이메일
                 )); // DB 컨트롤러 연결 부분
-                frame.changePanel(new MainMenu(frame)); // 역할(role) 전달 필요
+                frame.changePanel(new ClientMainMenu(frame)); // 역할(role) 전달 필요
             }
         });
 
@@ -155,7 +147,7 @@ public class JoinMenu extends JPanel {
     /**
      * '이전으로' 버튼이 들어가는 패널을 생성하는 메소드
      */
-    private JPanel createBackButtonPanel(MainFrame frame) {
+    private JPanel createBackButtonPanel(ClientMainFrame frame) {
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); //panel을 생성하고 panel 안에 FlowLayout을 중앙에 생성
         JButton startMenuBackBtn = new JButton("이전으로"); //이전 버튼을 생성
         startMenuBackBtn.setPreferredSize(new java.awt.Dimension(120, 30));
@@ -164,7 +156,7 @@ public class JoinMenu extends JPanel {
         startMenuBackBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.changePanel(new MainMenu(frame)); //main으로 화면 전환
+                frame.changePanel(new ClientMainMenu(frame)); //main으로 화면 전환
             }
         });
 

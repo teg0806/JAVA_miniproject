@@ -1,9 +1,8 @@
-package com.kh.miniproject.view;
+package com.kh.miniproject.view.server;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.PrintWriter;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,8 +22,8 @@ public class ClientFrame extends JFrame {
         setSize(500, 400);
         // 이 창을 닫아도 전체 프로그램이 종료되지 않도록 설정
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
-        setLocationByPlatform(true); // OS가 창 위치를 적절히 결정하도록 함
-
+        setLocationRelativeTo(null); //창이 화면 가운데에서 시작 
+        
         // 클라이언트 UI 구성
         JPanel clientPanel = new JPanel(new BorderLayout());
         

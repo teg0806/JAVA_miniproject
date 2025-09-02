@@ -1,11 +1,14 @@
-package com.kh.miniproject.view;
+package com.kh.miniproject.view.server;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -14,6 +17,7 @@ import com.kh.miniproject.vo.Member;
 public class ChatMenu extends JPanel {
 
     private static final long serialVersionUID = 1L;
+    private boolean isClientCreated = false; //클라이언트 제한을 위한 플래그
     
     public ChatMenu(MainFrame frame, Member m) {
         setLayout(new BorderLayout());
@@ -58,7 +62,12 @@ public class ChatMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 새 클라이언트 창(ClientFrame)을 생성
-            	new ClientFrame(m);
+            	if(!isClientCreated) {	
+            		new ClientFrame(m);
+            		isClientCreated = true;
+            	} else {
+            		JOptionPane.showMessageDialog(logArea, "클라이언트가 이미 생성되었습니다.");
+            	}
             }
         });
         

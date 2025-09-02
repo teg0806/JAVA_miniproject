@@ -1,4 +1,4 @@
-package com.kh.miniproject.view;
+package com.kh.miniproject.view.server;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,7 +9,7 @@ public class MainFrame extends JFrame {
 
 	//프레임 세팅 메서드
 	public MainFrame() {
-		setTitle("채팅"); // 프레임 제목
+		setTitle("채팅 - 서버"); // 프레임 제목
 		setSize(540, 720); //창 크기 (가로, 세로)
 		setResizable(false); //창 크기 고정
 		setLocationRelativeTo(null); //창이 화면 가운데에서 시작 
