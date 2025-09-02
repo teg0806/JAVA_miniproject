@@ -1,6 +1,8 @@
 package com.kh.miniproject.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -18,8 +20,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;
@@ -27,91 +32,49 @@ import com.kh.miniproject.vo.Member;
 public class SearchMenu extends JPanel{
 	
 	private MemberController mc;
+	private JTextArea resultArea; // ① 결과를 보여줄 JTextArea
 
-	public SearchMenu(MainFrame frame, Member m) {
-		super();
-		
-		setLayout(new BorderLayout());
-		add(searchFormPanel(frame, m));
-		
-	}
+	public SearchMenu(final MainFrame frame, final Member m) {
+        this.mc = new MemberController();
+        // 전체 구조를 BorderLayout으로 잡는다!
+        setLayout(new BorderLayout(10, 10));
+        setBorder(new EmptyBorder(10, 10, 10, 10));
 
-	private JPanel searchFormPanel(MainFrame frame, Member m) {
-		JPanel joinPanel = new JPanel(new GridBagLayout());
-		add(BackButtonPanel(frame, m), BorderLayout.SOUTH);
-		
-		
-        joinPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createTitledBorder("검색"), 
-                BorderFactory.createEmptyBorder(10, 10, 10, 10) 
-        ));
+        // --- ② 상단(NORTH): 검색 버튼 ---
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton searchButton = new JButton("전체 회원 조회");
+        topPanel.add(searchButton);
         
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+        // --- ③ 중앙(CENTER): 결과 표시 영역 ---
+        resultArea = new JTextArea(20, 40);
+        resultArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(resultArea); // 스크롤 기능!
         
-        JComponent[] fields = {
-            new JTextField(15), //id 필드
-            new JPasswordField(15) //passoword 필드
-        };
-        
-        String[] labels = {"아이디: ", "비밀번호: "};
-        
-        for (int i = 0; i < labels.length; i++) {
-            addFormRow(joinPanel, gbc, labels[i], fields[i], i); //필드 구조 생성
-        }
-        
-        JButton loginButton = new JButton("검색"); //로그인 버튼
-        gbc.gridx = 1;
-        gbc.gridy = labels.length; // 마지막 줄 다음에 추가
-        gbc.anchor = GridBagConstraints.EAST; // 오른쪽 끝에 붙이기
-        joinPanel.add(loginButton, gbc); //필드와 버튼 생성
-        
-        loginButton.addActionListener(new ActionListener() { //버튼 이벤트 리스너
+        // --- ④ 하단(SOUTH): 뒤로가기 버튼 ---
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton backButton = new JButton("뒤로가기");
+        bottomPanel.add(backButton);
+
+        // 완성된 패널들을 각 위치에 추가!
+        add(topPanel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        // --- ⑤ 검색 버튼 이벤트 ---
+        searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	Member m = new Member(
-                        ((JTextField) fields[0]).getText(), //아이디
-                        new String(((JPasswordField) fields[1]).getPassword())); //아이디 받아아 m에 저장
-            	mc.selectMember(frame, m); //검색 정보 넘기기
+                // 컨트롤러에서 데이터만 받아온다!
+                mc.selectMember(frame, m, resultArea);
             }
         });
-
-        return joinPanel;
-	}
-	
-   private void addFormRow(JPanel panel, GridBagConstraints gbc, String labelText, JComponent component, int gridy) {
-        // 라벨 생성 및 설정
-        JLabel label = new JLabel(labelText);
-        label.setHorizontalAlignment(SwingConstants.RIGHT);
-        Font currentFont = label.getFont();
-        label.setFont(new Font(currentFont.getName(), currentFont.getStyle(), 15));
         
-        // 라벨 위치 설정 및 추가
-        gbc.gridx = 0;
-        gbc.gridy = gridy;
-        gbc.anchor = GridBagConstraints.EAST;
-        panel.add(label, gbc);
-
-        // 텍스트 필드 위치 설정 및 추가
-        gbc.gridx = 1;
-        gbc.gridy = gridy;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add(component, gbc);
+		// 뒤로가기 버튼
+        backButton.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            frame.changePanel(new ManagementMenu(frame, m));
+	        }
+	    });
     }
-	
-   private JPanel BackButtonPanel(MainFrame frame, Member m) {
-       JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-       JButton mainMenuBackBtn = new JButton("뒤로가기");
-       mainMenuBackBtn.setPreferredSize(new java.awt.Dimension(120, 30));
-       backButtonPanel.add(mainMenuBackBtn);
-
-       mainMenuBackBtn.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               frame.changePanel(new ManagementMenu(frame, m));
-           }
-       });
-
-       return backButtonPanel;
-   }
 }

@@ -13,17 +13,9 @@
 			?
 		)
 	</entry>
-	<entry key="selectMemberList">
-		SELECT * 
+	<entry key="selectMemberList">SELECT * 
 		FROM MEMBER
-	</entry>
-	<entry key="updateMember">
-		UPDATE MEMBER 
-		SET 
-			USER_NICKNAME=?,
-			USER_EMAIL=?
-		WHERE USER_ID=?
-	</entry>
+</entry>
 	<entry key="deleteMember">
 		DELETE FROM MEMBER 
 		WHERE USER_ID = ?

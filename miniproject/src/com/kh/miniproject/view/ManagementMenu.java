@@ -33,13 +33,15 @@ public class ManagementMenu extends JPanel{
         setLayout(new GridBagLayout());
 
         // 버튼들을 담을 패널 (이 패널 자체는 GridLayout을 사용)
-        JPanel menuPanel = new JPanel(new GridLayout(4, 1, 10, 10));
+        JPanel menuPanel = new JPanel(new GridLayout(5, 1, 10, 10));
         
+        JButton insertButton = new JButton("회원 추가");
         JButton updateButton = new JButton("회원 정보 수정");
         JButton deleteButton = new JButton("회원 탈퇴");
         JButton searchButton = new JButton("회원 검색");
         JButton logoutButton = new JButton("뒤로가기");
-
+        
+        menuPanel.add(insertButton);
         menuPanel.add(updateButton);
         menuPanel.add(deleteButton);
         menuPanel.add(searchButton);
@@ -47,6 +49,14 @@ public class ManagementMenu extends JPanel{
         
         add(menuPanel);
 
+		// 회원 추가 버튼
+        insertButton.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            frame.changePanel(new InsertMenu(frame, m));
+	        }
+	    });
+        
 		// 정보 수정 버튼
 	    updateButton.addActionListener(new ActionListener() {
 	        @Override
@@ -79,5 +89,5 @@ public class ManagementMenu extends JPanel{
 		    }
 		});
 	}
-
+	
 }

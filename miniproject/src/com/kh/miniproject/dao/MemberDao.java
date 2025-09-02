@@ -78,10 +78,11 @@ public class MemberDao {
 				Member m = new Member();
 				m.setUserNo(rset.getInt("USER_NO"));
 				m.setUserId(rset.getString("USER_ID"));
-				m.setUserPwd(rset.getString("USER_PWD"));
+				m.setUserPwd(rset.getString("USER_PW"));
 				m.setUserName(rset.getString("USER_NAME"));
-				m.setGender(rset.getString("GENDER"));
-				m.setEmail(rset.getString("EMAIL"));
+				m.setGender(rset.getString("USER_GENDER"));
+				m.setUserNickName(rset.getString("USER_NICKNAME"));
+				m.setEmail(rset.getString("USER_EMAIL"));
 				
 				list.add(m);
 			}
@@ -89,7 +90,6 @@ public class MemberDao {
 			//반복문이 끝난시점
 			// list -> 비어있거나/ 데이터가 들어있거나
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			Tamplate.close(rset);

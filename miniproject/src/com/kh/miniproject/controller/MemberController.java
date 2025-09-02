@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import com.kh.miniproject.service.MemberService;
 import com.kh.miniproject.view.MainFrame;
@@ -35,18 +36,30 @@ public class MemberController {
 	}
 	
 	//회원을 모두 조회
-	public void selectMember(MainFrame frame, Member m) {
+	public void selectMember(MainFrame frame, Member m, JTextArea resultArea) {
 		List<Member> list = ms.selectMember();
 		
 		//조회된 결과에 따라서 사용자가 보게될 화면
-		if(list.isEmpty()) {
-			JOptionPane.showMessageDialog(frame, "회원 정보가 존재하지 않습니다.");
-		}else {
-			for(Object o : list) {
-				JOptionPane.showMessageDialog(frame, list);
-			}
-		}
-	}
+		// 받아온 데이터를 JTextArea에 예쁘게 뿌려준다!
+        if (list.isEmpty()) {
+            resultArea.setText("조회된 회원이 없습니다.");
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append("===== 전체 회원 목록 =====\n\n");
+            for (Member member : list) {
+                sb.append("회원번호: ").append(member.getUserNo()).append("\n");
+                sb.append("아이디: ").append(member.getUserId()).append("\n");
+                sb.append("비밀번호: ").append(member.getUserPwd()).append("\n");
+                sb.append("이름: ").append(member.getUserName()).append("\n");
+                sb.append("성별: ").append(member.getGender()).append("\n");
+                sb.append("닉네임: ").append(member.getUserNickName()).append("\n");
+                sb.append("이메일: ").append(member.getEmail()).append("\n");
+                sb.append("---------------------------------\n");
+            }
+            resultArea.setText(sb.toString());
+            resultArea.setCaretPosition(0); // 스크롤 맨 위로!
+        }
+    }
 	
 	//userId, email, phone, address, hobby를 전달받아
 	//Member를 수정하는 메서드
