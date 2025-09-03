@@ -1,12 +1,8 @@
 package com.kh.miniproject.controller;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -18,7 +14,6 @@ import com.kh.miniproject.vo.Member;
 
 public class MemberController {
 	private MemberService ms = new MemberService();
-	private Properties prop = new Properties();
 	
 	public MemberController() {
 		super();

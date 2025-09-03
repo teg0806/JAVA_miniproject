@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.net.Socket;
-import java.util.Map;
 
 import com.kh.miniproject.service.MemberService;
 import com.kh.miniproject.sokect.server.ServerManager;

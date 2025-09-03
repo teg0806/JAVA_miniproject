@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.kh.miniproject.sokect.server.ServerManager;
 import com.kh.miniproject.vo.Member;
 
 public class ServerMenu extends JPanel {

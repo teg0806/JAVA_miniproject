@@ -21,7 +21,8 @@ import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;
 
 public class UpdateMenu extends JPanel{
-	
+
+	private static final long serialVersionUID = 1L;
 	private MemberController mc;
 	
 	public UpdateMenu(MainFrame frame, Member m) {

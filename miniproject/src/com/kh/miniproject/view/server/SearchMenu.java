@@ -1,29 +1,14 @@
 package com.kh.miniproject.view.server;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.kh.miniproject.controller.MemberController;
@@ -31,6 +16,7 @@ import com.kh.miniproject.vo.Member;
 
 public class SearchMenu extends JPanel{
 	
+	private static final long serialVersionUID = 1L;
 	private MemberController mc;
 	private JTextArea resultArea; // 결과를 보여줄 JTextArea
 

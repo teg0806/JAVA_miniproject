@@ -14,15 +14,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.kh.miniproject.controller.MemberController;
-import com.kh.miniproject.service.MemberService;
-import com.kh.miniproject.tamplate.Tamplate;
 import com.kh.miniproject.vo.Member;
 
 /*
