@@ -1,6 +1,7 @@
 package com.kh.miniproject.view.client;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -28,6 +29,7 @@ public class ClientMainMenu extends JPanel{
         // 네트워크 관리자(NetworkManager)가 서버에 접속을 시도
         this.clientManager = new ClientManager(frame); // frame을 넘겨주도록 수정!
         clientManager.connectToServer();
+        this.setBackground(new Color(230, 240, 250));
     	
         setLayout(new BorderLayout());
 

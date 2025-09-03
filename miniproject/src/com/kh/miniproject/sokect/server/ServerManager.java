@@ -1,11 +1,13 @@
 package com.kh.miniproject.sokect.server;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
@@ -52,9 +54,9 @@ public class ServerManager {
                     }
 
                 } catch (IOException e) {
-                    System.err.println("서버: 포트(" + PORT + ")와 IP를 확인해주세요.");
+                	System.err.println("서버: 오류가 발생했습니다.");
                     e.printStackTrace();
-                }
+				}
             }
         }).start();
     }
@@ -72,8 +74,9 @@ public class ServerManager {
     }
 
     public void broadcast(String message) {
-        System.out.println("서버 -> 모든 클라이언트: " + message);
-        appendLogToGui(message); // ★★★ 추가! 모든 클라이언트에게 보내는 메시지는 서버 GUI에도 표시한다!
+    	//콘솔에 채팅 출력
+//        System.out.println("서버 -> 모든 클라이언트: " + message);
+        appendLogToGui(message); // 모든 클라이언트에게 보내는 메시지는 서버 GUI에도 표시한다!
         for (ClientHandler client : clients) {
             client.sendMessage(message);
         }

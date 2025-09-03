@@ -1,6 +1,7 @@
 package com.kh.miniproject.view.client;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,13 +57,17 @@ public class ClientChatMenu extends JPanel {
 			}
 		});
 
+        
         bottomPanel.add(messageField, BorderLayout.CENTER);
         bottomPanel.add(sendButton, BorderLayout.EAST);
+        
         add(bottomPanel, BorderLayout.SOUTH);
+        add(BackButtonPanel(frame), BorderLayout.NORTH);
 
         // ★★★ 여기가 핵심! ★★★
         // 생성되자마자 ClientManager에게 채팅 내용을 표시할 JTextArea가 바로 '이것'이라고 알려준다.
         clientManager.setChatArea(chatArea);
+
     }
 
     // 메시지 전송 로직
@@ -72,6 +77,22 @@ public class ClientChatMenu extends JPanel {
             clientManager.sendMessage(message); // 통신 담당자에게 메시지 전송을 요청
             messageField.setText(""); // 입력창은 다시 비워주고
         }
+    }
+    
+    private JPanel BackButtonPanel(ClientMainFrame frame) {
+        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton mainMenuBackBtn = new JButton("메인 메뉴");
+        mainMenuBackBtn.setPreferredSize(new java.awt.Dimension(120, 30));
+        backButtonPanel.add(mainMenuBackBtn);
+
+        mainMenuBackBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.changePanel(new ClientMainMenu(frame));
+            }
+        });
+
+        return backButtonPanel;
     }
 
 }

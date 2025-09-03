@@ -70,7 +70,7 @@ public class ServerMenu extends JPanel {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 로그아웃 시에는 StartMenu로 돌아가야 해
+                // 로그아웃
                 frame.changePanel(new MainMenu(frame)); 
             }
         });

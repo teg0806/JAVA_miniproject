@@ -40,14 +40,21 @@ public class ClientHandler extends Thread {
 			String request;
 			// 클라이언트가 접속을 끊을 때까지 계속 메시지를 읽어들여.
 			while ((request = in.readLine()) != null) {
-				System.out.println("서버 <- 클라이언트: " + request);
+				//콘솔에 채팅 출력
+//				System.out.println("서버 <- " + (userNickName != null ? userNickName : "클라이언트") + ": " + request);
              
 				// 여기서 클라이언트의 요청을 분석해서 처리해야 해.
 				processRequest(request);
 			}
 
 		} catch (IOException e) {
-			System.out.println("클라이언트(" + clientSocket.getInetAddress() + ")와의 연결이 끊어졌습니다.");
+			//닉네임이 출력
+			if (userNickName != null) {
+	            System.out.println(userNickName + "님과의 연결이 끊어졌습니다.");
+	        } else {
+	            // 로그인 전에 접속이 끊기면 IP로 표시
+	            System.out.println("클라이언트(" + clientSocket.getInetAddress() + ")와의 연결이 끊어졌습니다.");
+	        }
 		} finally {
 			try {
 				clientSocket.close(); // 연결이 끊어지면 소켓을 꼭 닫아줘.
@@ -60,25 +67,36 @@ public class ClientHandler extends Thread {
 	// 클라이언트의 요청을 분석하고 처리하는 메소드
     private void processRequest(String request) {
         // "명령어:내용" 형식으로 오니까 ':'를 기준으로 잘라보자.
-        String[] parts = request.split(":", 2);
+    	String[] parts = request.split(":");
         String command = parts[0];
         
-        // 로그인 요청 처리
-        if ("LOGIN".equals(command) && parts.length > 1) {
-            String[] credentials = parts[1].split(":");
-            if (credentials.length == 2) {
-                Member m = new Member(credentials[0], credentials[1]);
-                Member loginUser = memberService.memberIdSearch(m);
-                
-                if (loginUser != null) {
-                    this.userNickName = loginUser.getUserNickName();
-                    sendMessage("LOGIN_SUCCESS:" + this.userNickName); // 클라이언트에 성공 응답 전송
-                    serverManager.broadcast(this.userNickName + "님이 입장하셨습니다.");
-                } else {
-                    sendMessage("LOGIN_FAIL"); // 실패 응답 전송
-                }
+     // 로그인 요청 처리
+        if ("LOGIN".equals(command) && parts.length == 3) { // LOGIN:아이디:비번
+            Member m = new Member(parts[1], parts[2]);
+            Member loginUser = memberService.memberIdSearch(m);
+            
+            if (loginUser != null) {
+                this.userNickName = loginUser.getUserNickName();
+                sendMessage("LOGIN_SUCCESS:" + this.userNickName); // 클라이언트에 성공 응답 전송
+                serverManager.broadcast(this.userNickName + "님이 입장하셨습니다.");
+            } else {
+                sendMessage("LOGIN_FAIL"); // 실패 응답 전송
             }
-        } else { // 로그인이 된 상태에서의 일반 채팅 메시지 처리
+        } 
+        // 회원가입 요청을 처리하는 로직을 추가
+        else if ("JOIN".equals(command) && parts.length == 7) { // JOIN:아이디:비번:이름:성별:닉네임:이메일
+            // 클라이언트가 보낸 정보를 순서대로 Member 객체에 담는다.
+            Member m = new Member(parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
+            int result = memberService.insertMember(m);
+            
+            if (result > 0) {
+                sendMessage("JOIN_SUCCESS"); // 성공했다고 클라이언트에게 알려준다.
+            } else {
+                sendMessage("JOIN_FAIL"); // 실패했다고 알려준다.
+            }
+        }
+        // 일반 채팅 메시지 처리
+        else { 
             if (this.userNickName != null) { // 로그인이 된 사용자만 채팅 가능
                 serverManager.broadcast(this.userNickName + ": " + request);
             }

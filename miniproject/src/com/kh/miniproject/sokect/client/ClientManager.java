@@ -53,7 +53,8 @@ public class ClientManager {
         try {
             String serverMessage;
             while ((serverMessage = in.readLine()) != null) {
-                System.out.println("클라이언트 <- 서버: " + serverMessage);
+            	//콘솔에 채팅 이력 남기기
+//                System.out.println("클라이언트 <- 서버: " + serverMessage);
                 
                 String[] parts = serverMessage.split(":", 2);
                 String command = parts[0];

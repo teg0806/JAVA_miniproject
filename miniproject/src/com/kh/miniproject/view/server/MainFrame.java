@@ -3,6 +3,8 @@ package com.kh.miniproject.view.server;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.kh.miniproject.sokect.server.ServerManager;
+
 public class MainFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -14,6 +16,9 @@ public class MainFrame extends JFrame {
 		setResizable(false); //창 크기 고정
 		setLocationRelativeTo(null); //창이 화면 가운데에서 시작 
 		setDefaultCloseOperation(EXIT_ON_CLOSE); //창을 끄면 프로그램 종료
+		
+		//서버 시작
+		ServerManager.getInstance().startServer();
 		
 		setContentPane(new MainMenu(this));
 		setVisible(true); //창 보이도록 설정

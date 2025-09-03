@@ -7,12 +7,14 @@ import javax.swing.JPanel;
 import com.kh.miniproject.sokect.server.ServerManager;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.BindException;
 
 public class MainMenu extends JPanel{
     private static final long serialVersionUID = 1L;
@@ -22,9 +24,6 @@ public class MainMenu extends JPanel{
     private JButton endBtn;
     
     public MainMenu(MainFrame frame) {
-    	
-        // 서버 기능(ServerManager)을 시작
-    	ServerManager.getInstance().startServer();
     	
         setLayout(new BorderLayout());
 
@@ -93,6 +92,7 @@ public class MainMenu extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
+
             }
         });
 
