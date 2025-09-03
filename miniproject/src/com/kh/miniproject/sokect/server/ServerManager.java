@@ -28,7 +28,7 @@ public class ServerManager {
                     }
 
                 } catch (IOException e) {
-                    System.err.println("서버: 포트(" + PORT + ")와 IP를 확인해 주세요.");
+                    System.err.println("서버: 포트(" + PORT + ")와 IP를 확인해주세요.");
                     e.printStackTrace();
                 }
             }

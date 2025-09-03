@@ -85,7 +85,7 @@ public class ManagementMenu extends JPanel{
 		logoutButton.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        frame.changePanel(new MemberMenu(frame, m)); 
+		        frame.changePanel(new ServerMenu(frame, m)); 
 		    }
 		});
 	}

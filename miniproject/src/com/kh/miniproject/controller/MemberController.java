@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
 
 import com.kh.miniproject.service.MemberService;
 import com.kh.miniproject.view.server.MainFrame;
-import com.kh.miniproject.view.server.MemberMenu;
+import com.kh.miniproject.view.server.ServerMenu;
 import com.kh.miniproject.vo.Member;
 
 public class MemberController {
@@ -109,7 +109,7 @@ public class MemberController {
     	if(member != null) { // 로그인 성공
     		JOptionPane.showMessageDialog(frame, member.getUserNickName() + "님, 환영합니다.");
     		// 모든 정보가 담긴 loginUser 객체를 다음 화면으로 전달
-    		frame.changePanel(new MemberMenu(frame, member));
+    		frame.changePanel(new ServerMenu(frame, member));
     	} else { // 로그인 실패
     		JOptionPane.showMessageDialog(frame, "아이디 또는 비밀번호가 일치하지 않습니다.");
     	}

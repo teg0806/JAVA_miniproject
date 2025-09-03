@@ -2,6 +2,7 @@ package com.kh.miniproject.view.server;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 import com.kh.miniproject.vo.Member;
 
 public class ChatMenu extends JPanel {
@@ -34,47 +37,58 @@ public class ChatMenu extends JPanel {
      * 서버 관리 및 내역 표시를 위한 패널 생성
      */
     private JPanel createServerPanel(MainFrame frame, Member m) { // Member 객체를 인자로 받도록 수정
-        JPanel serverPanel = new JPanel(new BorderLayout());
+    	// 전체를 감싸는 메인 패널 (BorderLayout 사용)
+        JPanel mainPanel = new JPanel(new BorderLayout(5, 5)); //간격 5px
         
-        // 서버 관리용 컴포넌트(버튼 등)를 담을 패널
-        JPanel serverControlPanel = new JPanel();
-        JButton createClientButton = new JButton("클라이언트 생성"); // 새 클라이언트 창을 띄울 버튼
-        JButton backMenuButton = new JButton("뒤로가기"); //MemberMenu로 돌아가는 버튼
-
-        serverControlPanel.add(createClientButton);
-        serverControlPanel.add(backMenuButton);
-
-
-        // 서버 로그나 채팅 내역을 표시할 JTextArea
+        // 가장 커져야 할 JTextArea를 CENTER에 바로 넣는 게 핵심이
         JTextArea logArea = new JTextArea();
         logArea.setEditable(false);
+        mainPanel.add(new JScrollPane(logArea), BorderLayout.CENTER);
 
-        serverPanel.add(serverControlPanel, BorderLayout.NORTH);
-        serverPanel.add(new JScrollPane(logArea), BorderLayout.CENTER);
+        // 하단에 들어갈 모든 것들을 담을 '남쪽 패널'을 하나 만들어.
+        JPanel southPanel = new JPanel(new BorderLayout());
+
+        // 남쪽 패널의 '가운데'에는 텍스트 필드와 전송 버튼을 넣어.
+        JPanel sendPanel = new JPanel(new BorderLayout());
+        JTextField messageField = new JTextField(); // 컬럼 수나 Dimension으로 크기 조절 안 해도 돼. CENTER가 알아서 늘려주니까.
+        JButton sendButton = new JButton("전송");
+        sendPanel.add(messageField, BorderLayout.CENTER);
+        sendPanel.add(sendButton, BorderLayout.EAST);
         
-        // '클라이언트 생성' 버튼 이벤트 처리
-        createClientButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 새 클라이언트 창(ClientFrame)을 생성
-            	if(!isClientCreated) {	
-            		new ServerClientGenerate(m);
-            		isClientCreated = true;
-            	} else {
-            		JOptionPane.showMessageDialog(logArea, "클라이언트가 이미 생성되었습니다.");
-            	}
-            }
-        });
+        // 남쪽 패널의 '아래쪽'에는 뒤로가기 버튼을 넣어.
+        JPanel backPanel = new JPanel(); // FlowLayout (기본값)
+        JButton backMenuButton = new JButton("뒤로가기");
+        backMenuButton.setPreferredSize(new Dimension(120, 30));
+        backPanel.add(backMenuButton);
+        
+        // 남쪽 패널 조립!
+        southPanel.add(sendPanel, BorderLayout.CENTER);
+        southPanel.add(backPanel, BorderLayout.SOUTH);
+
+        // 완성된 남쪽 패널을 메인 패널의 SOUTH에 추가.
+        mainPanel.add(southPanel, BorderLayout.SOUTH);
+        
+        //전송 버튼
+        sendButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(messageField.getText() != null) {
+					
+				} else {
+					JOptionPane.showMessageDialog(frame, "전체 클라이언트에 보낼 메시지를 입력해주세요!");
+				}
+			}
+		});
         
         //뒤로 가기
         backMenuButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.changePanel(new MemberMenu(frame, m));
+				frame.changePanel(new ServerMenu(frame, m));
 			}
 		});
 
-        return serverPanel;
+        return mainPanel;
     }
     
 }
