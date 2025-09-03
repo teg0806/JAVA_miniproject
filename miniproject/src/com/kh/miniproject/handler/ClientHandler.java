@@ -6,20 +6,21 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import com.kh.miniproject.controller.ClientMemberController;
+import com.kh.miniproject.sokect.server.ServerManager;
 
 //서버쪽에서, 접속한 클라이언트 한 명과 통신을 담당할 클래스 (직원 클래스)
 //클라이언트가 접속할 때마다 이 클래스의 객체가 하나씩 생성될 거야. (스레드로)
 public class ClientHandler extends Thread {
 
 	private Socket clientSocket; // 통신을 위한 소켓
-	private ClientMemberController cmc;
+	private ServerManager serverManager;
 	private BufferedReader in;   // 클라이언트로부터 메시지를 받을 빨대
 	private PrintWriter out;     // 클라이언트에게 메시지를 보낼 빨대
 
-	public ClientHandler(Socket socket, ClientMemberController controller) {
-		this.clientSocket = socket;
-		this.cmc = controller;
+	public ClientHandler(Socket clientSocket, ServerManager serverManager) {
+		super();
+		this.clientSocket = clientSocket;
+		this.serverManager = serverManager;
 	}
 
 	@Override
@@ -48,6 +49,13 @@ public class ClientHandler extends Thread {
 			}
 		}
 	}
+	
+    // ServerManager가 이 메소드를 호출해서 클라이언트에게 메시지를 보낸다.
+    public void sendMessage(String message) {
+        if (out != null) {
+            out.println(message);
+        }
+    }
 
 	// 클라이언트의 요청을 분석하고 처리하는 메소드
 	private void processRequest(String request) {

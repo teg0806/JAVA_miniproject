@@ -24,8 +24,7 @@ public class MainMenu extends JPanel{
     public MainMenu(MainFrame frame) {
     	
         // 서버 기능(ServerManager)을 시작
-        ServerManager serverManager = new ServerManager();
-        serverManager.startServer();
+    	ServerManager.getInstance().startServer();
     	
         setLayout(new BorderLayout());
 

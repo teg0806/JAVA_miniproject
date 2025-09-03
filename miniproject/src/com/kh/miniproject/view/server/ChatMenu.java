@@ -15,12 +15,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.kh.miniproject.sokect.server.ServerManager;
 import com.kh.miniproject.vo.Member;
 
 public class ChatMenu extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private boolean isClientCreated = false; //클라이언트 제한을 위한 플래그
     
     public ChatMenu(MainFrame frame, Member m) {
         setLayout(new BorderLayout());
@@ -72,8 +72,14 @@ public class ChatMenu extends JPanel {
         sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(messageField.getText() != null) {
-					
+				String msg = messageField.getText();
+				if(msg != null & !msg.trim().isEmpty()) {
+					// 서버 관리자가 보내는 메시지라는 것을 알리기 위해 "[서버]" 같은 접두사를 붙여주면 좋아.
+					//static 메서드로 미리 생성하여 new를 사용하지 않으며, 매개변수로 받을 필요가 없음
+					ServerManager.getInstance().broadcast("[서버 공지]: " + msg); 
+
+		            logArea.append("[나 -> 모두]: " + msg + "\n"); // 내 로그 창에도 표시
+		            messageField.setText(""); // 입력창 비우기
 				} else {
 					JOptionPane.showMessageDialog(frame, "전체 클라이언트에 보낼 메시지를 입력해주세요!");
 				}

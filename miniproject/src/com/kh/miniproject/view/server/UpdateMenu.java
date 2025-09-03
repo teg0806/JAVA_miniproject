@@ -89,7 +89,7 @@ public class UpdateMenu extends JPanel{
                         ((JTextField) fields[1]).getText(), //닉네임
                         ((JTextField) fields[2]).getText() //이메일
                 )); // DB 컨트롤러 연결 부분
-                frame.changePanel(new ChatMenu(frame, m)); //서버 관리로 되돌아 가기
+                frame.changePanel(new ServerMenu(frame, m)); //서버 관리로 되돌아 가기
             }
         });
         
