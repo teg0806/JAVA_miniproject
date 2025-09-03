@@ -77,8 +77,7 @@ public class ChatMenu extends JPanel {
 					// 서버 관리자가 보내는 메시지라는 것을 알리기 위해 "[서버]" 같은 접두사를 붙여주면 좋아.
 					//static 메서드로 미리 생성하여 new를 사용하지 않으며, 매개변수로 받을 필요가 없음
 					ServerManager.getInstance().broadcast("[서버 공지]: " + msg); 
-
-		            logArea.append("[나 -> 모두]: " + msg + "\n"); // 내 로그 창에도 표시
+					
 		            messageField.setText(""); // 입력창 비우기
 				} else {
 					JOptionPane.showMessageDialog(frame, "전체 클라이언트에 보낼 메시지를 입력해주세요!");

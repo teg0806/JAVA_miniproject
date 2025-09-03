@@ -29,14 +29,21 @@ public class ClientChatMenu extends JPanel {
         this.clientManager = clientManager;
         setLayout(new BorderLayout(5, 5));
 
+        // --- 중앙: 채팅 내용 ---
         chatArea = new JTextArea();
         chatArea.setEditable(false);
         chatArea.setFont(new Font("맑은 고딕", Font.BOLD, 15));
         add(new JScrollPane(chatArea), BorderLayout.CENTER);
 
-        JPanel bottomPanel = new JPanel(new BorderLayout());
+        // --- 하단 전체를 감쌀 '남쪽 패널' 생성 ---
+        JPanel southWrapperPanel = new JPanel(new BorderLayout());
+
+        // --- 남쪽 패널의 '가운데' 부분: 메시지 입력창과 전송 버튼 ---
+        JPanel messagePanel = new JPanel(new BorderLayout());
         messageField = new JTextField();
         sendButton = new JButton("전송");
+        messagePanel.add(messageField, BorderLayout.CENTER);
+        messagePanel.add(sendButton, BorderLayout.EAST);
         
 //        messageField.addActionListener(e -> sendMessage());
         //엔터를 누르면 전송되는 메서드
@@ -58,14 +65,18 @@ public class ClientChatMenu extends JPanel {
 		});
 
         
-        bottomPanel.add(messageField, BorderLayout.CENTER);
-        bottomPanel.add(sendButton, BorderLayout.EAST);
-        
-        add(bottomPanel, BorderLayout.SOUTH);
-        add(BackButtonPanel(frame), BorderLayout.NORTH);
+        // --- 남쪽 패널의 '아래' 부분: 뒤로가기 버튼 ---
+        JPanel backButtonPanel = BackButtonPanel(frame);
 
-        // ★★★ 여기가 핵심! ★★★
-        // 생성되자마자 ClientManager에게 채팅 내용을 표시할 JTextArea가 바로 '이것'이라고 알려준다.
+        // ★★★ 바로 여기가 핵심! ★★★
+        // 남쪽 패널에 메시지 입력창과 뒤로가기 버튼을 차례대로 추가
+        southWrapperPanel.add(messagePanel, BorderLayout.CENTER);
+        southWrapperPanel.add(backButtonPanel, BorderLayout.SOUTH);
+
+        // 완성된 '남쪽 패널'을 프레임의 SOUTH에 추가
+        add(southWrapperPanel, BorderLayout.SOUTH);
+        
+        // ClientManager에게 채팅창 등록
         clientManager.setChatArea(chatArea);
 
     }
