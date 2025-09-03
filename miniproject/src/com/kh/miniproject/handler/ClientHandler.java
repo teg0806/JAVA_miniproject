@@ -22,6 +22,7 @@ public class ClientHandler extends Thread {
 	private BufferedReader in;
 	private PrintWriter out;
 	private MemberService memberService = new MemberService();
+	private String userNickName;
 
 	public ClientHandler(Socket clientSocket, ServerManager serverManager) {
 		super();
@@ -55,6 +56,34 @@ public class ClientHandler extends Thread {
 			}
 		}
 	}
+	
+	// 클라이언트의 요청을 분석하고 처리하는 메소드
+    private void processRequest(String request) {
+        // "명령어:내용" 형식으로 오니까 ':'를 기준으로 잘라보자.
+        String[] parts = request.split(":", 2);
+        String command = parts[0];
+        
+        // 로그인 요청 처리
+        if ("LOGIN".equals(command) && parts.length > 1) {
+            String[] credentials = parts[1].split(":");
+            if (credentials.length == 2) {
+                Member m = new Member(credentials[0], credentials[1]);
+                Member loginUser = memberService.memberIdSearch(m);
+                
+                if (loginUser != null) {
+                    this.userNickName = loginUser.getUserNickName();
+                    sendMessage("LOGIN_SUCCESS:" + this.userNickName); // 클라이언트에 성공 응답 전송
+                    serverManager.broadcast(this.userNickName + "님이 입장하셨습니다.");
+                } else {
+                    sendMessage("LOGIN_FAIL"); // 실패 응답 전송
+                }
+            }
+        } else { // 로그인이 된 상태에서의 일반 채팅 메시지 처리
+            if (this.userNickName != null) { // 로그인이 된 사용자만 채팅 가능
+                serverManager.broadcast(this.userNickName + ": " + request);
+            }
+        }
+    }
 	
     // ServerManager가 이 메소드를 호출해서 클라이언트에게 메시지를 보낸다.
     public void sendMessage(String message) {

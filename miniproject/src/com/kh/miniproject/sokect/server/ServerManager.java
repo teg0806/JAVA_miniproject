@@ -6,6 +6,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+
 import com.kh.miniproject.handler.ClientHandler;
 
 public class ServerManager {
@@ -14,7 +17,7 @@ public class ServerManager {
     // 서버 포트는 여기서 관리해. 바꾸고 싶으면 이 숫자만 바꾸면 돼.
     private static final int PORT = 9999;
     private List<ClientHandler> clients = new ArrayList<>();
-
+    private JTextArea logArea;
     public ServerManager() {
 		super();
 	}
@@ -55,8 +58,22 @@ public class ServerManager {
             }
         }).start();
     }
+    
+    // ChatMenu가 자신의 채팅창(JTextArea)을 여기에 등록할 수 있도록 하는 메소드
+    public void setLogArea(JTextArea logArea) {
+        this.logArea = logArea;
+    }
+
+    // 서버 GUI의 채팅창에 메시지를 추가하는 메소드 (스레드 충돌 방지를 위해 SwingUtilities 사용)
+    private void appendLogToGui(String message) {
+        if (logArea != null) {
+            SwingUtilities.invokeLater(() -> logArea.append(message + "\n"));
+        }
+    }
+
     public void broadcast(String message) {
         System.out.println("서버 -> 모든 클라이언트: " + message);
+        appendLogToGui(message); // ★★★ 추가! 모든 클라이언트에게 보내는 메시지는 서버 GUI에도 표시한다!
         for (ClientHandler client : clients) {
             client.sendMessage(message);
         }

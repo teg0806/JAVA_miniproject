@@ -26,8 +26,8 @@ public class ClientMainMenu extends JPanel{
     public ClientMainMenu(ClientMainFrame frame) {
 
         // 네트워크 관리자(NetworkManager)가 서버에 접속을 시도
-        ClientManager networkManager = new ClientManager();
-        networkManager.connectToServer();
+        this.clientManager = new ClientManager(frame); // frame을 넘겨주도록 수정!
+        clientManager.connectToServer();
     	
         setLayout(new BorderLayout());
 

@@ -18,17 +18,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.kh.miniproject.controller.ClientMemberController;
 import com.kh.miniproject.sokect.client.ClientManager;
-import com.kh.miniproject.vo.Member;
 
 public class ClientJoinMenu extends JPanel{
 	private static final long serialVersionUID = 1L;
-	private ClientMemberController cmc;
+	private ClientManager clientManager;
 
     public ClientJoinMenu(ClientMainFrame frame, ClientManager clientManager) {
-    	this.cmc = new ClientMemberController(frame, clientManager);
-        // 전체적인 레이아웃은 BorderLayout으로 설정
+        this.clientManager = clientManager;
+    	// 전체적인 레이아웃은 BorderLayout으로 설정
         setLayout(new BorderLayout());
 
         // 1. 우리가 만든 회원가입 폼 패널을 일단 생성해.
@@ -98,15 +96,17 @@ public class ClientJoinMenu extends JPanel{
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	cmc.clientJoin(new Member(
-                        ((JTextField) fields[0]).getText(), //아이디
-                        new String(((JPasswordField) fields[1]).getPassword()), //비밀번호
-                        ((JTextField) fields[2]).getText(), //이름
-                        ((JTextField) fields[3]).getText(), //성별
-                        ((JTextField) fields[4]).getText(), //닉네임
-                        ((JTextField) fields[5]).getText() //이메일
-                )); // DB 컨트롤러 연결 부분
-                frame.changePanel(new ClientMainMenu(frame)); // 역할(role) 전달 필요
+            	String userId = ((JTextField) fields[0]).getText();
+                String userPwd = new String(((JPasswordField) fields[1]).getPassword());
+                String userName = ((JTextField) fields[2]).getText();
+                String gender = ((JTextField) fields[3]).getText();
+                String nickName = ((JTextField) fields[4]).getText();
+                String email = ((JTextField) fields[5]).getText();
+
+                // 서버에 "JOIN:아이디:비번:이름:성별:닉네임:이메일" 형식으로 전송!
+                String joinMessage = String.join(":", "JOIN", userId, userPwd, userName, gender, nickName, email);
+                clientManager.sendMessage(joinMessage);
+                
             }
         });
 

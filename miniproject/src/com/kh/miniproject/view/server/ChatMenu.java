@@ -1,12 +1,10 @@
 package com.kh.miniproject.view.server;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.color.ColorSpace;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -28,7 +26,6 @@ public class ChatMenu extends JPanel {
         // 화면 분할(JSplitPane)을 제거하고 서버 패널만 중앙에 배치
         add(createServerPanel(frame, m), BorderLayout.CENTER);
 
-        frame.setSize(500, 600); // 서버 관리창에 맞는 크기로 조정
         frame.setTitle("채팅 서버 관리");
         setVisible(true);
     }
@@ -43,8 +40,11 @@ public class ChatMenu extends JPanel {
         // 가장 커져야 할 JTextArea를 CENTER에 바로 넣는 게 핵심이
         JTextArea logArea = new JTextArea();
         logArea.setEditable(false);
+        logArea.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        ServerManager.getInstance().setLogArea(logArea);
+        
         mainPanel.add(new JScrollPane(logArea), BorderLayout.CENTER);
-
+        
         // 하단에 들어갈 모든 것들을 담을 '남쪽 패널'을 하나 만들어.
         JPanel southPanel = new JPanel(new BorderLayout());
 
@@ -70,6 +70,23 @@ public class ChatMenu extends JPanel {
         
         //전송 버튼
         sendButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String msg = messageField.getText();
+				if(msg != null & !msg.trim().isEmpty()) {
+					// 서버 관리자가 보내는 메시지라는 것을 알리기 위해 "[서버]" 같은 접두사를 붙여주면 좋아.
+					//static 메서드로 미리 생성하여 new를 사용하지 않으며, 매개변수로 받을 필요가 없음
+					ServerManager.getInstance().broadcast("[서버 공지]: " + msg); 
+
+		            logArea.append("[나 -> 모두]: " + msg + "\n"); // 내 로그 창에도 표시
+		            messageField.setText(""); // 입력창 비우기
+				} else {
+					JOptionPane.showMessageDialog(frame, "전체 클라이언트에 보낼 메시지를 입력해주세요!");
+				}
+			}
+		});
+        
+        messageField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String msg = messageField.getText();

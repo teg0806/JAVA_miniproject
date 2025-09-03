@@ -13,21 +13,21 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.kh.miniproject.controller.ClientMemberController;
 import com.kh.miniproject.sokect.client.ClientManager;
 import com.kh.miniproject.vo.Member;
 
 public class ClientLoginMenu extends JPanel{
 	private static final long serialVersionUID = 1L;
-	private ClientMemberController cmc;
+	private ClientManager clientManager;
 	
 	public ClientLoginMenu(ClientMainFrame frame, ClientManager clientManager) {
-		this.cmc = new ClientMemberController(frame, clientManager);
+		this.clientManager = clientManager;
 		setLayout(new BorderLayout());
 		
 		JPanel loginFormPanel = loginFormPanel(frame);
@@ -79,11 +79,19 @@ public class ClientLoginMenu extends JPanel{
         loginButton.addActionListener(new ActionListener() { //버튼 이벤트 리스너
             @Override
             public void actionPerformed(ActionEvent e) {
-            	Member m = new Member(
-                        ((JTextField) fields[0]).getText(), //아이디
-                        new String(((JPasswordField) fields[1]).getPassword())); //아이디 받아아 m에 저장
-            	cmc.clientLogin(m); //로그인 정보 넘기기
-
+            	String userId = ((JTextField) fields[0]).getText();
+                String userPwd = new String(((JPasswordField) fields[1]).getPassword());
+            	
+                //아이디 비번 빈칸 검사
+                if (userId.trim().isEmpty() || userPwd.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "아이디와 비밀번호를 모두 입력해주세요.");
+                    return;
+                }
+                //member 객체에 아이디, 비번 저장
+                Member m = new Member(userId, userPwd);
+                //sendMessage로 문자열 보내기
+                clientManager.sendMessage("LOGIN:" + m.getUserId() + ":" + m.getUserPwd());
+                
             }
         });
 
