@@ -26,8 +26,8 @@ public class ClientLoginMenu extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private ClientMemberController cmc;
 	
-	public ClientLoginMenu(ClientMainFrame frame) {
-		this.cmc = new ClientMemberController(frame);
+	public ClientLoginMenu(ClientMainFrame frame, ClientManager clientManager) {
+		this.cmc = new ClientMemberController(frame, clientManager);
 		setLayout(new BorderLayout());
 		
 		JPanel loginFormPanel = loginFormPanel(frame);
@@ -45,7 +45,7 @@ public class ClientLoginMenu extends JPanel{
         //    이제 포장지가 남는 공간을 다 차지하고, 그 안의 폼은 가운데에 머물게 돼.
         add(wrapperPanel, BorderLayout.CENTER);
 		
-        add(BackButtonPanel(frame, manager), BorderLayout.SOUTH);
+        add(BackButtonPanel(frame), BorderLayout.SOUTH);
 	}
 	
 	private JPanel loginFormPanel(ClientMainFrame frame) {
@@ -82,7 +82,7 @@ public class ClientLoginMenu extends JPanel{
             	Member m = new Member(
                         ((JTextField) fields[0]).getText(), //아이디
                         new String(((JPasswordField) fields[1]).getPassword())); //아이디 받아아 m에 저장
-            	cmc.ClientLogin(m); //로그인 정보 넘기기
+            	cmc.clientLogin(m); //로그인 정보 넘기기
 
             }
         });
@@ -110,7 +110,7 @@ public class ClientLoginMenu extends JPanel{
         panel.add(component, gbc);
     }
 	
-   private JPanel BackButtonPanel(ClientMainFrame frame, ClientManager manager) {
+   private JPanel BackButtonPanel(ClientMainFrame frame) {
        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
        JButton mainMenuBackBtn = new JButton("메인 메뉴");
        mainMenuBackBtn.setPreferredSize(new java.awt.Dimension(120, 30));

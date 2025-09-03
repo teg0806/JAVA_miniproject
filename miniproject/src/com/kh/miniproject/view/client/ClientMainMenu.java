@@ -21,6 +21,7 @@ public class ClientMainMenu extends JPanel{
     private JButton loginBtn;
     private JButton joinBtn;
     private JButton endBtn;
+    private ClientManager clientManager; // ClientManager 멤버 변수 추가
     
     public ClientMainMenu(ClientMainFrame frame) {
 
@@ -66,7 +67,7 @@ public class ClientMainMenu extends JPanel{
             loginBtn.setEnabled(false); // 로그인 버튼도 중복 클릭 방지
         	
             // LoginMenu로 이동
-            frame.changePanel(new ClientLoginMenu(frame));
+            frame.changePanel(new ClientLoginMenu(frame, clientManager));
 	        }
 	    });
 	
@@ -78,7 +79,7 @@ public class ClientMainMenu extends JPanel{
 		        loginBtn.setEnabled(false);
 		    	
 		        // JoinMenu로 이동
-		        frame.changePanel(new ClientJoinMenu(frame));
+		        frame.changePanel(new ClientJoinMenu(frame, clientManager));
 		    }
 		});
 	    return wrapperPanel;

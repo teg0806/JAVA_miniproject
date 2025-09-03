@@ -26,8 +26,8 @@ public class ClientJoinMenu extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private ClientMemberController cmc;
 
-    public ClientJoinMenu(ClientMainFrame frame) {
-    	this.cmc = new ClientMemberController(frame);
+    public ClientJoinMenu(ClientMainFrame frame, ClientManager clientManager) {
+    	this.cmc = new ClientMemberController(frame, clientManager);
         // 전체적인 레이아웃은 BorderLayout으로 설정
         setLayout(new BorderLayout());
 
