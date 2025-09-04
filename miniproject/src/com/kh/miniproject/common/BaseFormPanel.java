@@ -14,7 +14,7 @@ public abstract class BaseFormPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private GridBagConstraints gbc;
 
-    public BaseFormPanel() {
+    protected BaseFormPanel() {
         setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // 공통 여백
