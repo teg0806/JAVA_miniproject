@@ -1,4 +1,4 @@
-package com.kh.miniproject.tamplate;
+package com.kh.miniproject.common;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-public class Tamplate {
+public class SQLTamp {
 	//공통 템플릿(매번 반복적으로 작성될 코드를 메서드 정의)
 	//모든 메서드를 전부 static메서드로 만듬
 	

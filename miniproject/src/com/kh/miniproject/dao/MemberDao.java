@@ -8,8 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
+
+import com.kh.miniproject.common.SQLTamp;
 import com.kh.miniproject.vo.Member;
-import com.kh.miniproject.tamplate.Tamplate;
 
 
 public class MemberDao {
@@ -51,7 +52,7 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			Tamplate.close(pstmt);
+			SQLTamp.close(pstmt);
 		}
 		
 		return result;
@@ -66,7 +67,7 @@ public class MemberDao {
 		
 		PreparedStatement pstmt = null;
 		
-		String sql = prop.getProperty("selectMemberList");
+		String sql = prop.getProperty("selectMemberAll");
 		
 		try {
 			//완성된 sql
@@ -91,8 +92,8 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			Tamplate.close(rset);
-			Tamplate.close(pstmt);
+			SQLTamp.close(rset);
+			SQLTamp.close(pstmt);
 		}
 		
 		return list;
@@ -121,7 +122,7 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			Tamplate.close(pstmt);
+			SQLTamp.close(pstmt);
 		}
 		
 		return result;
@@ -149,7 +150,7 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			Tamplate.close(pstmt);
+			SQLTamp.close(pstmt);
 		}
 		
 		return result;
@@ -185,8 +186,8 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			Tamplate.close(rset);
-			Tamplate.close(pstmt);
+			SQLTamp.close(rset);
+			SQLTamp.close(pstmt);
 		}
 		
 		return member;

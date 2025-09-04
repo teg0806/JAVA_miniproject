@@ -13,44 +13,18 @@
 			?
 		)
 	</entry>
-	<entry key="selectMemberList">SELECT * 
+	<entry key="selectMemberAll">SELECT * 
 		FROM MEMBER
-</entry>
+	</entry>
 	<entry key="deleteMember">
 		DELETE FROM MEMBER 
 		WHERE USER_ID = ?
 	</entry>
-	<entry key="keywordSerch">
-		SELECT * 
-		FROM MEMBER 
-		WHERE USER_NAME LIKE '%' || ? || '%'
+	<entry key="updateMember">
+		UPDATE MEMBER 
+		SET USER_NICKNAME = ?, USER_EMAIL = ?
+		WHERE USER_ID =?
 	</entry>
-	<entry key="userIdValidation">
-		SELECT USER_ID 
-		FROM MEMBER 
-		WHERE USER_ID=?
-	</entry>
-		<entry key="allInsertMember">
-		INSERT INTO MEMBER 
-		VALUES(
-			SEQ_USERNO.NEXTVAL, 
-			?, 
-			?, 
-			?, 
-			?, 
-			?, 
-			?, 
-			?, 
-			?, 
-			?, 
-			SYSDATE
-		)
-	</entry>
-	<entry key="allDeleteMember">
-		DELETE FROM MEMBER 
-		WHERE USER_ID = ?
-	</entry>
-
 	<entry key="loginMember">SELECT * 
 		FROM MEMBER 
 		WHERE USER_ID = ? AND USER_PW = ?</entry>

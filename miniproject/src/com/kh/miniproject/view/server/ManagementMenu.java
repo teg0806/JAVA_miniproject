@@ -1,79 +1,37 @@
 package com.kh.miniproject.view.server;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import com.kh.miniproject.common.ViewUtils;
 import com.kh.miniproject.vo.Member;
 
-public class ManagementMenu extends JPanel{
+public class ManagementMenu extends JPanel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ManagementMenu(MainFrame frame, Member m) {
-		 // [수정] 패널의 레이아웃을 GridBagLayout으로 변경
-        setLayout(new GridBagLayout());
+    public ManagementMenu(MainFrame frame, Member m) {
+        setLayout(new BorderLayout());
 
-        // 버튼들을 담을 패널 (이 패널 자체는 GridLayout을 사용)
-        JPanel menuPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel menuPanel = new JPanel(new GridLayout(4, 1, 10, 10));
+        JPanel backBtnPanel = new JPanel(new BorderLayout());
         
-        JButton insertButton = new JButton("회원 추가");
-        JButton updateButton = new JButton("회원 정보 수정");
-        JButton deleteButton = new JButton("회원 탈퇴");
-        JButton searchButton = new JButton("회원 검색");
-        JButton logoutButton = new JButton("뒤로가기");
+        // ViewUtils.createButton(text, 버튼 기능)
+        menuPanel.add(ViewUtils.createButton("회원 추가", e -> frame.changePanel(new InsertMenu(frame, m))));
+        menuPanel.add(ViewUtils.createButton("회원 정보 수정", e -> frame.changePanel(new UpdateMenu(frame, m))));
+        menuPanel.add(ViewUtils.createButton("회원 탈퇴", e -> frame.changePanel(new DeleteMenu(frame, m))));
+        menuPanel.add(ViewUtils.createButton("회원 검색", e -> frame.changePanel(new SearchMenu(frame, m))));
         
-        menuPanel.add(insertButton);
-        menuPanel.add(updateButton);
-        menuPanel.add(deleteButton);
-        menuPanel.add(searchButton);
-        menuPanel.add(logoutButton);
+        JPanel wrapperPanel = new JPanel(new GridBagLayout());
+        wrapperPanel.add(menuPanel);
         
-        add(menuPanel);
-
-		// 회원 추가 버튼
-        insertButton.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            frame.changePanel(new InsertMenu(frame, m));
-	        }
-	    });
-        
-		// 정보 수정 버튼
-	    updateButton.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            frame.changePanel(new UpdateMenu(frame, m));
-	        }
-	    });
-	
-	    // 회원 탈퇴 버튼
-	    deleteButton.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            frame.changePanel(new DeleteMenu(frame, m));
-	        }
-	    });
-	
-	    // 회원 검색 버튼
-	    searchButton.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            frame.changePanel(new SearchMenu(frame, m));
-	        }
-	    });
-    
-	    // 처음 메뉴로 돌아가기
-		logoutButton.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		        frame.changePanel(new ServerMenu(frame, m)); 
-		    }
-		});
-	}
+        backBtnPanel.add(ViewUtils.createButtonPanel("뒤로가기", e -> frame.changePanel(new ServerMenu(frame, m))));
+        //패널에 추가
+        add(wrapperPanel, BorderLayout.CENTER);
+        add(backBtnPanel, BorderLayout.SOUTH);
+    }
 	
 }

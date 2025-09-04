@@ -1,7 +1,7 @@
 package com.kh.miniproject.vo;
 
 public class Member {
-	private int userNo;
+	private Integer userNo;
 	private String userId;
 	private String userPwd;
 	private String userName;
@@ -29,7 +29,7 @@ public class Member {
 	}
 	
 	//모든 매개변수 생성자
-	public Member(int userNo, String userId, String userPwd, String userName, String gender, String userNickName,
+	public Member(Integer userNo, String userId, String userPwd, String userName, String gender, String userNickName,
 			String email) {
 		super();
 		this.userNo = userNo;

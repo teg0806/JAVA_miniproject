@@ -1,7 +1,6 @@
 package com.kh.miniproject.view.server;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.kh.miniproject.common.ViewUtils;
 import com.kh.miniproject.sokect.server.ServerManager;
 import com.kh.miniproject.vo.Member;
 
@@ -50,16 +50,15 @@ public class ChatMenu extends JPanel {
 
         // 남쪽 패널의 '가운데'에는 텍스트 필드와 전송 버튼을 넣어.
         JPanel sendPanel = new JPanel(new BorderLayout());
-        JTextField messageField = new JTextField(); // 컬럼 수나 Dimension으로 크기 조절 안 해도 돼. CENTER가 알아서 늘려주니까.
         JButton sendButton = new JButton("전송");
+        // 컬럼 수나 Dimension으로 크기 조절 안 해도 돼. CENTER가 알아서 늘려주니까.
+        JTextField messageField = new JTextField(); 
+        
         sendPanel.add(messageField, BorderLayout.CENTER);
         sendPanel.add(sendButton, BorderLayout.EAST);
         
         // 남쪽 패널의 '아래쪽'에는 뒤로가기 버튼을 넣어.
-        JPanel backPanel = new JPanel(); // FlowLayout (기본값)
-        JButton backMenuButton = new JButton("뒤로가기");
-        backMenuButton.setPreferredSize(new Dimension(120, 30));
-        backPanel.add(backMenuButton);
+        JPanel backPanel = ViewUtils.createButtonPanel("채팅 나가기", e -> frame.changePanel(new ServerMenu(frame, m)));
         
         // 남쪽 패널 조립!
         southPanel.add(sendPanel, BorderLayout.CENTER);
@@ -98,14 +97,6 @@ public class ChatMenu extends JPanel {
 				} else {
 					JOptionPane.showMessageDialog(frame, "전체 클라이언트에 보낼 메시지를 입력해주세요!");
 				}
-			}
-		});
-        
-        //뒤로 가기
-        backMenuButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.changePanel(new ServerMenu(frame, m));
 			}
 		});
 

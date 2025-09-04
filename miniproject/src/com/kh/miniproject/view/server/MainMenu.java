@@ -1,6 +1,7 @@
 package com.kh.miniproject.view.server;
 
-import javax.swing.JButton;
+import com.kh.miniproject.common.ViewUtils;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -9,16 +10,11 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class MainMenu extends JPanel{
     private static final long serialVersionUID = 1L;
-    
-    private JButton loginBtn;
-    private JButton joinBtn;
-    private JButton endBtn;
-    
+
     public MainMenu(MainFrame frame) {
     	
         setLayout(new BorderLayout());
@@ -38,59 +34,18 @@ public class MainMenu extends JPanel{
 
     private JPanel CenterButtonPanel(MainFrame frame) {
         JPanel verticalButtonPanel = new JPanel(new GridLayout(2, 1, 0, 15));
-        loginBtn = new JButton("로그인");
-        joinBtn = new JButton("회원가입");
-        
-        loginBtn.setPreferredSize(new java.awt.Dimension(120, 30));
-        joinBtn.setPreferredSize(new java.awt.Dimension(120, 30));
 
-        verticalButtonPanel.add(loginBtn);
-        verticalButtonPanel.add(joinBtn);
+        verticalButtonPanel.add(ViewUtils.createButton("로그인", e -> frame.changePanel(new LoginMenu(frame))));
+        verticalButtonPanel.add(ViewUtils.createButton("회원가입", e -> frame.changePanel(new JoinMenu(frame))));
 
         JPanel wrapperPanel = new JPanel(new GridBagLayout());
         wrapperPanel.add(verticalButtonPanel);
-        
-        loginBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	joinBtn.setVisible(false);
-                endBtn.setVisible(false);
-                loginBtn.setEnabled(false); // 로그인 버튼도 중복 클릭 방지
-            	
-                // LoginMenu로 이동
-                frame.changePanel(new LoginMenu(frame));
-            }
-        });
-
-        joinBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	joinBtn.setVisible(false);
-                endBtn.setVisible(false);
-                loginBtn.setEnabled(false);
-            	
-                // JoinMenu로 이동
-                frame.changePanel(new JoinMenu(frame));
-            }
-        });
-        
 
         return wrapperPanel;
     }
 
     private JPanel BackButtonPanel(MainFrame frame) {
-        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        endBtn = new JButton("종료");
-        endBtn.setPreferredSize(new java.awt.Dimension(120, 30));
-        backButtonPanel.add(endBtn);
-
-        endBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-
-            }
-        });
+    	JPanel backButtonPanel = ViewUtils.createButtonPanel("종료", e -> System.exit(0));
 
         return backButtonPanel;
     }

@@ -87,13 +87,14 @@ public class MemberController {
 		}
 	}
 	
-	public void deleteMember(MainFrame frame, Member m) {
-		
+	public void deleteMember(MainFrame frame, String deleteId) {
+		Member m = new Member();
+		m.setUserId(deleteId);
 		int result = ms.deleteMember(m);
 		if(result > 0) {
-			JOptionPane.showMessageDialog(frame, "회원 정보가 수정하는데 성공하였습니다.");
+			JOptionPane.showMessageDialog(frame, "회원 정보가 삭제하는데 성공하였습니다.");
 		} else {
-			JOptionPane.showMessageDialog(frame, "회정 정보를 수정하는데 실패하였습니다.");
+			JOptionPane.showMessageDialog(frame, "회정 정보를 삭제하는데 실패하였습니다.");
 		}
 	}
 	

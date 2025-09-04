@@ -3,31 +3,24 @@ package com.kh.miniproject.view.server;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.kh.miniproject.sokect.server.ServerManager;
-
 public class MainFrame extends JFrame {
-
     private static final long serialVersionUID = 1L;
 
-	//프레임 세팅 메서드
-	public MainFrame() {
-		setTitle("채팅 - 서버"); // 프레임 제목
-		setSize(540, 720); //창 크기 (가로, 세로)
-		setResizable(false); //창 크기 고정
-		setLocationRelativeTo(null); //창이 화면 가운데에서 시작 
-		setDefaultCloseOperation(EXIT_ON_CLOSE); //창을 끄면 프로그램 종료
-		
-		//서버 시작
-		ServerManager.getInstance().startServer();
-		
-		setContentPane(new MainMenu(this));
-		setVisible(true); //창 보이도록 설정
-	}
-	
-    // 패널 전환 메서드
+    public MainFrame() {
+        setTitle("채팅 - 서버");
+        setSize(540, 720);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        // 프로그램 시작 시 보여줄 첫 화면 설정
+        setContentPane(new MainMenu(this));
+        setVisible(true);
+    }
+
     public void changePanel(JPanel newPanel) {
         setContentPane(newPanel);
-        revalidate();
-        repaint();
+        revalidate(); // 레이아웃을 다시 계산하도록 지시
+        repaint();    // 화면을 다시 그리도록 지시
     }
 }
