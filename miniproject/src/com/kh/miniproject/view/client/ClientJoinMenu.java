@@ -1,7 +1,6 @@
 package com.kh.miniproject.view.client;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,6 +17,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.kh.miniproject.common.ViewUtils;
 import com.kh.miniproject.sokect.client.ClientManager;
 
 public class ClientJoinMenu extends JPanel{
@@ -29,34 +29,20 @@ public class ClientJoinMenu extends JPanel{
     	// 전체적인 레이아웃은 BorderLayout으로 설정
         setLayout(new BorderLayout());
 
-        // 1. 우리가 만든 회원가입 폼 패널을 일단 생성해.
-        JPanel joinFormPanel = createJoinFormPanel(frame);
-
-        // 2. --- 여기가 핵심! ---
-        //    폼 패널을 중앙에 예쁘게 배치하기 위한 '포장지' 패널을 하나 더 만들어.
-        //    GridBagLayout은 컴포넌트를 중앙에 배치하는 데 아주 좋아.
         JPanel wrapperPanel = new JPanel(new GridBagLayout());
-        
-        // 3. 포장지 패널 안에 폼 패널을 넣어.
-        //    이렇게 하면 폼 패널은 자기가 필요한 만큼만 공간을 차지하게 돼.
-        wrapperPanel.add(joinFormPanel);
+        wrapperPanel.add(createJoinFormPanel(frame));
 
-        // 4. 최종적으로 '포장지' 패널을 프레임의 중앙에 추가하는 거야.
-        //    이제 포장지가 남는 공간을 다 차지하고, 그 안의 폼은 가운데에 머물게 돼.
+        //중단 패널 추가
         add(wrapperPanel, BorderLayout.CENTER);
         
-        // 하단에는 '이전으로' 버튼 패널을 추가
-        add(createBackButtonPanel(frame), BorderLayout.SOUTH);
+        //하단 패널 생성
+        add(createBackPanel(frame), BorderLayout.SOUTH);
     }
 
-    /**
-     * GridBagLayout을 사용한 메인 회원가입 폼 패널을 생성하는 메소드
-     */
     private JPanel createJoinFormPanel(ClientMainFrame frame) {
         JPanel joinPanel = new JPanel(new GridBagLayout());
         
-        // 1. "회원가입"이라는 제목이 있는 테두리를 생성
-        // 2. 안쪽에 여백(padding)을 주기 위해 빈 테두리와 조합 (CompoundBorder)
+        //회원가입이라는 제목이 있는 테두리를 생성
         joinPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createTitledBorder("회원가입"), //회원가입 글자 추가
                 BorderFactory.createEmptyBorder(10, 10, 10, 10) //안쪽 여백을 추가해하여 테두리 추가
@@ -141,22 +127,8 @@ public class ClientJoinMenu extends JPanel{
         panel.add(component, gbc);
     }
 
-    /**
-     * '이전으로' 버튼이 들어가는 패널을 생성하는 메소드
-     */
-    private JPanel createBackButtonPanel(ClientMainFrame frame) {
-        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); //panel을 생성하고 panel 안에 FlowLayout을 중앙에 생성
-        JButton startMenuBackBtn = new JButton("이전으로"); //이전 버튼을 생성
-        startMenuBackBtn.setPreferredSize(new java.awt.Dimension(120, 30));
-        backButtonPanel.add(startMenuBackBtn); //panel에 추가
-
-        startMenuBackBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.changePanel(new ClientMainMenu(frame)); //main으로 화면 전환
-            }
-        });
-
-        return backButtonPanel; //설정한 panel 객체 반환
-    }
+    private JPanel createBackPanel(ClientMainFrame frame) {
+       	//버튼 기능과 이름을 전달 후 버튼 패널을 반환.
+           return ViewUtils.createButtonPanel("이전으로", e -> frame.changePanel(new ClientMainMenu(frame)));
+       }
 }

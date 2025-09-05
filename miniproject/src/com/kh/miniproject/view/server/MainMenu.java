@@ -21,7 +21,7 @@ public class MainMenu extends JPanel{
         
         //레이아웃에 패널들을 추가
         add(createTitlePanel(), BorderLayout.NORTH); //전체 레이아웃의 위쪽
-        add(createCenterButtonPanel(frame), BorderLayout.CENTER); //전체 레이아웃의 가운데이며, center는 동서남북에 비해 강제적으로 넓히려는 성향이 있어 사용시 주의
+        add(createCenterPanel(frame), BorderLayout.CENTER); //전체 레이아웃의 가운데이며, center는 동서남북에 비해 강제적으로 넓히려는 성향이 있어 사용시 주의
         add(craeteExitPanel(frame), BorderLayout.SOUTH); //전체 레이아웃의 아래쪽
     }
     
@@ -33,7 +33,7 @@ public class MainMenu extends JPanel{
         return titlePanel; // 패널 자체를 반환
     }
 
-    private JPanel createCenterButtonPanel(MainFrame frame) {
+    private JPanel createCenterPanel(MainFrame frame) {
         //엑셀처럼 생긴 Grid는 row, col 값에 맞게 생성
         JPanel verticalButtonPanel = new JPanel(new GridLayout(2, 1, 0, 15)); //2개의 행, 1개의 열
         

@@ -1,27 +1,21 @@
 package com.kh.miniproject.view.client;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.kh.miniproject.common.ViewUtils;
 import com.kh.miniproject.sokect.client.ClientManager;
 
 
 public class ClientMainMenu extends JPanel{
     private static final long serialVersionUID = 1L;
     
-    private JButton loginBtn;
-    private JButton joinBtn;
-    private JButton endBtn;
     private ClientManager clientManager; // ClientManager 멤버 변수 추가
     
     public ClientMainMenu(ClientMainFrame frame) {
@@ -29,15 +23,20 @@ public class ClientMainMenu extends JPanel{
         // 네트워크 관리자(NetworkManager)가 서버에 접속을 시도
         this.clientManager = new ClientManager(frame); // frame을 넘겨주도록 수정!
         clientManager.connectToServer();
-        this.setBackground(new Color(230, 240, 250));
-    	
+        //전체 레이아웃 설정
         setLayout(new BorderLayout());
-
+        
+        //상단 패널 추가
         add(createTitlePanel(), BorderLayout.NORTH);
-        add(CenterButtonPanel(frame), BorderLayout.CENTER);
-        add(BackButtonPanel(frame), BorderLayout.SOUTH);
+        
+        //중단 패널 추가
+        add(createCenterPanel(frame), BorderLayout.CENTER);
+        
+        //하단 패널 추가
+        add(craeteExitPanel(frame), BorderLayout.SOUTH);
     }
     
+    //상단 패널
     private JPanel createTitlePanel() {
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JLabel mainLabel = new JLabel("채팅");
@@ -45,63 +44,28 @@ public class ClientMainMenu extends JPanel{
         titlePanel.add(mainLabel);
         return titlePanel;
     }
-
-    private JPanel CenterButtonPanel(ClientMainFrame frame) {
-    	
-        JPanel verticalButtonPanel = new JPanel(new GridLayout(2, 1, 0, 15));
-        loginBtn = new JButton("로그인");
-        joinBtn = new JButton("회원가입");
+    
+    //중단 패널
+    private JPanel createCenterPanel(ClientMainFrame frame) {
+        //엑셀처럼 생긴 Grid는 row, col 값에 맞게 생성
+        JPanel verticalButtonPanel = new JPanel(new GridLayout(2, 1, 0, 15)); //2개의 행, 1개의 열
         
-        loginBtn.setPreferredSize(new java.awt.Dimension(120, 30));
-        joinBtn.setPreferredSize(new java.awt.Dimension(120, 30));
+        //자바 8버전 이전에는 익명클래스로 사용했지만, 람다식으로 인해 e 라는 객체를 받아 -> 를 이용해 다음에 올 코드를 실행하는 구조 
+        //createButton는 버튼 텍스트, 기능을 담는 메서드로 다음 화면을 넘기는 기능을 전달하여 버튼을 생성하고 다시 불러와 패널에 추가되는 구조
+        verticalButtonPanel.add(ViewUtils.createButton("로그인", e -> frame.changePanel(new ClientLoginMenu(frame, clientManager))));
+        verticalButtonPanel.add(ViewUtils.createButton("회원가입", e -> frame.changePanel(new ClientJoinMenu(frame, clientManager))));
 
-        verticalButtonPanel.add(loginBtn);
-        verticalButtonPanel.add(joinBtn);
+        JPanel wrapperPanel = new JPanel(new GridBagLayout()); //grid를 담는 gridbag
+        wrapperPanel.add(verticalButtonPanel); // 만든 버튼들을 다시 담음
 
-        JPanel wrapperPanel = new JPanel(new GridBagLayout());
-        wrapperPanel.add(verticalButtonPanel);
-        
-        loginBtn.addActionListener(new ActionListener() {
-            @Override
-        public void actionPerformed(ActionEvent e) {
-        	joinBtn.setVisible(false);
-            endBtn.setVisible(false);
-            loginBtn.setEnabled(false); // 로그인 버튼도 중복 클릭 방지
-        	
-            // LoginMenu로 이동
-            frame.changePanel(new ClientLoginMenu(frame, clientManager));
-	        }
-	    });
-	
-		joinBtn.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		    	joinBtn.setVisible(false);
-		        endBtn.setVisible(false);
-		        loginBtn.setEnabled(false);
-		    	
-		        // JoinMenu로 이동
-		        frame.changePanel(new ClientJoinMenu(frame, clientManager));
-		    }
-		});
-	    return wrapperPanel;
-	}
+        return wrapperPanel;
+    }
 
-	private JPanel BackButtonPanel(ClientMainFrame frame) {
-	    JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-	    endBtn = new JButton("종료");
-	    endBtn.setPreferredSize(new java.awt.Dimension(120, 30));
-	    backButtonPanel.add(endBtn);
-	
-	    endBtn.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            System.exit(0);
-	        }
-	    });
-	
-	    return backButtonPanel;
-	}
+    //하단 패널
+    private JPanel craeteExitPanel(ClientMainFrame frame) {
+    	//마찬가지로 changePanel이 아닌 시스템 종료 기능을 보내고 버튼을 만들어 다시 반환
+        return ViewUtils.createButtonPanel("종료", e -> System.exit(0));
+    }
 }
 
 

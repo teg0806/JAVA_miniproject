@@ -4,9 +4,11 @@ import com.kh.miniproject.common.BaseFormPanel;
 import com.kh.miniproject.common.ViewUtils;
 import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;

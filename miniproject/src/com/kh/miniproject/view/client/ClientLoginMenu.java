@@ -1,24 +1,19 @@
 package com.kh.miniproject.view.client;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
+import com.kh.miniproject.common.BaseFormPanel;
+import com.kh.miniproject.common.ViewUtils;
 import com.kh.miniproject.sokect.client.ClientManager;
 import com.kh.miniproject.vo.Member;
 
@@ -28,109 +23,71 @@ public class ClientLoginMenu extends JPanel{
 	
 	public ClientLoginMenu(ClientMainFrame frame, ClientManager clientManager) {
 		this.clientManager = clientManager;
+		//전체 레이아웃 설정
 		setLayout(new BorderLayout());
-		
-		JPanel loginFormPanel = loginFormPanel(frame);
-
-        // 2. --- 여기가 핵심! ---
-        //    폼 패널을 중앙에 예쁘게 배치하기 위한 '포장지' 패널을 하나 더 만들어.
-        //    GridBagLayout은 컴포넌트를 중앙에 배치하는 데 아주 좋아.
+		//gridLayout을 감싸는 GridBagLayout 생성
         JPanel wrapperPanel = new JPanel(new GridBagLayout());
+        wrapperPanel.add(createLoginPanel(frame));
         
-        // 3. 포장지 패널 안에 폼 패널을 넣어.
-        //    이렇게 하면 폼 패널은 자기가 필요한 만큼만 공간을 차지하게 돼.
-        wrapperPanel.add(loginFormPanel);
-
-        // 4. 최종적으로 '포장지' 패널을 프레임의 중앙에 추가하는 거야.
-        //    이제 포장지가 남는 공간을 다 차지하고, 그 안의 폼은 가운데에 머물게 돼.
+        //중단 패널 추가
         add(wrapperPanel, BorderLayout.CENTER);
-		
-        add(BackButtonPanel(frame), BorderLayout.SOUTH);
+        
+        //하단 패널 추가
+        add(createBackPanel(frame), BorderLayout.SOUTH);
 	}
 	
-	private JPanel loginFormPanel(ClientMainFrame frame) {
-		JPanel joinPanel = new JPanel(new GridBagLayout());
-		
-        joinPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createTitledBorder("로그인"), //회원가입 글자 추가
-                BorderFactory.createEmptyBorder(10, 10, 10, 10) //안쪽 여백을 추가해하여 테두리 추가
-        ));
-        
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        
-        JComponent[] fields = {
-            new JTextField(15), //id 필드
-            new JPasswordField(15) //passoword 필드
-        };
-        
-        String[] labels = {"아이디: ", "비밀번호: "};
-        
-        for (int i = 0; i < labels.length; i++) {
-            addFormRow(joinPanel, gbc, labels[i], fields[i], i); //필드 구조 생성
+    private JPanel createLoginPanel(ClientMainFrame frame) {
+        // BaseFormPanel을 상속받는 내부 클래스를 정의
+        class LoginForm extends BaseFormPanel {
+            private static final long serialVersionUID = 1L;
+            
+            public LoginForm() {
+            	//테두리
+                setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createTitledBorder("로그인"),
+                        BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+                
+                //TextField 객체 배열
+                JComponent[] fields = { new JTextField(15), new JPasswordField(15) };
+                
+                //라벨 배열
+                String[] labels = { "아이디: ", "비밀번호: " };
+                
+                //라벨 길이만큼 생성
+                for (int i = 0; i < labels.length; i++) {
+                    addFormRow(labels[i], fields[i], i);
+                }
+                
+                //로그인 버튼 생성
+                JButton loginButton = new JButton("로그인");
+                GridBagConstraints gbc = getGbc();
+                gbc.gridx = 1;
+                gbc.gridy = labels.length;
+                gbc.anchor = GridBagConstraints.EAST;
+                add(loginButton, gbc);
+                
+                //로그인 입력 후 sendMessage로 서버에 전달
+                loginButton.addActionListener(e -> {
+                    String userId = ((JTextField) fields[0]).getText();
+                    String userPwd = new String(((JPasswordField) fields[1]).getPassword());
+                    
+                    if (userId.trim().isEmpty() || userPwd.trim().isEmpty()) {
+                        JOptionPane.showMessageDialog(frame, "아이디와 비밀번호를 모두 입력해주세요.");
+                        return;
+                    }
+                    
+                    Member m = new Member(userId, userPwd);
+                    clientManager.sendMessage("LOGIN:" + m.getUserId() + ":" + m.getUserPwd());
+                });
+            }
         }
         
-        JButton loginButton = new JButton("로그인"); //로그인 버튼
-        gbc.gridx = 1;
-        gbc.gridy = labels.length; // 마지막 줄 다음에 추가
-        gbc.anchor = GridBagConstraints.EAST; // 오른쪽 끝에 붙이기
-        joinPanel.add(loginButton, gbc); //필드와 버튼 생성
-        
-        loginButton.addActionListener(new ActionListener() { //버튼 이벤트 리스너
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	String userId = ((JTextField) fields[0]).getText();
-                String userPwd = new String(((JPasswordField) fields[1]).getPassword());
-            	
-                //아이디 비번 빈칸 검사
-                if (userId.trim().isEmpty() || userPwd.trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(frame, "아이디와 비밀번호를 모두 입력해주세요.");
-                    return;
-                }
-                //member 객체에 아이디, 비번 저장
-                Member m = new Member(userId, userPwd);
-                //sendMessage로 문자열 보내기
-                clientManager.sendMessage("LOGIN:" + m.getUserId() + ":" + m.getUserPwd());
-                
-            }
-        });
-
-        return joinPanel;
-	}
-	
-   private void addFormRow(JPanel panel, GridBagConstraints gbc, String labelText, JComponent component, int gridy) {
-        // 라벨 생성 및 설정
-        JLabel label = new JLabel(labelText);
-        label.setHorizontalAlignment(SwingConstants.RIGHT);
-        Font currentFont = label.getFont();
-        label.setFont(new Font(currentFont.getName(), currentFont.getStyle(), 15));
-        
-        // 라벨 위치 설정 및 추가
-        gbc.gridx = 0;
-        gbc.gridy = gridy;
-        gbc.anchor = GridBagConstraints.EAST;
-        panel.add(label, gbc);
-
-        // 텍스트 필드 위치 설정 및 추가
-        gbc.gridx = 1;
-        gbc.gridy = gridy;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add(component, gbc);
+        //내부 LoginForm 클래스의 인스턴스를 생성(메모리 할당)해서 반환한다.
+        return new LoginForm();
     }
 	
-   private JPanel BackButtonPanel(ClientMainFrame frame) {
-       JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-       JButton mainMenuBackBtn = new JButton("메인 메뉴");
-       mainMenuBackBtn.setPreferredSize(new java.awt.Dimension(120, 30));
-       backButtonPanel.add(mainMenuBackBtn);
-
-       mainMenuBackBtn.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               frame.changePanel(new ClientMainMenu(frame));
-           }
-       });
-
-       return backButtonPanel;
+   private JPanel createBackPanel(ClientMainFrame frame) {
+   	//버튼 기능과 이름을 전달 후 버튼 패널을 반환.
+       return ViewUtils.createButtonPanel("이전으로", e -> frame.changePanel(new ClientMainMenu(frame)));
    }
 }
