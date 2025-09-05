@@ -3,7 +3,6 @@ package com.kh.miniproject.controller;
 import java.io.IOException;
 import java.util.List;
 
-
 import com.kh.miniproject.service.MemberService;
 import com.kh.miniproject.view.server.DeleteMenu;
 import com.kh.miniproject.view.server.JoinMenu;
