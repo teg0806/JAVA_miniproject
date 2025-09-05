@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.kh.miniproject.common.GridFormTamplate;
-import com.kh.miniproject.common.ButtonTamplate;
+import com.kh.miniproject.common.ButtonPanelTamplate;
 import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;
 
@@ -84,6 +84,6 @@ public class UpdateMenu extends JPanel {
     
     private JPanel createBackPanel(MainFrame frame, Member member) {
         // ViewUtils를 사용하여 뒤로가기 버튼 생성
-        return ButtonTamplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
+        return ButtonPanelTamplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
     }
 }

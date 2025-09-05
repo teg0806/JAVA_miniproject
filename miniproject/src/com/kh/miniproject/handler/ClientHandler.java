@@ -31,17 +31,17 @@ public class ClientHandler extends Thread {
 	@Override
 	public void run() {
 		try {
-			// 통신을 위한 스트림(빨대)들을 여기서 만들어.
+			// 통신을 위한 스트림 생성
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 
 			String request;
-			// 클라이언트가 접속을 끊을 때까지 계속 메시지를 읽어들여.
+			// 클라이언트가 종료될 때까지 반복
 			while ((request = in.readLine()) != null) {
 				//콘솔에 채팅 출력
 //				serverManager.broadcast("서버 <- " + (userNickName != null ? userNickName : "클라이언트") + ": " + request);
              
-				// 여기서 클라이언트의 요청을 분석해서 처리해야 해.
+				// 클라이언트의 요청을 분석해서 처리
 				processRequest(request);
 			}
 
@@ -64,28 +64,28 @@ public class ClientHandler extends Thread {
 	
 	// 클라이언트의 요청을 분석하고 처리하는 메소드
     private void processRequest(String request) {
-        // "명령어:내용" 형식으로 오니까 ':'를 기준으로 잘라보자.
+        // String을 : 로 나눈 것을 다시 분리
     	String[] parts = request.split(":");
-        String command = parts[0];
+        String command = parts[0]; //첫번째 배열이 Login인지 Join인지 판별
         
      // 로그인 요청 처리
         if ("LOGIN".equals(command) && parts.length == 3) { // LOGIN:아이디:비번
-            Member m = new Member(parts[1], parts[2]);
-            Member loginUser = memberService.memberIdSearch(m);
+            Member m = new Member(parts[1], parts[2]); //로그인할 아이디와 패스워드를 Member에 저장
+            Member loginUser = memberService.memberIdSearch(m); //memberService에 member 객체를 전달 후 반환
             
-            if (loginUser != null) {
-                this.userNickName = loginUser.getUserNickName();
+            if (loginUser != null) { //sql문을 실행했고, 그값이 null이 아닌 경우 
+                this.userNickName = loginUser.getUserNickName(); //닉네임을 추출
                 sendMessage("LOGIN_SUCCESS:" + this.userNickName); // 클라이언트에 성공 응답 전송
-                serverManager.broadcast(this.userNickName + "님이 입장하셨습니다.");
-            } else {
+                serverManager.broadcast(this.userNickName + "님이 입장하셨습니다."); //TextArea에 출력
+            } else { //sql문으로 검색했지만 null인경우
                 sendMessage("LOGIN_FAIL"); // 실패 응답 전송
             }
         } 
         // 회원가입 요청을 처리하는 로직을 추가
         else if ("JOIN".equals(command) && parts.length == 7) { // JOIN:아이디:비번:이름:성별:닉네임:이메일
-            // 클라이언트가 보낸 정보를 순서대로 Member 객체에 담는다.
+            // 클라이언트가 보낸 정보를 순서대로 Member 객체에 저장
             Member m = new Member(parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
-            int result = memberService.insertMember(m);
+            int result = memberService.insertMember(m); //memberSerivce로 sql문 결과인 행의 수를 받고 result에 저장
             
             if (result > 0) {
                 sendMessage("JOIN_SUCCESS"); // 성공했다고 클라이언트에게 알려준다.
@@ -93,7 +93,6 @@ public class ClientHandler extends Thread {
                 sendMessage("JOIN_FAIL"); // 실패했다고 알려준다.
             }
         }
-        // 일반 채팅 메시지 처리
         else { 
             if (this.userNickName != null) { // 로그인이 된 사용자만 채팅 가능
                 serverManager.broadcast(this.userNickName + ": " + request);

@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import com.kh.miniproject.common.ButtonTamplate;
+import com.kh.miniproject.common.ButtonPanelTamplate;
 import com.kh.miniproject.sokect.server.ServerManager;
 import com.kh.miniproject.vo.Member;
 
@@ -70,7 +70,7 @@ public class ChatMenu extends JPanel {
     
     //채팅방 나가는 버튼 패널
     private JPanel createBackPanel(MainFrame frame, Member member) {
-    	return ButtonTamplate.createButtonPanel("채팅 나가기", e -> frame.changePanel(new ServerMenu(frame, member)));
+    	return ButtonPanelTamplate.createButtonPanel("채팅 나가기", e -> frame.changePanel(new ServerMenu(frame, member)));
     }
     
     private void addSendAction(MainFrame frame, JButton sendButton, JTextField messageField) {
