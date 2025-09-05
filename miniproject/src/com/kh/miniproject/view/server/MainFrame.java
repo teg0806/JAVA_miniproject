@@ -8,7 +8,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         setTitle("채팅 - 서버"); //스윙으로 만든 윈도우의 제목
-        setSize(540, 720); //윈도우 크기
+        setSize(360, 540); //윈도우 크기
         setResizable(false); 
         setLocationRelativeTo(null); //중앙에 윈도우를 띄움
         setDefaultCloseOperation(EXIT_ON_CLOSE); //x로 창을 닫으면 프로그램에 종료.
