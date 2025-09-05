@@ -10,8 +10,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.kh.miniproject.common.BaseFormPanel;
-import com.kh.miniproject.common.ViewUtils;
+import com.kh.miniproject.common.GridFormTamplate;
+import com.kh.miniproject.common.ButtonTamplate;
 import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;
 
@@ -39,7 +39,7 @@ public class UpdateMenu extends JPanel {
     
     //내부 클래스로 파일을 새로 생성하지 않고 안에서 처리
     public JPanel createUpdatePanel(MainFrame frame, Member member) {
-        class UpdateForm extends BaseFormPanel {
+        class UpdateForm extends GridFormTamplate {
             private static final long serialVersionUID = 1L;
 
             public UpdateForm() {
@@ -84,6 +84,6 @@ public class UpdateMenu extends JPanel {
     
     private JPanel createBackPanel(MainFrame frame, Member member) {
         // ViewUtils를 사용하여 뒤로가기 버튼 생성
-        return ViewUtils.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
+        return ButtonTamplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
     }
 }

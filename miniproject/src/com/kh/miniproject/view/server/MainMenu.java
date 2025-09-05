@@ -1,6 +1,6 @@
 package com.kh.miniproject.view.server;
 
-import com.kh.miniproject.common.ViewUtils;
+import com.kh.miniproject.common.ButtonTamplate;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -39,8 +39,8 @@ public class MainMenu extends JPanel{
         
         //자바 8버전 이전에는 익명클래스로 사용했지만, 람다식으로 인해 e 라는 객체를 받아 -> 를 이용해 다음에 올 코드를 실행하는 구조 
         //createButton는 버튼 텍스트, 기능을 담는 메서드로 다음 화면을 넘기는 기능을 전달하여 버튼을 생성하고 다시 불러와 패널에 추가되는 구조
-        verticalButtonPanel.add(ViewUtils.createButton("로그인", e -> frame.changePanel(new LoginMenu(frame))));
-        verticalButtonPanel.add(ViewUtils.createButton("회원가입", e -> frame.changePanel(new JoinMenu(frame))));
+        verticalButtonPanel.add(ButtonTamplate.createButton("로그인", e -> frame.changePanel(new LoginMenu(frame))));
+        verticalButtonPanel.add(ButtonTamplate.createButton("회원가입", e -> frame.changePanel(new JoinMenu(frame))));
 
         JPanel wrapperPanel = new JPanel(new GridBagLayout()); //grid를 담는 gridbag
         wrapperPanel.add(verticalButtonPanel); // 만든 버튼들을 다시 담음
@@ -50,6 +50,6 @@ public class MainMenu extends JPanel{
 
     private JPanel craeteExitPanel(MainFrame frame) {
     	//마찬가지로 changePanel이 아닌 시스템 종료 기능을 보내고 버튼을 만들어 다시 반환
-        return ViewUtils.createButtonPanel("종료", e -> System.exit(0));
+        return ButtonTamplate.createButtonPanel("종료", e -> System.exit(0));
     }
 }

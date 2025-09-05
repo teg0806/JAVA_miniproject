@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
-import com.kh.miniproject.common.ViewUtils;
+import com.kh.miniproject.common.ButtonTamplate;
 import com.kh.miniproject.vo.Member;
 
 public class ManagementMenu extends JPanel {
@@ -35,16 +35,16 @@ public class ManagementMenu extends JPanel {
     	//grid에 버튼들 추가
     	//같은 기능이 3개 이상일 경우 세번의 원칙으로 중복을 낮춰야 함.
     	//이부분은 컬렉션을 사용하여 처리할 예정.
-        menuPanel.add(ViewUtils.createButton("회원 추가", e -> frame.changePanel(new InsertMenu(frame, member))));
-        menuPanel.add(ViewUtils.createButton("회원 정보 수정", e -> frame.changePanel(new UpdateMenu(frame, member))));
-        menuPanel.add(ViewUtils.createButton("회원 탈퇴", e -> frame.changePanel(new DeleteMenu(frame, member))));
-        menuPanel.add(ViewUtils.createButton("회원 검색", e -> frame.changePanel(new SearchMenu(frame, member))));
+        menuPanel.add(ButtonTamplate.createButton("회원 추가", e -> frame.changePanel(new InsertMenu(frame, member))));
+        menuPanel.add(ButtonTamplate.createButton("회원 정보 수정", e -> frame.changePanel(new UpdateMenu(frame, member))));
+        menuPanel.add(ButtonTamplate.createButton("회원 탈퇴", e -> frame.changePanel(new DeleteMenu(frame, member))));
+        menuPanel.add(ButtonTamplate.createButton("회원 검색", e -> frame.changePanel(new SearchMenu(frame, member))));
         
         return menuPanel;
     }
     
     //하단 패널
     private JPanel craeteBackPanel(MainFrame frame, Member member) {
-        return ViewUtils.createButtonPanel("뒤로가기", e -> frame.changePanel(new ServerMenu(frame, member)));
+        return ButtonTamplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ServerMenu(frame, member)));
     }
 }

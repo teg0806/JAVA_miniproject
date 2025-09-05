@@ -1,7 +1,7 @@
 package com.kh.miniproject.view.server;
 
-import com.kh.miniproject.common.BaseFormPanel;
-import com.kh.miniproject.common.ViewUtils;
+import com.kh.miniproject.common.GridFormTamplate;
+import com.kh.miniproject.common.ButtonTamplate;
 import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;
 
@@ -37,7 +37,7 @@ public class LoginMenu extends JPanel {
     }
 
     private JPanel createLoginFormPanel(MainFrame frame) {
-        class LoginForm extends BaseFormPanel {
+        class LoginForm extends GridFormTamplate {
             private static final long serialVersionUID = 1L;
             
             public LoginForm() {
@@ -79,6 +79,6 @@ public class LoginMenu extends JPanel {
     
     private JPanel createBackPanel(MainFrame frame) {
     	//버튼 기능과 이름을 전달 후 버튼 패널을 반환.
-        return ViewUtils.createButtonPanel("이전으로", e -> frame.changePanel(new MainMenu(frame)));
+        return ButtonTamplate.createButtonPanel("이전으로", e -> frame.changePanel(new MainMenu(frame)));
     }
 }

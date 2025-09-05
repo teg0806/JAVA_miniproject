@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.kh.miniproject.common.SQLTamp;
+import com.kh.miniproject.common.SQLTamplate;
 import com.kh.miniproject.vo.Member;
 
 
@@ -52,7 +52,7 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			SQLTamp.close(pstmt);
+			SQLTamplate.close(pstmt);
 		}
 		
 		return result;
@@ -92,8 +92,8 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			SQLTamp.close(rset);
-			SQLTamp.close(pstmt);
+			SQLTamplate.close(rset);
+			SQLTamplate.close(pstmt);
 		}
 		
 		return list;
@@ -122,7 +122,7 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			SQLTamp.close(pstmt);
+			SQLTamplate.close(pstmt);
 		}
 		
 		return result;
@@ -150,7 +150,7 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			SQLTamp.close(pstmt);
+			SQLTamplate.close(pstmt);
 		}
 		
 		return result;
@@ -186,8 +186,8 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			SQLTamp.close(rset);
-			SQLTamp.close(pstmt);
+			SQLTamplate.close(rset);
+			SQLTamplate.close(pstmt);
 		}
 		
 		return member;

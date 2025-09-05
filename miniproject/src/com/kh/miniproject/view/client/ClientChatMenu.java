@@ -1,10 +1,7 @@
 package com.kh.miniproject.view.client;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -12,7 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-
+import com.kh.miniproject.common.ButtonTamplate;
 import com.kh.miniproject.sokect.client.ClientManager;
 import com.kh.miniproject.vo.Member;
 
@@ -27,58 +24,52 @@ public class ClientChatMenu extends JPanel {
 
     public ClientChatMenu(ClientMainFrame frame, Member member, ClientManager clientManager) {
         this.clientManager = clientManager;
+        
+        //전체 레이아웃 생성
         setLayout(new BorderLayout());
-
-        // --- 중앙: 채팅 내용 ---
-        chatArea = new JTextArea();
-        chatArea.setEditable(false);
-        chatArea.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-        add(new JScrollPane(chatArea), BorderLayout.CENTER);
-
-        // --- 하단 전체를 감쌀 '남쪽 패널' 생성 ---
-        JPanel southWrapperPanel = new JPanel(new BorderLayout());
-
-        // --- 남쪽 패널의 '가운데' 부분: 메시지 입력창과 전송 버튼 ---
-        JPanel messagePanel = new JPanel(new BorderLayout());
-        messageField = new JTextField();
-        sendButton = new JButton("전송");
-        messagePanel.add(messageField, BorderLayout.CENTER);
-        messagePanel.add(sendButton, BorderLayout.EAST);
         
-//        messageField.addActionListener(e -> sendMessage());
-        //엔터를 누르면 전송되는 메서드
-        messageField.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sendMessage();
-			}
-		});
-        
-//        sendButton.addActionListener(e -> sendMessage());
-        sendButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sendMessage();
-			}
-		});
+        //TextArea 패널
+        add(createTextAreaPanel(), BorderLayout.CENTER);
 
-        
-        // --- 남쪽 패널의 '아래' 부분: 뒤로가기 버튼 ---
-        JPanel backButtonPanel = BackButtonPanel(frame);
+        // 하단 패널 생성
+        JPanel WrapperPanel = new JPanel(new BorderLayout());
 
-        // ★★★ 바로 여기가 핵심! ★★★
         // 남쪽 패널에 메시지 입력창과 뒤로가기 버튼을 차례대로 추가
-        southWrapperPanel.add(messagePanel, BorderLayout.CENTER);
-        southWrapperPanel.add(backButtonPanel, BorderLayout.SOUTH);
+        WrapperPanel.add(createMessagePanel(), BorderLayout.CENTER);
+        WrapperPanel.add(createBackPanel(frame), BorderLayout.SOUTH);
 
         // 완성된 '남쪽 패널'을 프레임의 SOUTH에 추가
-        add(southWrapperPanel, BorderLayout.SOUTH);
+        add(WrapperPanel, BorderLayout.SOUTH);
         
         // ClientManager에게 채팅창 등록
         clientManager.setChatArea(chatArea);
 
+    }
+    
+    //TextArea 패널 생성
+    private JPanel createTextAreaPanel() {
+    	JPanel mainPanel = new JPanel(new BorderLayout(5, 5)); //간격 5px
+    	
+        chatArea = new JTextArea();
+        chatArea.setEditable(false);
+        chatArea.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        mainPanel.add(new JScrollPane(chatArea));
+        return mainPanel;
+    }
+    
+    //하단 메시지 박스, 버튼 생성 및 패널 생성
+    private JPanel createMessagePanel() {
+    	JPanel messagePanel = new JPanel(new BorderLayout());
+    	messageField = new JTextField();
+        sendButton = new JButton("전송");
+        messagePanel.add(messageField, BorderLayout.CENTER);
+        messagePanel.add(sendButton, BorderLayout.EAST);
+        
+        Runnable send = () -> sendMessage();
+        messageField.addActionListener(e -> send.run());
+        sendButton.addActionListener(e -> send.run());
+        
+        return messagePanel;
     }
 
     // 메시지 전송 로직
@@ -90,20 +81,9 @@ public class ClientChatMenu extends JPanel {
         }
     }
     
-    private JPanel BackButtonPanel(ClientMainFrame frame) {
-        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JButton mainMenuBackBtn = new JButton("채팅 나가기");
-        mainMenuBackBtn.setPreferredSize(new java.awt.Dimension(120, 30));
-        backButtonPanel.add(mainMenuBackBtn);
-
-        mainMenuBackBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.changePanel(new ClientMainMenu(frame));
-            }
-        });
-
-        return backButtonPanel;
+    //채팅방 나가는 버튼 패널
+    private JPanel createBackPanel(ClientMainFrame frame) {
+    	return ButtonTamplate.createButtonPanel("채팅 나가기", e -> frame.changePanel(new ClientMainMenu(frame)));
     }
 
 }

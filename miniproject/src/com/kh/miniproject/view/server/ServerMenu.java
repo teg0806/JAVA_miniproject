@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.kh.miniproject.common.ViewUtils;
+import com.kh.miniproject.common.ButtonTamplate;
 import com.kh.miniproject.vo.Member;
 
 public class ServerMenu extends JPanel {
@@ -41,13 +41,13 @@ public class ServerMenu extends JPanel {
     private JPanel menuPanel(MainFrame frame, Member member) {
         // 중앙 버튼 메뉴
         JPanel menuPanel = new JPanel(new GridLayout(2, 1, 10, 10)); // 버튼이 2개니까 GridLayout 행 수정
-    	menuPanel.add(ViewUtils.createButton("회원 관리", e -> frame.changePanel(new ManagementMenu(frame, member))));
-        menuPanel.add(ViewUtils.createButton("서버 관리", e -> frame.changePanel(new ChatMenu(frame, member))));
+    	menuPanel.add(ButtonTamplate.createButton("회원 관리", e -> frame.changePanel(new ManagementMenu(frame, member))));
+        menuPanel.add(ButtonTamplate.createButton("서버 관리", e -> frame.changePanel(new ChatMenu(frame, member))));
         return menuPanel;
     }
     
     private JPanel craeteLogoutPanel(MainFrame frame, Member member) {
-        return ViewUtils.createButtonPanel("로그아웃", e -> frame.changePanel(new MainMenu(frame)));
+        return ButtonTamplate.createButtonPanel("로그아웃", e -> frame.changePanel(new MainMenu(frame)));
     }
 }
 

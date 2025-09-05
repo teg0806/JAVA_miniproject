@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import com.kh.miniproject.common.BaseFormPanel;
-import com.kh.miniproject.common.ViewUtils;
+import com.kh.miniproject.common.GridFormTamplate;
+import com.kh.miniproject.common.ButtonTamplate;
 import com.kh.miniproject.sokect.client.ClientManager;
 import com.kh.miniproject.vo.Member;
 
@@ -38,7 +38,7 @@ public class ClientLoginMenu extends JPanel{
 	
     private JPanel createLoginPanel(ClientMainFrame frame) {
         // BaseFormPanel을 상속받는 내부 클래스를 정의
-        class LoginForm extends BaseFormPanel {
+        class LoginForm extends GridFormTamplate {
             private static final long serialVersionUID = 1L;
             
             public LoginForm() {
@@ -88,6 +88,6 @@ public class ClientLoginMenu extends JPanel{
 	
    private JPanel createBackPanel(ClientMainFrame frame) {
    	//버튼 기능과 이름을 전달 후 버튼 패널을 반환.
-       return ViewUtils.createButtonPanel("이전으로", e -> frame.changePanel(new ClientMainMenu(frame)));
+       return ButtonTamplate.createButtonPanel("이전으로", e -> frame.changePanel(new ClientMainMenu(frame)));
    }
 }
