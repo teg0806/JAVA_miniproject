@@ -5,11 +5,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.kh.miniproject.common.GridFormTamplate;
-import com.kh.miniproject.common.ButtonPanelTamplate;
+import com.kh.miniproject.common.GridFormTemplate;
+import com.kh.miniproject.common.ButtonPanelTemplate;
 import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;
 
@@ -34,7 +35,7 @@ public class DeleteMenu extends JPanel {
     }
 
     private JPanel createDeleteFormPanel(MainFrame frame, Member m) {
-        class DeleteForm extends GridFormTamplate {
+        class DeleteForm extends GridFormTemplate {
             private static final long serialVersionUID = 1L;
 
             public DeleteForm() {
@@ -62,6 +63,14 @@ public class DeleteMenu extends JPanel {
     
     private JPanel createBackPanel(MainFrame frame, Member member) {
         // ViewUtils를 사용하여 뒤로가기 버튼 생성
-        return ButtonPanelTamplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
+        return ButtonPanelTemplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
+    }
+    
+    public static void deleteSuccess(MainFrame frame) {
+		JOptionPane.showMessageDialog(frame, "회원 정보가 삭제하는데 성공하였습니다.");
+    }
+    
+    public static void deleteFail(MainFrame frame) {
+		JOptionPane.showMessageDialog(frame, "회원 정보가 삭제하는데 실패하였습니다.");
     }
 }

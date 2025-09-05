@@ -7,11 +7,12 @@ import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.kh.miniproject.common.GridFormTamplate;
-import com.kh.miniproject.common.ButtonPanelTamplate;
+import com.kh.miniproject.common.GridFormTemplate;
+import com.kh.miniproject.common.ButtonPanelTemplate;
 import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;
 
@@ -39,7 +40,7 @@ public class UpdateMenu extends JPanel {
     
     //내부 클래스로 파일을 새로 생성하지 않고 안에서 처리
     public JPanel createUpdatePanel(MainFrame frame, Member member) {
-        class UpdateForm extends GridFormTamplate {
+        class UpdateForm extends GridFormTemplate {
             private static final long serialVersionUID = 1L;
 
             public UpdateForm() {
@@ -84,6 +85,17 @@ public class UpdateMenu extends JPanel {
     
     private JPanel createBackPanel(MainFrame frame, Member member) {
         // ViewUtils를 사용하여 뒤로가기 버튼 생성
-        return ButtonPanelTamplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
+        return ButtonPanelTemplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
     }
+    
+    public static void updateSuccess(MainFrame frame, Member member) {
+		JOptionPane.showMessageDialog(frame, "회원 정보가 수정하는데 성공하였습니다.");
+		//화면 전환
+        frame.changePanel(new ServerMenu(frame, member));
+    }
+    
+    public static void updateFail(MainFrame frame) {
+		JOptionPane.showMessageDialog(frame, "회정 정보를 수정하는데 실패하였습니다.");
+    }
+
 }

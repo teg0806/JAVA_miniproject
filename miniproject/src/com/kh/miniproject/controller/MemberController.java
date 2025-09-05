@@ -8,9 +8,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 import com.kh.miniproject.service.MemberService;
+import com.kh.miniproject.view.server.DeleteMenu;
+import com.kh.miniproject.view.server.JoinMenu;
 import com.kh.miniproject.view.server.LoginMenu;
 import com.kh.miniproject.view.server.MainFrame;
-import com.kh.miniproject.view.server.ServerMenu;
+import com.kh.miniproject.view.server.UpdateMenu;
 import com.kh.miniproject.vo.Member;
 
 public class MemberController {
@@ -31,11 +33,27 @@ public class MemberController {
 		
 		if(result > 0) {
 			//성공화면
-            LoginMenu.loginSuccess(frame);
+            JoinMenu.joinSuccess(frame);
 		} else {
 			//실패화면
-			LoginMenu.loginFail(frame);
+			JoinMenu.joinFail(frame);
 		}
+	}
+	
+	//Dao에서 불러온 값들을 저장하는 리스트 메서드
+	public List<Member> getMemberList() {
+		return ms.selectMember();
+	}
+	
+	//파일 생성은 서비스가 처리하며 파일 처리 성공여부를 반환
+	public boolean saveMemberListToFile(List<Member> list) {
+	    try {
+	        ms.exportMemberListToFile(list); // 파일 저장 로직은 서비스에 위임
+	        return true; // 성공
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return false; // 실패
+	    }
 	}
 	
 	//회원을 모두 조회
@@ -82,11 +100,9 @@ public class MemberController {
 		int result = ms.updateMember(m);
 		
 		if(result > 0) {
-			JOptionPane.showMessageDialog(frame, "회원 정보가 수정하는데 성공하였습니다.");
-			//화면 전환
-            frame.changePanel(new ServerMenu(frame, m));
+			UpdateMenu.updateSuccess(frame, m);
 		} else {
-			JOptionPane.showMessageDialog(frame, "회정 정보를 수정하는데 실패하였습니다.");
+			UpdateMenu.updateFail(frame);
 		}
 	}
 	
@@ -95,9 +111,9 @@ public class MemberController {
 		m.setUserId(deleteId);
 		int result = ms.deleteMember(m);
 		if(result > 0) {
-			JOptionPane.showMessageDialog(frame, "회원 정보가 삭제하는데 성공하였습니다.");
+			DeleteMenu.deleteSuccess(frame);
 		} else {
-			JOptionPane.showMessageDialog(frame, "회정 정보를 삭제하는데 실패하였습니다.");
+			DeleteMenu.deleteFail(frame);
 		}
 	}
 	
@@ -106,11 +122,9 @@ public class MemberController {
 		Member member = ms.memberIdSearch(m);
     	// [수정] 반환된 Member 객체가 null이 아닌지 확인
     	if(member != null) { // 로그인 성공
-    		JOptionPane.showMessageDialog(frame, member.getUserNickName() + "님, 환영합니다.");
-    		// 모든 정보가 담긴 loginUser 객체를 다음 화면으로 전달
-    		frame.changePanel(new ServerMenu(frame, member));
+    		LoginMenu.loginSuccess(frame, member);
     	} else { // 로그인 실패
-    		JOptionPane.showMessageDialog(frame, "아이디 또는 비밀번호가 일치하지 않습니다.");
+    		LoginMenu.loginFail(frame);
     	}
 	}
 

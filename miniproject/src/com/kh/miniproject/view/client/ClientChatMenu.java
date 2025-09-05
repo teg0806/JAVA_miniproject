@@ -9,7 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import com.kh.miniproject.common.ButtonPanelTamplate;
+import com.kh.miniproject.common.ButtonPanelTemplate;
 import com.kh.miniproject.socket.client.ClientManager;
 import com.kh.miniproject.vo.Member;
 
@@ -83,7 +83,7 @@ public class ClientChatMenu extends JPanel {
     
     //채팅방 나가는 버튼 패널
     private JPanel createBackPanel(ClientMainFrame frame) {
-    	return ButtonPanelTamplate.createButtonPanel("채팅 나가기", e -> frame.changePanel(new ClientMainMenu(frame)));
+    	return ButtonPanelTemplate.createButtonPanel("채팅 나가기", e -> frame.changePanel(new ClientMainMenu(frame)));
     }
 
 }

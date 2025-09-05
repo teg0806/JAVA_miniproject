@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class ButtonPanelTamplate {
+public class ButtonPanelTemplate {
 
     // 버튼을 생성해서 반환하는 메서드
     public static JButton createButton(String text, ActionListener listener) {

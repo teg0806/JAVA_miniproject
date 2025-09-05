@@ -9,7 +9,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.kh.miniproject.common.ButtonPanelTamplate;
+import com.kh.miniproject.common.ButtonPanelTemplate;
 import com.kh.miniproject.socket.client.ClientManager;
 
 
@@ -52,8 +52,8 @@ public class ClientMainMenu extends JPanel{
         
         //자바 8버전 이전에는 익명클래스로 사용했지만, 람다식으로 인해 e 라는 객체를 받아 -> 를 이용해 다음에 올 코드를 실행하는 구조 
         //createButton는 버튼 텍스트, 기능을 담는 메서드로 다음 화면을 넘기는 기능을 전달하여 버튼을 생성하고 다시 불러와 패널에 추가되는 구조
-        verticalButtonPanel.add(ButtonPanelTamplate.createButton("로그인", e -> frame.changePanel(new ClientLoginMenu(frame, clientManager))));
-        verticalButtonPanel.add(ButtonPanelTamplate.createButton("회원가입", e -> frame.changePanel(new ClientJoinMenu(frame, clientManager))));
+        verticalButtonPanel.add(ButtonPanelTemplate.createButton("로그인", e -> frame.changePanel(new ClientLoginMenu(frame, clientManager))));
+        verticalButtonPanel.add(ButtonPanelTemplate.createButton("회원가입", e -> frame.changePanel(new ClientJoinMenu(frame, clientManager))));
 
         JPanel wrapperPanel = new JPanel(new GridBagLayout()); //grid를 담는 gridbag
         wrapperPanel.add(verticalButtonPanel); // 만든 버튼들을 다시 담음
@@ -64,7 +64,7 @@ public class ClientMainMenu extends JPanel{
     //하단 패널
     private JPanel craeteExitPanel(ClientMainFrame frame) {
     	//마찬가지로 changePanel이 아닌 시스템 종료 기능을 보내고 버튼을 만들어 다시 반환
-        return ButtonPanelTamplate.createButtonPanel("종료", e -> System.exit(0));
+        return ButtonPanelTemplate.createButtonPanel("종료", e -> System.exit(0));
     }
 }
 

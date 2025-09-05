@@ -13,9 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import com.kh.miniproject.common.GridFormTamplate;
+import com.kh.miniproject.common.GridFormTemplate;
 import com.kh.miniproject.socket.client.ClientManager;
-import com.kh.miniproject.common.ButtonPanelTamplate;
+import com.kh.miniproject.common.ButtonPanelTemplate;
 
 public class ClientJoinMenu extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class ClientJoinMenu extends JPanel{
     }
 
     private JPanel createJoinFormPanel(ClientMainFrame frame) {
-    	class JoinForm extends GridFormTamplate {
+    	class JoinForm extends GridFormTemplate {
 			private static final long serialVersionUID = 1L;
 			public JoinForm() {
                 setBorder(BorderFactory.createCompoundBorder(
@@ -96,6 +96,6 @@ public class ClientJoinMenu extends JPanel{
 
     private JPanel createBackPanel(ClientMainFrame frame) {
        	//버튼 기능과 이름을 전달 후 버튼 패널을 반환.
-           return ButtonPanelTamplate.createButtonPanel("이전으로", e -> frame.changePanel(new ClientMainMenu(frame)));
+           return ButtonPanelTemplate.createButtonPanel("이전으로", e -> frame.changePanel(new ClientMainMenu(frame)));
        }
 }

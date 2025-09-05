@@ -1,7 +1,7 @@
 package com.kh.miniproject.view.server;
 
-import com.kh.miniproject.common.GridFormTamplate;
-import com.kh.miniproject.common.ButtonPanelTamplate;
+import com.kh.miniproject.common.GridFormTemplate;
+import com.kh.miniproject.common.ButtonPanelTemplate;
 import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;
 
@@ -38,7 +38,7 @@ public class LoginMenu extends JPanel {
     }
 
     private JPanel createLoginFormPanel(MainFrame frame) {
-        class LoginForm extends GridFormTamplate {
+        class LoginForm extends GridFormTemplate {
             private static final long serialVersionUID = 1L;
             
             public LoginForm() {
@@ -81,14 +81,16 @@ public class LoginMenu extends JPanel {
     
     private JPanel createBackPanel(MainFrame frame) {
     	//버튼 기능과 이름을 전달 후 버튼 패널을 반환.
-        return ButtonPanelTamplate.createButtonPanel("이전으로", e -> frame.changePanel(new MainMenu(frame)));
+        return ButtonPanelTemplate.createButtonPanel("이전으로", e -> frame.changePanel(new MainMenu(frame)));
     }
     
-    public static void loginSuccess(MainFrame frame) {
-    	JOptionPane.showMessageDialog(frame, "가입 완료!");
+    public static void loginSuccess(MainFrame frame, Member member) {
+    	JOptionPane.showMessageDialog(frame, member.getUserNickName() + "님, 환영합니다.");
+		// 모든 정보가 담긴 loginUser 객체를 다음 화면으로 전달
+		frame.changePanel(new ServerMenu(frame, member));
     }
     
     public static void loginFail(MainFrame frame) {
-    	JOptionPane.showMessageDialog(frame, "가입 실패!");
+    	JOptionPane.showMessageDialog(frame, "아이디 또는 비밀번호가 일치하지 않습니다.");
     }
 }

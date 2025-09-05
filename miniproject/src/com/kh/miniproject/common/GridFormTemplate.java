@@ -9,12 +9,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public abstract class GridFormTamplate extends JPanel {
+public abstract class GridFormTemplate extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private GridBagConstraints gbc;
 
-    protected GridFormTamplate() {
+    protected GridFormTemplate() {
     	//패널 생성
         setLayout(new GridBagLayout());
         //생성한 gridBag의 레이아웃은 엑셀처럼 테이블로 구성.

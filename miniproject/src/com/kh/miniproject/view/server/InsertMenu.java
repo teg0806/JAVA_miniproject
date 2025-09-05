@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import com.kh.miniproject.common.GridFormTamplate;
-import com.kh.miniproject.common.ButtonPanelTamplate;
+import com.kh.miniproject.common.GridFormTemplate;
+import com.kh.miniproject.common.ButtonPanelTemplate;
 import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;
 
@@ -40,7 +40,7 @@ public class InsertMenu extends JPanel  {
     //내부 클래스
     //따로 클래스를 구현하고 참조해서 사용하면, 디렉토리가 지저분해지며, insert부분에서만 사용하기에 굳이 다로 파일을 생성할 필요가 없음
     private JPanel insertFormPanel(MainFrame frame, Member m) {
-        class InsertForm extends GridFormTamplate {
+        class InsertForm extends GridFormTemplate {
             private static final long serialVersionUID = 1L;
 
             public InsertForm() {
@@ -82,7 +82,7 @@ public class InsertMenu extends JPanel  {
     
     private JPanel createBackPanel(MainFrame frame, Member member) {
         // ViewUtils를 사용하여 뒤로가기 버튼 생성
-        return ButtonPanelTamplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
+        return ButtonPanelTemplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
     }
 
 }

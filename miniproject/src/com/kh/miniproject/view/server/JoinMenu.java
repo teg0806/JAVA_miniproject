@@ -6,11 +6,12 @@ import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import com.kh.miniproject.common.GridFormTamplate;
-import com.kh.miniproject.common.ButtonPanelTamplate;
+import com.kh.miniproject.common.GridFormTemplate;
+import com.kh.miniproject.common.ButtonPanelTemplate;
 import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;
 
@@ -30,7 +31,7 @@ public class JoinMenu extends JPanel {
     }
     //로그인 폼과 마찬가지로 내부클래스로 폼을 생성.
     private JPanel createJoinFormPanel(MainFrame frame) {
-        class JoinForm extends GridFormTamplate {
+        class JoinForm extends GridFormTemplate {
             private static final long serialVersionUID = 1L;
 
             public JoinForm() {
@@ -80,6 +81,14 @@ public class JoinMenu extends JPanel {
     
     private JPanel createBackPanel(MainFrame frame) {
     	//버튼 기능과 이름을 전달 후 버튼 패널을 반환.
-        return ButtonPanelTamplate.createButtonPanel("이전으로", e -> frame.changePanel(new MainMenu(frame)));
+        return ButtonPanelTemplate.createButtonPanel("이전으로", e -> frame.changePanel(new MainMenu(frame)));
+    }
+    
+    public static void joinSuccess(MainFrame frame) {
+    	JOptionPane.showMessageDialog(frame, "가입 완료");
+    }
+    
+    public static void joinFail(MainFrame frame) {
+    	JOptionPane.showMessageDialog(frame, "가입 실패");
     }
 }

@@ -7,7 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-import com.kh.miniproject.common.ButtonPanelTamplate;
+import com.kh.miniproject.common.ButtonPanelTemplate;
 import com.kh.miniproject.controller.MemberController;
 import com.kh.miniproject.vo.Member;
 
@@ -25,7 +25,7 @@ public class SearchMenu extends JPanel{
 
         // 상단 패널 검색 버튼
         add(createAllSelectPanel(frame, member), BorderLayout.NORTH);
-
+        
         // --- 중앙(CENTER): 결과 표시 영역 ---
         add(createTextAreaPanel(), BorderLayout.CENTER);
         
@@ -36,7 +36,7 @@ public class SearchMenu extends JPanel{
 	//상단 패널
 	private JPanel createAllSelectPanel(MainFrame frame, Member member) {
 		//MemberController에서 처리 후 반환
-		return ButtonPanelTamplate.createButtonPanel("전체 회원 조회", e -> mc.selectMember(frame, member, resultArea));
+		return ButtonPanelTemplate.createButtonPanel("전체 회원 조회", e -> mc.selectMember(frame, member, resultArea));
 	}
 	
 	//중단 패널
@@ -49,6 +49,7 @@ public class SearchMenu extends JPanel{
 	
 	//하단 패널
 	private JPanel craeteBackPanel(MainFrame frame, Member member) {
-		return ButtonPanelTamplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
+		return ButtonPanelTemplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
 	}
+	
 }
