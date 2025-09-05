@@ -78,7 +78,7 @@ public class MemberDao {
 				Member m = new Member();
 				m.setUserNo(rset.getInt("USER_NO"));
 				m.setUserId(rset.getString("USER_ID"));
-				m.setUserPwd(rset.getString("USER_PW"));
+				m.setUserPwd(rset.getString("USER_PWD"));
 				m.setUserName(rset.getString("USER_NAME"));
 				m.setGender(rset.getString("USER_GENDER"));
 				m.setUserNickName(rset.getString("USER_NICKNAME"));
@@ -176,7 +176,7 @@ public class MemberDao {
 				// 그리고 컬럼명도 DB랑 똑바로 맞추고! USER_NICK_NAME 처럼 말이야.
 				member = new Member(
 						rset.getString("USER_ID"),
-						rset.getString("USER_PW"),
+						rset.getString("USER_PWD"),
 						rset.getString("USER_NAME"),
 						rset.getString("USER_GENDER"),
 						rset.getString("USER_NICKNAME"),
