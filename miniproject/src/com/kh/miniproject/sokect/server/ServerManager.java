@@ -17,6 +17,7 @@ public class ServerManager {
     private static final int PORT = 9999;
     private List<ClientHandler> clients = new ArrayList<>();
     private JTextArea logArea;
+    
     public ServerManager() {
 		super();
 	}
@@ -26,15 +27,15 @@ public class ServerManager {
     }
     
 	public void startServer() {
-        // 서버는 GUI랑 별개로 돌아가야 하니까 새로운 스레드를 만들어서 실행해.
-        // 안 그러면 서버가 클라이언트 기다리느라 GUI가 멈춰버린다고.
+        // 서버는 GUI랑 별개로 돌아가야 하니까 새로운 스레드를 만들어서 실행
+		//실시간으로 처리하기 위해 스윙 스레드와 별도의 스레드를 추가 생성
         new Thread(new Runnable() { //Runnable 익명클래스 
             @Override
             public void run() {
                 try (ServerSocket serverSocket = new ServerSocket(PORT)) {
                     System.out.println("서버: 실행 중... (포트: " + PORT + ")");
 
-                    // 서버는 죽으면 안 되니까 무한 루프로 계속 클라이언트의 접속을 기다려.
+                    // 서버는 죽지 않기 위해 무한 루프로 계속 클라이언트의 접속 대기
                     while (true) {
                         Socket clientSocket = serverSocket.accept(); // 클라이언트가 접속하면 통신용 소켓을 만들어줘.
                         System.out.println("서버: 정상 실행 완료! (" + clientSocket.getInetAddress() + ")");
@@ -42,8 +43,6 @@ public class ServerManager {
                         clients.add(handler); // 리스트에 추가
                         handler.start();
                         
-                        // 여기에 나중에 클라이언트랑 1:1로 대화할 스레드를 만들어줄 거야.
-                        // new ClientHandler(clientSocket, mc).start();
                     }
 
                 } catch (IOException e) {
@@ -68,8 +67,7 @@ public class ServerManager {
 
     public void broadcast(String message) {
     	//콘솔에 채팅 출력
-//        System.out.println("서버 -> 모든 클라이언트: " + message);
-        appendLogToGui(message); // 모든 클라이언트에게 보내는 메시지는 서버 GUI에도 표시한다!
+        appendLogToGui(message); // 모든 클라이언트에게 보내는 메시지는 서버 GUI에 표시
         for (ClientHandler client : clients) {
             client.sendMessage(message);
         }

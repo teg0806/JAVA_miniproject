@@ -15,8 +15,8 @@ import com.kh.miniproject.view.client.ClientMainMenu;
 import com.kh.miniproject.vo.Member;
 
 public class ClientManager {
-    private static final String SERVER_IP = "127.0.0.1";
-    private static final int PORT = 9999;
+    private static final String SERVER_IP = "127.0.0.1"; //로컬 호스팅
+    private static final int PORT = 9999; //포트 번호
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
@@ -31,42 +31,50 @@ public class ClientManager {
     }
 
     public void connectToServer() {
-        new Thread(() -> { // 람다식으로 변경. 더 깔끔하잖아.
+        new Thread(() -> {
             try {
                 socket = new Socket(SERVER_IP, PORT);
                 out = new PrintWriter(socket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 System.out.println("클라이언트: 서버 연결 성공!");
 
-                // 연결 성공했으니, 이제부터 서버가 하는 말을 계속 듣자.
+                //연결 성공시 실행
                 listenToServer();
 
             } catch (IOException e) {
                 System.err.println("클라이언트: 서버 문제로 연결이 끊어졌습니다.");
                 showErrorDialog("서버 연결에 실패했습니다. 프로그램을 재시작해주세요.");
             }
-        }).start();
+        }).start(); //스레드 실행
     }
+    
+    //controller, service, dao 등은 sql과 연결되어 있는 부분이기에 보안을 생각 
+    //클라이언트는 서버의 리소스에 직접적으로 연결할 수 없다고 생각
+    //클라이언트가 로그인와 회원가입할때 서버에게 요청을 보내고 인증이 되면 승인이 되고 클라이언트에게 서버 접속할 권한을 부여하는 과정을 생각
     
     // 서버로부터 오는 모든 메시지를 처리하는 메소드
     private void listenToServer() {
         try {
             String serverMessage;
+            //받은 메세지가 null이 아닐경우에만 실행
             while ((serverMessage = in.readLine()) != null) {
             	//콘솔에 채팅 이력 남기기
 //                System.out.println("클라이언트 <- 서버: " + serverMessage);
                 
+            	//서버에서 받은 메세지를 : 중심으로 나눔
                 String[] parts = serverMessage.split(":", 2);
+                
+                //첫번째 메시지에 따라 분할
                 String command = parts[0];
 
-                // 서버의 명령에 따라 다른 처리를 함
                 switch (command) {
                     case "LOGIN_SUCCESS":
-                        // 로그인 성공! 서버가 보내준 닉네임으로 유저 정보 저장하고 채팅방으로 이동
+                        // 로그인 성공시 서버가 보내준 닉네임으로 유저 정보 저장하고 채팅방으로 이동
                         String nickName = parts[1];
                         this.loginUser = new Member(); // 임시로 객체 생성, 원래는 ID도 받아와야 함
                         this.loginUser.setUserNickName(nickName);
                         
+                        //외부에 존재하는 스레드들(스윙 스레드가 아닌 스레드들)이 내부 스윙 스레드(EDT)에게 기능들을 전달
                         SwingUtilities.invokeLater(() -> {
                             JOptionPane.showMessageDialog(frame, nickName + "님, 환영합니다!");
                             frame.changePanel(new ClientChatMenu(frame, loginUser, this));
@@ -112,13 +120,13 @@ public class ClientManager {
         this.chatArea = chatArea;
     }
     
-    // 에러 메시지 다이얼로그를 띄우는 헬퍼 메소드
+    // 에러 메시지 다이얼로그를 띄우는 메소드
     private void showErrorDialog(String message) {
         SwingUtilities.invokeLater(() -> {
              JOptionPane.showMessageDialog(frame, message, "오류", JOptionPane.ERROR_MESSAGE);
         });
     }
-
+    
     public Socket getSocket() {
         return socket;
     }

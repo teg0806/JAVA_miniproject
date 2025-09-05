@@ -27,12 +27,10 @@ public class Member {
 		this.userNickName = userNickName;
 		this.email = email;
 	}
-	
-	//모든 매개변수 생성자
-	public Member(Integer userNo, String userId, String userPwd, String userName, String gender, String userNickName,
-			String email) {
+
+	//no제외한 매개변수 생성자
+	public Member(String userId, String userPwd, String userName, String gender, String userNickName, String email) {
 		super();
-		this.userNo = userNo;
 		this.userId = userId;
 		this.userPwd = userPwd;
 		this.userName = userName;
@@ -40,10 +38,12 @@ public class Member {
 		this.userNickName = userNickName;
 		this.email = email;
 	}
-
-	//no제외한 매개변수 생성자
-	public Member(String userId, String userPwd, String userName, String gender, String userNickName, String email) {
+	
+	//모든 매개변수 생성자
+	public Member(Integer userNo, String userId, String userPwd, String userName, String gender, String userNickName,
+			String email) {
 		super();
+		this.userNo = userNo;
 		this.userId = userId;
 		this.userPwd = userPwd;
 		this.userName = userName;
