@@ -75,6 +75,7 @@ public class MemberService {
 		return member;
 	}
 	
+	//파일을 그대로 저장
 	public void exportMemberListToFile(List<Member> list) throws IOException{
         StringBuilder sb = new StringBuilder();
         sb.append("===== 전체 회원 목록 =====\n\n");
