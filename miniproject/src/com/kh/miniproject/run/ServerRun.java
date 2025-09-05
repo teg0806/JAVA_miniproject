@@ -7,7 +7,7 @@ public class ServerRun {
     public static void main(String[] args) {
 		
 		//서버 시작
-		ServerManager.getInstance().startServer();
+		ServerManager.getmanager().startServer();
     	
         // 서버 관리자용 GUI 실행
         javax.swing.SwingUtilities.invokeLater(new Runnable() {

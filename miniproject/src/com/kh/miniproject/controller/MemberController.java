@@ -61,9 +61,9 @@ public class MemberController {
             }
             
             resultArea.setText(sb.toString());
-            resultArea.setCaretPosition(0); // 스크롤 맨 위로!
+            resultArea.setCaretPosition(0); // 스크롤 맨 위로
             
-            //PrintWriter를 사용해서 
+            //PrintWriter를 사용
             try (PrintWriter writer = new PrintWriter("resources/MemberList.txt")) {
                 writer.print(sb.toString()); // 그냥 문자열 그대로 파일에 쓴다.
                 JOptionPane.showMessageDialog(frame, "MemberList.txt 파일에 저장이 완료되었습니다.");
@@ -82,6 +82,8 @@ public class MemberController {
 		
 		if(result > 0) {
 			JOptionPane.showMessageDialog(frame, "회원 정보가 수정하는데 성공하였습니다.");
+			//화면 전환
+            frame.changePanel(new ServerMenu(frame, m));
 		} else {
 			JOptionPane.showMessageDialog(frame, "회정 정보를 수정하는데 실패하였습니다.");
 		}

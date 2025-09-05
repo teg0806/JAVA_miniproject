@@ -27,7 +27,7 @@ public class ClientChatMenu extends JPanel {
 
     public ClientChatMenu(ClientMainFrame frame, Member member, ClientManager clientManager) {
         this.clientManager = clientManager;
-        setLayout(new BorderLayout(5, 5));
+        setLayout(new BorderLayout());
 
         // --- 중앙: 채팅 내용 ---
         chatArea = new JTextArea();
@@ -91,8 +91,8 @@ public class ClientChatMenu extends JPanel {
     }
     
     private JPanel BackButtonPanel(ClientMainFrame frame) {
-        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton mainMenuBackBtn = new JButton("메인 메뉴");
+        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton mainMenuBackBtn = new JButton("채팅 나가기");
         mainMenuBackBtn.setPreferredSize(new java.awt.Dimension(120, 30));
         backButtonPanel.add(mainMenuBackBtn);
 

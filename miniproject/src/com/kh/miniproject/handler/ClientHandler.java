@@ -39,7 +39,7 @@ public class ClientHandler extends Thread {
 			// 클라이언트가 접속을 끊을 때까지 계속 메시지를 읽어들여.
 			while ((request = in.readLine()) != null) {
 				//콘솔에 채팅 출력
-//				System.out.println("서버 <- " + (userNickName != null ? userNickName : "클라이언트") + ": " + request);
+//				serverManager.broadcast("서버 <- " + (userNickName != null ? userNickName : "클라이언트") + ": " + request);
              
 				// 여기서 클라이언트의 요청을 분석해서 처리해야 해.
 				processRequest(request);
@@ -48,10 +48,10 @@ public class ClientHandler extends Thread {
 		} catch (IOException e) {
 			//닉네임이 출력
 			if (userNickName != null) {
-	            System.out.println(userNickName + "님과의 연결이 끊어졌습니다.");
+				serverManager.broadcast(userNickName + "님과의 연결이 끊어졌습니다.");
 	        } else {
 	            // 로그인 전에 접속이 끊기면 IP로 표시
-	            System.out.println("클라이언트(" + clientSocket.getInetAddress() + ")와의 연결이 끊어졌습니다.");
+	        	serverManager.broadcast("클라이언트(" + clientSocket.getInetAddress() + ")와의 연결이 끊어졌습니다.");
 	        }
 		} finally {
 			try {

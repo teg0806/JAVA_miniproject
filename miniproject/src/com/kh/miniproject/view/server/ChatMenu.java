@@ -2,8 +2,6 @@ package com.kh.miniproject.view.server;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -20,53 +18,83 @@ public class ChatMenu extends JPanel {
 
     private static final long serialVersionUID = 1L;
     
-    public ChatMenu(MainFrame frame, Member m) {
+    public ChatMenu(MainFrame frame, Member member) {
         setLayout(new BorderLayout());
         
         // 화면 분할(JSplitPane)을 제거하고 서버 패널만 중앙에 배치
-        add(createServerPanel(frame, m), BorderLayout.CENTER);
-
+//        add(createServerPanel(frame, m), BorderLayout.CENTER);
+        
+        //TextArea 패널 추가
+        add(createTextAreaPanel(), BorderLayout.CENTER);
+        
+        //하단 패널 추가
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(createSendPanel(frame), BorderLayout.CENTER);
+        bottomPanel.add(createBackPanel(frame, member), BorderLayout.SOUTH);
+        
+        add(bottomPanel, BorderLayout.SOUTH);
+        
         frame.setTitle("채팅 서버 관리");
         setVisible(true);
     }
-
-    /**
-     * 서버 관리 및 내역 표시를 위한 패널 생성
-     */
-    private JPanel createServerPanel(MainFrame frame, Member m) { // Member 객체를 인자로 받도록 수정
-    	// 전체를 감싸는 메인 패널 (BorderLayout 사용)
+    
+    //TextArea 패널 
+    private JPanel createTextAreaPanel() {
+    	// 전체를 감싸는 메인 패널 (BorderLayout 사용
         JPanel mainPanel = new JPanel(new BorderLayout(5, 5)); //간격 5px
         
         // 가장 커져야 할 JTextArea를 CENTER에 바로 넣는 게 핵심이
         JTextArea logArea = new JTextArea();
         logArea.setEditable(false);
         logArea.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-        ServerManager.getInstance().setLogArea(logArea);
+        ServerManager.getmanager().setLogArea(logArea);
         
-        mainPanel.add(new JScrollPane(logArea), BorderLayout.CENTER);
-        
-        // 하단에 들어갈 모든 것들을 담을 '남쪽 패널'을 하나 만들어.
-        JPanel southPanel = new JPanel(new BorderLayout());
-
-        // 남쪽 패널의 '가운데'에는 텍스트 필드와 전송 버튼을 넣어.
-        JPanel sendPanel = new JPanel(new BorderLayout());
+        mainPanel.add(new JScrollPane(logArea));
+        return mainPanel;
+    }
+    
+    //전송 패널
+    private JPanel createSendPanel(MainFrame frame) {
+    	JPanel sendPanel = new JPanel(new BorderLayout());
         JButton sendButton = new JButton("전송");
-        // 컬럼 수나 Dimension으로 크기 조절 안 해도 돼. CENTER가 알아서 늘려주니까.
+
         JTextField messageField = new JTextField(); 
         
         sendPanel.add(messageField, BorderLayout.CENTER);
         sendPanel.add(sendButton, BorderLayout.EAST);
         
-        // 남쪽 패널의 '아래쪽'에는 뒤로가기 버튼을 넣어.
-        JPanel backPanel = ViewUtils.createButtonPanel("채팅 나가기", e -> frame.changePanel(new ServerMenu(frame, m)));
+        addSendAction(frame, sendButton, messageField);
         
-        // 남쪽 패널 조립!
-        southPanel.add(sendPanel, BorderLayout.CENTER);
-        southPanel.add(backPanel, BorderLayout.SOUTH);
-
-        // 완성된 남쪽 패널을 메인 패널의 SOUTH에 추가.
-        mainPanel.add(southPanel, BorderLayout.SOUTH);
-        
+        return sendPanel;
+    }
+    
+    //채팅방 나가는 버튼 패널
+    private JPanel createBackPanel(MainFrame frame, Member member) {
+    	return ViewUtils.createButtonPanel("채팅 나가기", e -> frame.changePanel(new ServerMenu(frame, member)));
+    }
+    
+    private void addSendAction(MainFrame frame, JButton sendButton, JTextField messageField) {
+    	//Runnalbe로 중복 처리
+    	Runnable send = () -> { //파라미터를 받지 않음
+    		//실행 내용 부분
+    		String msg = messageField.getText();
+			if(msg != null & !msg.trim().isEmpty()) {
+				// 서버 관리자가 보내는 메시지라는 것을 알리기 위해 "[서버]" 같은 접두사를 붙임
+				//static 메서드로 미리 생성하여 new를 사용하지 않으며, 매개변수로 받을 필요가 없음
+				ServerManager.getmanager().broadcast("[서버 공지]: " + msg); 
+				
+	            messageField.setText(""); // 입력창 비우기
+			} else {
+				JOptionPane.showMessageDialog(frame, "전체 클라이언트에 보낼 메시지를 입력해주세요!");
+			}
+		};
+		
+		//상호작용 마다 Runnable로 생성한 기능을 적용
+		sendButton.addActionListener(e -> send.run());
+		messageField.addActionListener(e -> send.run());
+    	
+		//람다식와 Runnable 없이 사용했던 부분 
+    	/*
         //전송 버튼
         sendButton.addActionListener(new ActionListener() {
 			@Override
@@ -98,9 +126,7 @@ public class ChatMenu extends JPanel {
 					JOptionPane.showMessageDialog(frame, "전체 클라이언트에 보낼 메시지를 입력해주세요!");
 				}
 			}
-		});
-
-        return mainPanel;
+		});*/
     }
     
 }

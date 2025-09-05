@@ -3,7 +3,6 @@ package com.kh.miniproject.view.server;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -21,19 +20,21 @@ public class InsertMenu extends JPanel  {
     private static final long serialVersionUID = 1L;
 	private MemberController mc;
 
-
-    public InsertMenu(MainFrame frame, Member m) {
+    public InsertMenu(MainFrame frame, Member member) {
     	this.mc = new MemberController();
+    	
+    	//전체 레이아웃 생성
         setLayout(new BorderLayout());
-
-        JPanel insertFormPanel = insertFormPanel(frame, m);
+        
+        //중단 패널을 감싸주는 패널 생성 후 추가
         JPanel wrapperPanel = new JPanel(new GridBagLayout());
-        wrapperPanel.add(insertFormPanel);
+        wrapperPanel.add(insertFormPanel(frame, member));
+        
+        //중단 패널 추가
         add(wrapperPanel, BorderLayout.CENTER); 
 
-        // ViewUtils를 사용하여 뒤로가기 버튼 생성
-        ActionListener backListener = e -> frame.changePanel(new ManagementMenu(frame, m));
-        add(ViewUtils.createButtonPanel("이전으로", backListener), BorderLayout.SOUTH);
+        //하단 패널 추가
+        add(createBackPanel(frame, member), BorderLayout.SOUTH);
     }
     
     //내부 클래스
@@ -77,6 +78,11 @@ public class InsertMenu extends JPanel  {
             }
         }
         return new InsertForm();
+    }
+    
+    private JPanel createBackPanel(MainFrame frame, Member member) {
+        // ViewUtils를 사용하여 뒤로가기 버튼 생성
+        return ViewUtils.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
     }
 
 }

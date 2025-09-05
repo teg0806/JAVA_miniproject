@@ -20,12 +20,8 @@ public class ServerManager {
     public ServerManager() {
 		super();
 	}
-    
-    public static ServerManager setInstance() {
-        return manager;
-    }
-    
-    public static ServerManager getInstance() {
+
+    public static ServerManager getmanager() {
         return manager;
     }
     

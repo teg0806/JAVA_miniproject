@@ -1,0 +1,4 @@
+CREATE TABLE MEMBER(
+    
+    USER_ID VARCHAR2(21) 
+);
