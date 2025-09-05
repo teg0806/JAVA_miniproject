@@ -1,4 +1,4 @@
-package com.kh.miniproject.sokect.server;
+package com.kh.miniproject.socket.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -22,7 +22,7 @@ public class ServerManager {
 		super();
 	}
 
-    public static ServerManager getmanager() {
+    public static ServerManager getManager() {
         return manager;
     }
     
@@ -37,7 +37,7 @@ public class ServerManager {
 
                     // 서버는 죽지 않기 위해 무한 루프로 계속 클라이언트의 접속 대기
                     while (true) {
-                        Socket clientSocket = serverSocket.accept(); // 클라이언트가 접속하면 통신용 소켓을 만들어줘.
+                        Socket clientSocket = serverSocket.accept(); // 클라이언트가 접속하면 통신용 소켓을 만들기
                         System.out.println("서버: 정상 실행 완료! (" + clientSocket.getInetAddress() + ")");
                         ClientHandler handler = new ClientHandler(clientSocket, ServerManager.this); // ClientHandler 생성
                         clients.add(handler); // 리스트에 추가

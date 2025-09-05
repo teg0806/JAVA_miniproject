@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.kh.miniproject.common.ButtonPanelTamplate;
-import com.kh.miniproject.sokect.client.ClientManager;
+import com.kh.miniproject.socket.client.ClientManager;
 
 
 public class ClientMainMenu extends JPanel{

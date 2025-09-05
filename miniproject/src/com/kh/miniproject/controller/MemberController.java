@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 import com.kh.miniproject.service.MemberService;
+import com.kh.miniproject.view.server.LoginMenu;
 import com.kh.miniproject.view.server.MainFrame;
 import com.kh.miniproject.view.server.ServerMenu;
 import com.kh.miniproject.vo.Member;
@@ -30,10 +31,10 @@ public class MemberController {
 		
 		if(result > 0) {
 			//성공화면
-            JOptionPane.showMessageDialog(frame, "가입 완료!");
+            LoginMenu.loginSuccess(frame);
 		} else {
 			//실패화면
-			JOptionPane.showMessageDialog(frame, "가입 실패!");
+			LoginMenu.loginFail(frame);
 		}
 	}
 	

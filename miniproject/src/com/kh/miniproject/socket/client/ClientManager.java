@@ -1,4 +1,4 @@
-package com.kh.miniproject.sokect.client;
+package com.kh.miniproject.socket.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;

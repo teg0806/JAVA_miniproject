@@ -13,8 +13,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.kh.miniproject.common.GridFormTamplate;
+import com.kh.miniproject.socket.client.ClientManager;
 import com.kh.miniproject.common.ButtonPanelTamplate;
-import com.kh.miniproject.sokect.client.ClientManager;
 import com.kh.miniproject.vo.Member;
 
 public class ClientLoginMenu extends JPanel{

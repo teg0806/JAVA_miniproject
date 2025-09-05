@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import com.kh.miniproject.service.MemberService;
-import com.kh.miniproject.sokect.server.ServerManager;
+import com.kh.miniproject.socket.server.ServerManager;
 import com.kh.miniproject.vo.Member;
 
 

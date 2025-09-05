@@ -52,14 +52,14 @@ public class Member {
 		this.email = email;
 	}
 
-	public int getUserNo() {
+	public Integer getUserNo() {
 		return userNo;
 	}
-
-	public void setUserNo(int userNo) {
+	
+	public void setUserNo(Integer userNo) {
 		this.userNo = userNo;
 	}
-
+	
 	public String getUserId() {
 		return userId;
 	}

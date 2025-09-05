@@ -11,7 +11,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.kh.miniproject.common.ButtonPanelTamplate;
-import com.kh.miniproject.sokect.server.ServerManager;
+import com.kh.miniproject.socket.server.ServerManager;
 import com.kh.miniproject.vo.Member;
 
 public class ChatMenu extends JPanel {
@@ -21,10 +21,9 @@ public class ChatMenu extends JPanel {
     public ChatMenu(MainFrame frame, Member member) {
         setLayout(new BorderLayout());
         
-        // 화면 분할(JSplitPane)을 제거하고 서버 패널만 중앙에 배치
-//        add(createServerPanel(frame, m), BorderLayout.CENTER);
-        
         //TextArea 패널 추가
+        JPanel chatPanel = new JPanel(new BorderLayout());
+        chatPanel.add(createTextAreaPanel());
         add(createTextAreaPanel(), BorderLayout.CENTER);
         
         //하단 패널 추가
@@ -37,8 +36,9 @@ public class ChatMenu extends JPanel {
         frame.setTitle("채팅 서버 관리");
         setVisible(true);
     }
-    
-    //TextArea 패널 
+ 
+
+	//TextArea 패널 
     private JPanel createTextAreaPanel() {
     	// 전체를 감싸는 메인 패널 (BorderLayout 사용
         JPanel mainPanel = new JPanel(new BorderLayout(5, 5)); //간격 5px
@@ -47,7 +47,7 @@ public class ChatMenu extends JPanel {
         JTextArea logArea = new JTextArea();
         logArea.setEditable(false);
         logArea.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-        ServerManager.getmanager().setLogArea(logArea);
+        ServerManager.getManager().setLogArea(logArea);
         
         mainPanel.add(new JScrollPane(logArea));
         return mainPanel;
@@ -81,7 +81,7 @@ public class ChatMenu extends JPanel {
 			if(msg != null & !msg.trim().isEmpty()) {
 				// 서버 관리자가 보내는 메시지라는 것을 알리기 위해 "[서버]" 같은 접두사를 붙임
 				//static 메서드로 미리 생성하여 new를 사용하지 않으며, 매개변수로 받을 필요가 없음
-				ServerManager.getmanager().broadcast("[서버 공지]: " + msg); 
+				ServerManager.getManager().broadcast("[서버 공지]: " + msg); 
 				
 	            messageField.setText(""); // 입력창 비우기
 			} else {

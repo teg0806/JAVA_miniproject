@@ -12,6 +12,7 @@ import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -71,6 +72,7 @@ public class LoginMenu extends JPanel {
                             new String(((JPasswordField) fields[1]).getPassword()));
                     //MemberController에 전달하여 Dao와 간접적인 상호작용
                     mc.loginMember(frame, m);
+                    
                 });
             }
         }
@@ -80,5 +82,13 @@ public class LoginMenu extends JPanel {
     private JPanel createBackPanel(MainFrame frame) {
     	//버튼 기능과 이름을 전달 후 버튼 패널을 반환.
         return ButtonPanelTamplate.createButtonPanel("이전으로", e -> frame.changePanel(new MainMenu(frame)));
+    }
+    
+    public static void loginSuccess(MainFrame frame) {
+    	JOptionPane.showMessageDialog(frame, "가입 완료!");
+    }
+    
+    public static void loginFail(MainFrame frame) {
+    	JOptionPane.showMessageDialog(frame, "가입 실패!");
     }
 }
