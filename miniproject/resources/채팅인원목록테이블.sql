@@ -21,3 +21,5 @@ INSERT INTO MEMBER
 VALUES(SEQ_MEMNO.NEXTVAL, 'user02', 'pass02', '유재석', 'M', '메뚜기', 'yjs02@naver.com');
 INSERT INTO MEMBER 
 VALUES(SEQ_MEMNO.NEXTVAL, 'user03', 'pass03', '아이유', 'F', 'IU', 'IU03@naver.com');
+
+COMMIT;

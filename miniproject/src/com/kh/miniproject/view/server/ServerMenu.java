@@ -40,7 +40,7 @@ public class ServerMenu extends JPanel {
     
     private JPanel menuPanel(MainFrame frame, Member member) {
         // 중앙 버튼 메뉴
-        JPanel menuPanel = new JPanel(new GridLayout(2, 1, 10, 10)); // 버튼이 2개니까 GridLayout 행 수정
+        JPanel menuPanel = new JPanel(new GridLayout(2, 1, 10, 10)); 
     	menuPanel.add(ButtonPanelTemplate.createButton("회원 관리", e -> frame.changePanel(new ManagementMenu(frame, member))));
         menuPanel.add(ButtonPanelTemplate.createButton("서버 관리", e -> frame.changePanel(new ChatMenu(frame, member))));
         return menuPanel;

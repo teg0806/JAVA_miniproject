@@ -18,14 +18,16 @@ public class DeleteMenu extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private MemberController mc;
+    private static MainFrame frame;
 
     public DeleteMenu(MainFrame frame, Member member) {
+    	DeleteMenu.frame = frame;
         this.mc = new MemberController();
         setLayout(new BorderLayout());
         
         //중단 패널을 감싸줄 패널 생성과 추가
         JPanel wrapperPanel = new JPanel(new GridBagLayout());
-        wrapperPanel.add(createDeleteFormPanel(frame, member));
+        wrapperPanel.add(createDeleteFormPanel(member));
         
         //중단 패널 추가
         add(wrapperPanel, BorderLayout.CENTER);
@@ -34,7 +36,7 @@ public class DeleteMenu extends JPanel {
         add(createBackPanel(frame, member), BorderLayout.SOUTH);
     }
 
-    private JPanel createDeleteFormPanel(MainFrame frame, Member m) {
+    private JPanel createDeleteFormPanel(Member m) {
         class DeleteForm extends GridFormTemplate {
             private static final long serialVersionUID = 1L;
 
@@ -54,7 +56,7 @@ public class DeleteMenu extends JPanel {
                 gbc.anchor = GridBagConstraints.EAST;
                 add(deleteButton, gbc);
 
-                deleteButton.addActionListener(e -> mc.deleteMember(frame, idField.getText()));
+                deleteButton.addActionListener(e -> mc.deleteMember(idField.getText()));
                 frame.changePanel(new ServerMenu(frame, m));
             }
         }
@@ -66,11 +68,11 @@ public class DeleteMenu extends JPanel {
         return ButtonPanelTemplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
     }
     
-    public static void deleteSuccess(MainFrame frame) {
+    public static void deleteSuccess() {
 		JOptionPane.showMessageDialog(frame, "회원 정보가 삭제하는데 성공하였습니다.");
     }
     
-    public static void deleteFail(MainFrame frame) {
+    public static void deleteFail() {
 		JOptionPane.showMessageDialog(frame, "회원 정보가 삭제하는데 실패하였습니다.");
     }
 }

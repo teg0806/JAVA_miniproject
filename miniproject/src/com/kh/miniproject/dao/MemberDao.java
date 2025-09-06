@@ -34,7 +34,6 @@ public class MemberDao {
 		
 		//실행할 sql(sql뒤에 ;없어야함!!!)
 		String sql = prop.getProperty("insertMember");
-//		Member m = new Member(userId, userPwd, userName, gender, userNickName, email);
 		try {		
 			//아직 미완성 sql문으로 ?의 값을 전부 채워야함
 			pstmt = conn.prepareStatement(sql);
@@ -107,7 +106,7 @@ public class MemberDao {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		
-		//실행할 sql(sql뒤에 ;없어야함!!!)
+		//실행할 sql
 		String sql = prop.getProperty("updateMember");
 		
 		try {	
@@ -172,8 +171,6 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				// [수정] 이게 핵심이야! 조회된 결과를 loginUser 변수에 넣어야지!
-				// 그리고 컬럼명도 DB랑 똑바로 맞추고! USER_NICK_NAME 처럼 말이야.
 				member = new Member(
 						rset.getString("USER_ID"),
 						rset.getString("USER_PWD"),
@@ -183,6 +180,7 @@ public class MemberDao {
 						rset.getString("USER_EMAIL")
 				);
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -192,4 +190,28 @@ public class MemberDao {
 		
 		return member;
 	}
+	
+	//아이디 중복 체크
+	public boolean isIdDuplicate(String userId, Connection conn) {
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        String sql = prop.getProperty("checkIdDuplicate");
+        boolean isDuplicate = false;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, userId);
+            rset = pstmt.executeQuery();
+
+            if (rset.next() && rset.getInt(1) > 0) {
+                isDuplicate = true; // 카운트가 0보다 크면 중복
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            SQLTemplate.close(rset);
+            SQLTemplate.close(pstmt);
+        }
+        return isDuplicate;
+    }
 }

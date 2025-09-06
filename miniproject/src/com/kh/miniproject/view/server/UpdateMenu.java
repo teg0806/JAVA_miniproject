@@ -20,9 +20,11 @@ public class UpdateMenu extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private MemberController mc;
+    private static MainFrame frame;
 
     public UpdateMenu(MainFrame frame, Member member) {
         super();
+        UpdateMenu.frame = frame;
         this.mc = new MemberController();
         //전체 패널 추가
         setLayout(new BorderLayout());
@@ -31,15 +33,15 @@ public class UpdateMenu extends JPanel {
         JPanel wrapperPanel = new JPanel(new GridBagLayout());
         
         //중단 패널 추가
-        wrapperPanel.add(createUpdatePanel(frame, member));
+        wrapperPanel.add(createUpdatePanel(member));
         add(wrapperPanel, BorderLayout.CENTER);
         
         //하단 패널 추가
-        add(createBackPanel(frame, member), BorderLayout.SOUTH);
+        add(createBackPanel(member), BorderLayout.SOUTH);
     }
     
     //내부 클래스로 파일을 새로 생성하지 않고 안에서 처리
-    public JPanel createUpdatePanel(MainFrame frame, Member member) {
+    public JPanel createUpdatePanel(Member member) {
         class UpdateForm extends GridFormTemplate {
             private static final long serialVersionUID = 1L;
 
@@ -73,7 +75,7 @@ public class UpdateMenu extends JPanel {
                 //수정 버튼 누른 후의 상호작용
                 registerButton.addActionListener(e -> {
                 	//MemberController에 전달 후 처리
-                    mc.updateMember(frame, new Member(
+                    mc.updateMember(new Member(
                             ((JTextField) fields[0]).getText(),
                             ((JTextField) fields[1]).getText(),
                             ((JTextField) fields[2]).getText()));
@@ -83,18 +85,18 @@ public class UpdateMenu extends JPanel {
         return new UpdateForm();
     }
     
-    private JPanel createBackPanel(MainFrame frame, Member member) {
+    private JPanel createBackPanel(Member member) {
         // ViewUtils를 사용하여 뒤로가기 버튼 생성
         return ButtonPanelTemplate.createButtonPanel("뒤로가기", e -> frame.changePanel(new ManagementMenu(frame, member)));
     }
     
-    public static void updateSuccess(MainFrame frame, Member member) {
+    public static void updateSuccess(Member member) {
 		JOptionPane.showMessageDialog(frame, "회원 정보가 수정하는데 성공하였습니다.");
 		//화면 전환
         frame.changePanel(new ServerMenu(frame, member));
     }
     
-    public static void updateFail(MainFrame frame) {
+    public static void updateFail() {
 		JOptionPane.showMessageDialog(frame, "회정 정보를 수정하는데 실패하였습니다.");
     }
 

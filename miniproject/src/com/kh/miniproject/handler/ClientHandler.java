@@ -12,7 +12,7 @@ import com.kh.miniproject.vo.Member;
 
 
 //서버쪽에서, 접속한 클라이언트 한 명과 통신을 담당할 클래스 (직원 클래스)
-//클라이언트가 접속할 때마다 이 클래스의 객체가 하나씩 생성될 거야. (스레드로)
+//클라이언트가 접속할 때마다 이 클래스의 객체가 하나씩 생성(스레드)
 public class ClientHandler extends Thread {
 
 	private Socket clientSocket;
@@ -55,7 +55,7 @@ public class ClientHandler extends Thread {
 	        }
 		} finally {
 			try {
-				clientSocket.close(); // 연결이 끊어지면 소켓을 꼭 닫아줘.
+				clientSocket.close(); 
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -82,15 +82,16 @@ public class ClientHandler extends Thread {
             }
         } 
         // 회원가입 요청을 처리하는 로직을 추가
-        else if ("JOIN".equals(command) && parts.length == 7) { // JOIN:아이디:비번:이름:성별:닉네임:이메일
-            // 클라이언트가 보낸 정보를 순서대로 Member 객체에 저장
+        else if ("JOIN".equals(command) && parts.length == 7) {
             Member m = new Member(parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
-            int result = memberService.insertMember(m); //memberSerivce로 sql문 결과인 행의 수를 받고 result에 저장
+            int result = memberService.insertMember(m);
             
-            if (result > 0) {
-                sendMessage("JOIN_SUCCESS"); // 성공했다고 클라이언트에게 알려준다.
+            if (result == 1) {
+                sendMessage("JOIN_SUCCESS");
+            } else if (result == -1) {
+                sendMessage("JOIN_FAIL_DUPLICATE"); // 중복 실패 신호!
             } else {
-                sendMessage("JOIN_FAIL"); // 실패했다고 알려준다.
+                sendMessage("JOIN_FAIL");
             }
         }
         else { 
@@ -100,11 +101,14 @@ public class ClientHandler extends Thread {
         }
     }
 	
-    // ServerManager가 이 메소드를 호출해서 클라이언트에게 메시지를 보낸다.
+    // ServerManager가 이 메소드를 호출해서 클라이언트에게 메시지를 보냄
     public void sendMessage(String message) {
         if (out != null) {
             out.println(message);
         }
     }
- 
+    
+    public String getUserNickName() {
+        return userNickName;
+    }
 }

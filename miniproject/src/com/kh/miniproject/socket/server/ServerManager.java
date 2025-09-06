@@ -52,6 +52,16 @@ public class ServerManager {
             }
         }).start();
     }
+	
+    public List<String> getConnectedUserNicknames() {
+        List<String> nicknames = new ArrayList<>();
+        for (ClientHandler client : clients) {
+            if (client.getUserNickName() != null) {
+                nicknames.add(client.getUserNickName());
+            }
+        }
+        return nicknames;
+    }
     
     // ChatMenu가 자신의 채팅창(JTextArea)을 여기에 등록할 수 있도록 하는 메소드
     public void setLogArea(JTextArea logArea) {

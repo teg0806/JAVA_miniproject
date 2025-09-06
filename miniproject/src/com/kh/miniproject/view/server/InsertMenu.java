@@ -19,8 +19,10 @@ import com.kh.miniproject.vo.Member;
 public class InsertMenu extends JPanel  {
     private static final long serialVersionUID = 1L;
 	private MemberController mc;
+	private MainFrame frame;
 
     public InsertMenu(MainFrame frame, Member member) {
+    	this.frame = frame;
     	this.mc = new MemberController();
     	
     	//전체 레이아웃 생성
@@ -28,7 +30,7 @@ public class InsertMenu extends JPanel  {
         
         //중단 패널을 감싸주는 패널 생성 후 추가
         JPanel wrapperPanel = new JPanel(new GridBagLayout());
-        wrapperPanel.add(insertFormPanel(frame, member));
+        wrapperPanel.add(insertFormPanel(member));
         
         //중단 패널 추가
         add(wrapperPanel, BorderLayout.CENTER); 
@@ -39,7 +41,7 @@ public class InsertMenu extends JPanel  {
     
     //내부 클래스
     //따로 클래스를 구현하고 참조해서 사용하면, 디렉토리가 지저분해지며, insert부분에서만 사용하기에 굳이 다로 파일을 생성할 필요가 없음
-    private JPanel insertFormPanel(MainFrame frame, Member m) {
+    private JPanel insertFormPanel(Member m) {
         class InsertForm extends GridFormTemplate {
             private static final long serialVersionUID = 1L;
 
@@ -66,7 +68,7 @@ public class InsertMenu extends JPanel  {
                 add(registerButton, gbc);
 
                 registerButton.addActionListener(e -> {
-                    mc.insertMember(frame, new Member(
+                    mc.insertMember(new Member(
                             ((JTextField) fields[0]).getText(),
                             new String(((JPasswordField) fields[1]).getPassword()),
                             ((JTextField) fields[2]).getText(),

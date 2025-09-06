@@ -20,8 +20,10 @@ import javax.swing.JTextField;
 public class LoginMenu extends JPanel {
     private static final long serialVersionUID = 1L;
     private MemberController mc;
+    private static MainFrame frame;
 
     public LoginMenu(MainFrame frame) {
+    	LoginMenu.frame = frame;
         this.mc = new MemberController();
         //전체 레이아웃 생성
         setLayout(new BorderLayout());
@@ -29,15 +31,15 @@ public class LoginMenu extends JPanel {
         //로그인 패널을 담을 패널 생성
         JPanel wrapperPanel = new JPanel(new GridBagLayout());
         //패널 추가
-        wrapperPanel.add(createLoginFormPanel(frame));
+        wrapperPanel.add(createLoginFormPanel());
         
         //패널을 전체 레이아웃에 추가
         add(wrapperPanel, BorderLayout.CENTER);
-        add(createBackPanel(frame), BorderLayout.SOUTH);
+        add(createBackPanel(), BorderLayout.SOUTH);
         
     }
 
-    private JPanel createLoginFormPanel(MainFrame frame) {
+    private JPanel createLoginFormPanel() {
         class LoginForm extends GridFormTemplate {
             private static final long serialVersionUID = 1L;
             
@@ -71,7 +73,7 @@ public class LoginMenu extends JPanel {
                             ((JTextField) fields[0]).getText(),
                             new String(((JPasswordField) fields[1]).getPassword()));
                     //MemberController에 전달하여 Dao와 간접적인 상호작용
-                    mc.loginMember(frame, m);
+                    mc.loginMember(m);
                     
                 });
             }
@@ -79,18 +81,18 @@ public class LoginMenu extends JPanel {
         return new LoginForm();
     }
     
-    private JPanel createBackPanel(MainFrame frame) {
+    private JPanel createBackPanel() {
     	//버튼 기능과 이름을 전달 후 버튼 패널을 반환.
         return ButtonPanelTemplate.createButtonPanel("이전으로", e -> frame.changePanel(new MainMenu(frame)));
     }
     
-    public static void loginSuccess(MainFrame frame, Member member) {
+    public static void loginSuccess(Member member) {
     	JOptionPane.showMessageDialog(frame, member.getUserNickName() + "님, 환영합니다.");
 		// 모든 정보가 담긴 loginUser 객체를 다음 화면으로 전달
 		frame.changePanel(new ServerMenu(frame, member));
     }
     
-    public static void loginFail(MainFrame frame) {
+    public static void loginFail() {
     	JOptionPane.showMessageDialog(frame, "아이디 또는 비밀번호가 일치하지 않습니다.");
     }
 }
