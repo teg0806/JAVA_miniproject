@@ -50,6 +50,9 @@ public class SearchMenu extends JPanel{
 
         // View가 직접 데이터를 가공하고 UI를 업데이트
         updateTextArea(list);
+        
+        //파일생성
+        mc.saveMemberListToFile(list);
     }
 	
 	//리스트를 받아 화면에 출력

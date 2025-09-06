@@ -84,6 +84,9 @@ public class ClientManager {
                     case "LOGIN_FAIL":
                         showErrorDialog("아이디 또는 비밀번호가 일치하지 않습니다.");
                         break;
+                    case "JOIN_FAIL_DUPLICATE":
+                        showErrorDialog("이미 사용 중인 아이디입니다.");
+                        break;
                     case "JOIN_SUCCESS":
                         SwingUtilities.invokeLater(() -> {
                             JOptionPane.showMessageDialog(frame, "회원가입 성공!");

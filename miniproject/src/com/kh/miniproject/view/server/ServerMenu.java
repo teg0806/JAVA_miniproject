@@ -16,6 +16,8 @@ public class ServerMenu extends JPanel {
 
     public ServerMenu(MainFrame frame, Member member) {
         setLayout(new BorderLayout());
+        frame.setTitle("회원 전체 검색 메뉴");
+        
         // 버튼 패널을 가운데 정렬하기 위한 래퍼 패널
         JPanel centerPanel = new JPanel(new GridBagLayout());
         

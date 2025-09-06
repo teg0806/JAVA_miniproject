@@ -24,6 +24,7 @@ public class InsertMenu extends JPanel  {
     public InsertMenu(MainFrame frame, Member member) {
     	this.frame = frame;
     	this.mc = new MemberController();
+    	frame.setTitle("회원 추가 메뉴");
     	
     	//전체 레이아웃 생성
         setLayout(new BorderLayout());

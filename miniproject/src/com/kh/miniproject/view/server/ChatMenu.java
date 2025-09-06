@@ -33,7 +33,7 @@ public class ChatMenu extends JPanel {
         
         add(bottomPanel, BorderLayout.SOUTH);
         
-        frame.setTitle("채팅 서버 관리");
+        frame.setTitle("서버 메뉴");
         setVisible(true);
     }
  

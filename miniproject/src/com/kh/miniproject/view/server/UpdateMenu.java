@@ -26,6 +26,8 @@ public class UpdateMenu extends JPanel {
         super();
         UpdateMenu.frame = frame;
         this.mc = new MemberController();
+        frame.setTitle("회원 수정 메뉴");
+        
         //전체 패널 추가
         setLayout(new BorderLayout());
         

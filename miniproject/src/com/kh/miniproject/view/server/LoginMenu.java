@@ -25,6 +25,8 @@ public class LoginMenu extends JPanel {
     public LoginMenu(MainFrame frame) {
     	LoginMenu.frame = frame;
         this.mc = new MemberController();
+        frame.setTitle("로그인 메뉴");
+        
         //전체 레이아웃 생성
         setLayout(new BorderLayout());
         

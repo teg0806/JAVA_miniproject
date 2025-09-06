@@ -23,6 +23,7 @@ public class JoinMenu extends JPanel {
     public JoinMenu(MainFrame frame) {
     	JoinMenu.frame = frame;
         this.mc = new MemberController();
+        frame.setTitle("회원가입 메뉴");
         //전체 패널 생성
         setLayout(new BorderLayout());
 

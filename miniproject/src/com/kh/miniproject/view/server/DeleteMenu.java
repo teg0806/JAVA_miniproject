@@ -23,6 +23,7 @@ public class DeleteMenu extends JPanel {
     public DeleteMenu(MainFrame frame, Member member) {
     	DeleteMenu.frame = frame;
         this.mc = new MemberController();
+        frame.setTitle("회원 삭제 메뉴");
         setLayout(new BorderLayout());
         
         //중단 패널을 감싸줄 패널 생성과 추가

@@ -47,14 +47,12 @@ public class MemberController {
 	        if (ms.exportMemberListToFile(list)) {
 	        	SearchMenu.fileOutputSuccess();
 	        } else {
-	        	SearchMenu.fileOutputFail();
+	        	SearchMenu.fileOutputFail(); // 실패
 	        }// 성공
 	    } catch (IOException e) {
-	        e.printStackTrace(); // 실패
+	        e.printStackTrace(); 
 	    }
 	}
-	
-
 	
 	//userId, email, phone, address, hobby를 전달받아
 	//Member를 수정하는 메서드
